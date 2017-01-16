@@ -1,0 +1,2 @@
+class CharacterHasAdvantage < ApplicationRecord
+end

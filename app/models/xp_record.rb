@@ -1,0 +1,2 @@
+class XpRecord < ApplicationRecord
+end

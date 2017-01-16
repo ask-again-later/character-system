@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  character_id: 1
+  advantage_id: 1
+  rating: 1
+  description: MyString
+
+two:
+  character_id: 1
+  advantage_id: 1
+  rating: 1
+  description: MyString

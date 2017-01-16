@@ -1,0 +1,2 @@
+class CharacterHasChallenge < ApplicationRecord
+end
