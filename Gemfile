@@ -30,6 +30,7 @@ gem 'devise'
 gem 'thin'
 
 gem 'mina'
+gem 'angularjs-rails', '~> 1.6', '>= 1.6.1'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

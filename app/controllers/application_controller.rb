@@ -11,4 +11,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :pronouns])
     devise_parameter_sanitizer.permit(:edit, keys: [:name, :pronouns])
   end
+
+  def current_user
+    @current_user = User.find_by(id: session[:user_id])
+  end
+
+  helper_method :current_user
 end
