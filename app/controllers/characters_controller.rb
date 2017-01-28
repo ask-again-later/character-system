@@ -2,19 +2,29 @@ class CharactersController < ActionController::Base
 	before_action :check_login
 
 	def index
-
+		if current_user.is_storyteller
+			@characters = Character.all
+		else
+			@characters = Character.where({user: current_user.id})
+		end
 	end
 
 	def show
-
+		@character = Character.find(params[:id])
+		if (@character.id.not != current_user.id && !current_user.is_storyteller)
+			redirect_to root_path
+		end
 	end
 
 	def new
-
+		@character = Character.new
 	end
 
 	def edit
-
+		@character = Character.find(params[:id])
+		if (@character.id.not != current_user.id && !current_user.is_storyteller)
+			redirect_to root_path
+		end
 	end
 
 	def update
@@ -30,6 +40,10 @@ class CharactersController < ActionController::Base
 	end
 
 	protected
+
+	def characters_params
+		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed)
+	end
 
 	def check_login
 		unless is_logged_in?

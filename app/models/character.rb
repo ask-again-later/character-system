@@ -5,4 +5,5 @@ class Character < ApplicationRecord
 	has_many :challenges, through: :character_has_challenges
 	has_many :character_has_advantages
 	has_many :advantages, through: :character_has_advantages
+	has_one :true_self
 end
