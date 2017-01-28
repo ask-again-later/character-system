@@ -23,6 +23,7 @@ default: &default
 
 development:
   <<: *default
+  user: <%= ENV['USER'] %>
   database: character-system_development
 
   # The specified database role being used to connect to postgres.
