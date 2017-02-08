@@ -1,0 +1,16 @@
+.button {
+  background-color: $green;
+  color: $white;
+  border: 3px $green solid;
+  padding: 10px;
+  display: inline-block;
+  box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  -moz-box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  font-weight: bold;
+
+  &:hover, &:focus {
+    color: $green;
+    background-color: $white;
+  }
+}

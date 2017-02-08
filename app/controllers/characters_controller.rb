@@ -1,4 +1,4 @@
-class CharactersController < ActionController::Base
+class CharactersController < ApplicationController
 	#before_action :check_login
 
 	def index

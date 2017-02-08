@@ -1,4 +1,4 @@
 h2 New Character
 
-= form_for @character, method: 'PATCH' do |f|
+= form_for @character, url: {action: 'create'} do |f|
   = render partial: 'form', locals: {f: f}
