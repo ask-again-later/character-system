@@ -1,0 +1,27 @@
+.form-row
+  = f.label :name
+  = f.text_field :name
+.form-row
+  = f.label :user, "Player"
+.form-row
+  = f.label :true_self
+  = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
+
+h3 Attributes
+
+h3 Skills and Special Training
+
+h3 Advantages
+
+h3 Challenges
+
+h3 Derived Stats
+.form-row
+  = f.label :willpower
+  = f.number_field :willpower
+.form-row
+  = f.label :defense
+  = f.number_field :defense
+.form-row
+  = f.label :speed
+  = f.number_field :speed
