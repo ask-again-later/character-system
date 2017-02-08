@@ -1,5 +1,5 @@
 class CharactersController < ActionController::Base
-	before_action :check_login
+	#before_action :check_login
 
 	def index
 		if current_user.is_storyteller

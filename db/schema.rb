@@ -119,7 +119,6 @@ ActiveRecord::Schema.define(version: 20170128210601) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.string   "pronouns"
     t.boolean  "is_storyteller",         default: false
     t.boolean  "is_admin",               default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
