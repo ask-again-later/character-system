@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     post 'settings', to: 'settings#update'
   end
 
-  namespace :data do
+  namespace :data_entry do
     resources :advantages
     resources :challenges
   end

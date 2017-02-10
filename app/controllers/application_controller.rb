@@ -11,4 +11,16 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     devise_parameter_sanitizer.permit(:edit, keys: [:name])
   end
+
+  def requires_storyteller
+    unless user_signed_in? and current_user.is_storyteller
+      redirect_to root_path
+    end
+  end
+
+  def requires_admin
+    unless user_signed_in? and current_user.is_admin
+      redirect_to root_path
+    end
+  end
 end
