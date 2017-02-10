@@ -1,7 +1,9 @@
 class CharactersController < ApplicationController
-	#before_action :check_login
+	before_action :authenticate_user!
 
 	def index
+		puts current_user.inspect
+		puts user_session.inspect
 		if current_user.is_storyteller
 			@characters = Character.all
 		else
@@ -46,27 +48,20 @@ class CharactersController < ApplicationController
 	end
 
 	def check_login
-		unless is_logged_in?
+		unless user_signed_in?
 			redirect_to new_user_session_path
 		end
 	end
 
-  def is_logged_in?
-		if User.find_by_id(session[:user_id])
-			return true
-		end
-		return false
-	end
-
 	def is_admin?
-		if is_logged_in? and @current_user.is_admin
+		if user_signed_in? and @current_user.is_admin
 			return true
 		end
 		return false
 	end
 
 	def is_storyteller?
-		if is_logged_in? and @current_user.is_storyteller
+		if user_signed_in? and @current_user.is_storyteller
 			return true
 		end
 		return false

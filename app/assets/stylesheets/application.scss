@@ -12,7 +12,10 @@
  *
  *= require_self
  */
+@import "font-awesome-sprockets";
+@import "font-awesome";
 @import "_variables.scss";
+@import "hamburgers/hamburgers.scss";
 @import "_fonts.scss";
 @import "_base.scss";
 @import "_buttons.scss";
