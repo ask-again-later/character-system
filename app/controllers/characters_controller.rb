@@ -1,6 +1,9 @@
 class CharactersController < ApplicationController
 	before_action :authenticate_user!
 
+	ATTRIBUTES = {"Mental": ["Intelligence", "Wits", "Resolve"], "Physical": ["Strength", "Dexterity", "Stamina"], "Social": ["Presence", "Manipulation", "Composure"]}
+	SKILLS_TRAINING = {"Skills": ["Artsy", "Athletics", "Bureaucracy", "Drive", "Empathy", "Fight", "Guns", "Handy", "Intimidation", "Lies", "Outdoorsy", "Persuasion", "Religion", "Stealth", "Theft"], "Special Training": ["Academics", "Computers", "Engineering", "Investigation", "Law", "Local Lore", "Medicine", "Science"]}
+
 	def index
 		if current_user.is_storyteller
 			@characters = Character.all
@@ -18,10 +21,14 @@ class CharactersController < ApplicationController
 
 	def new
 		@character = Character.new
+		@attributes = ATTRIBUTES
+		@skills_training = SKILLS_TRAINING
 	end
 
 	def edit
 		@character = Character.find(params[:id])
+		@attributes = ATTRIBUTES
+		@skills_training = SKILLS_TRAINING
 		if (@character.id.not != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end

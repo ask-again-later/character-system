@@ -15,3 +15,18 @@ a {
   text-decoration: underline;
   transition: .5s;
 }
+
+.flex-container {
+  display: flex;
+  align-items: stretch;
+
+  .column {
+    flex-grow: 1;
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
