@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170210150601) do
+ActiveRecord::Schema.define(version: 20170210173911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170210150601) do
     t.integer  "composure",     default: 1,  null: false
     t.integer  "initiative",    default: 2
     t.integer  "health",        default: 6
+    t.string   "pronouns",      default: ""
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
@@ -131,7 +132,6 @@ ActiveRecord::Schema.define(version: 20170210150601) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.string   "pronouns"
     t.boolean  "is_storyteller",         default: false
     t.boolean  "is_admin",               default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree

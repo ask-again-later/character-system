@@ -5,6 +5,9 @@ h2
   strong Name
   = @character.name
 .form-row
+  strong Character Pronouns
+  = @character.pronouns
+.form-row
   strong Player
   = @character.user.name
 .form-row
@@ -89,7 +92,7 @@ p.initiative
   = @character.initiative
 
 p.defense
-  strong Defense: 
+  strong Defense:
   = @character.defense
 
 p.speed
