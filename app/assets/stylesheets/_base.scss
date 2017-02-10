@@ -16,6 +16,12 @@ a {
   transition: .5s;
 }
 
+input[type="button"],
+input[type="submit"],
+button {
+  transition: .5s;
+}
+
 .flex-container {
   display: flex;
   align-items: stretch;

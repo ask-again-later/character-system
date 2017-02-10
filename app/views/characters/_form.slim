@@ -81,6 +81,8 @@ h3 Derived Stats
   = f.label :initiative
   = f.number_field :initiative
 
+= f.submit "Save"
+
 javascript:
   $('input[name="character[strength]"]').on('change', function() {
     $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));

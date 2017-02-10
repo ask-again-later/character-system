@@ -1,0 +1,23 @@
+h2
+  = "Character: #{@character.name}"
+
+.form-row
+  strong Name
+  = @character.name
+.form-row
+  strong Player
+  = @character.user.name
+.form-row
+  strong True Self
+  - if @character.true_self
+    = @character.true_self.name
+
+h3 Attributes
+
+h3 Skills and Special Training
+
+h3 Advantages
+
+h3 Challenges
+
+h3 Derived Stats

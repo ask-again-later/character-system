@@ -1,4 +1,5 @@
 h2 New Character
 
 = form_for @character, url: {action: 'create'} do |f|
+  = f.hidden_field :user_id, current_user.id
   = render partial: 'form', locals: {f: f}

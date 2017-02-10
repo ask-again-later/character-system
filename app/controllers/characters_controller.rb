@@ -14,7 +14,7 @@ class CharactersController < ApplicationController
 
 	def show
 		@character = Character.find(params[:id])
-		if (@character.id.not != current_user.id && !current_user.is_storyteller)
+		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
 	end
@@ -39,11 +39,25 @@ class CharactersController < ApplicationController
 	end
 
 	def update
-
+		@character = Character.find(params[:id])
+		if @character.update_attributes!(characters_params)
+			flash[:success] = "Changes to your character were saved."
+			redirect_to character_path(@character)
+		else
+			flash[:error] = "There was an error saving your character."
+			redirect_to edit_character_path(@character)
+		end
 	end
 
 	def create
-
+		@character = Character.new(characters_params)
+		if @character.save!
+			flash[:success] = "Your character was saved."
+			redirect_to character_path(@character)
+		else
+			flash[:error] = "There was an error saving your character."
+			redirect_to new_character_path
+		end
 	end
 
 	def destroy

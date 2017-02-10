@@ -5,6 +5,17 @@ Rails.application.routes.draw do
 
   resources :characters
 
+  namespace :api do
+    get 'characters', to: 'characters#index'
+    get 'characters/:id', to: 'characters#show'
+
+    get 'advantages', to: 'advantages#index'
+    get 'advantages/:id', to: 'advantages#show'
+
+    get 'challenges', to: 'challenges#index'
+    get 'challenges/:id', to: 'challenges#show'
+  end
+
   namespace :admin do
     #resources :advantages
     #resources :challenges
