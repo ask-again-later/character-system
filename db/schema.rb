@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170210052130) do
+ActiveRecord::Schema.define(version: 20170210054255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,47 +52,47 @@ ActiveRecord::Schema.define(version: 20170210052130) do
   create_table "characters", force: :cascade do |t|
     t.string   "name"
     t.integer  "user_id"
-    t.integer  "stability"
-    t.integer  "handy"
+    t.integer  "stability",     default: 7
+    t.integer  "handy",         default: 0
     t.integer  "religion"
-    t.integer  "bureaucracy"
-    t.integer  "athletics"
-    t.integer  "fight"
-    t.integer  "drive"
-    t.integer  "guns"
-    t.integer  "theft"
-    t.integer  "stealth"
-    t.integer  "outdoorsy"
-    t.integer  "empathy"
-    t.integer  "artsy"
-    t.integer  "intimidation"
-    t.integer  "persuasion"
+    t.integer  "bureaucracy",   default: 0
+    t.integer  "athletics",     default: 0
+    t.integer  "fight",         default: 0
+    t.integer  "drive",         default: 0
+    t.integer  "guns",          default: 0
+    t.integer  "theft",         default: 0
+    t.integer  "stealth",       default: 0
+    t.integer  "outdoorsy",     default: 0
+    t.integer  "empathy",       default: 0
+    t.integer  "artsy",         default: 0
+    t.integer  "intimidation",  default: 0
+    t.integer  "persuasion",    default: 0
     t.integer  "lies"
-    t.integer  "academics"
-    t.integer  "investigation"
-    t.integer  "medicine"
-    t.integer  "local_lore"
-    t.integer  "law"
-    t.integer  "science"
-    t.integer  "computers"
-    t.integer  "engineering"
-    t.text     "public_blurb"
-    t.integer  "willpower"
-    t.integer  "defense"
-    t.integer  "speed"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "true_self_id",  default: 0, null: false
-    t.integer  "intelligence",  default: 1, null: false
-    t.integer  "wits",          default: 1, null: false
-    t.integer  "resolve",       default: 1, null: false
-    t.integer  "strength",      default: 1, null: false
-    t.integer  "dexterity",     default: 1, null: false
-    t.integer  "stamina",       default: 1, null: false
-    t.integer  "presence",      default: 1, null: false
-    t.integer  "manipulation",  default: 1, null: false
-    t.integer  "composure",     default: 1, null: false
-    t.integer  "initiative",    default: 0
+    t.integer  "academics",     default: 0
+    t.integer  "investigation", default: 0
+    t.integer  "medicine",      default: 0
+    t.integer  "local_lore",    default: 0
+    t.integer  "law",           default: 0
+    t.integer  "science",       default: 0
+    t.integer  "computers",     default: 0
+    t.integer  "engineering",   default: 0
+    t.text     "public_blurb",  default: ""
+    t.integer  "willpower",     default: 6
+    t.integer  "defense",       default: 2
+    t.integer  "speed",         default: 6
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "true_self_id",  default: 0,  null: false
+    t.integer  "intelligence",  default: 1,  null: false
+    t.integer  "wits",          default: 1,  null: false
+    t.integer  "resolve",       default: 1,  null: false
+    t.integer  "strength",      default: 1,  null: false
+    t.integer  "dexterity",     default: 1,  null: false
+    t.integer  "stamina",       default: 1,  null: false
+    t.integer  "presence",      default: 1,  null: false
+    t.integer  "manipulation",  default: 1,  null: false
+    t.integer  "composure",     default: 1,  null: false
+    t.integer  "initiative",    default: 2
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|

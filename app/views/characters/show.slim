@@ -14,10 +14,64 @@ h2
 
 h3 Attributes
 
+.flex-container
+  - @attributes.each do |cat, vals|
+    .column
+      strong
+        = cat
+      - vals.each do |val|
+        .row
+          span.label
+            = val
+          .dots
+            - eval("@character.#{val.parameterize("_")}").times do
+              = icon 'circle'
+
+            - (5-eval("@character.#{val.parameterize("_")}")).times do
+              = icon 'circle-o'
+
+          .numeric
+            = eval "@character.#{val.parameterize("_")}"
+
 h3 Skills and Special Training
+
+.flex-container
+  - @skills_training.each do |cat, vals|
+    .column
+      strong
+        = cat
+      - vals.each do |val|
+        .row
+          span.label
+            = val
+          .dots
+            - eval("@character.#{val.parameterize("_")}").times do
+              = icon 'circle'
+
+            - (5-eval("@character.#{val.parameterize("_")}")).times do
+              = icon 'circle-o'
+
+          .numeric
+            = eval "@character.#{val.parameterize("_")}"
 
 h3 Advantages
 
+ul#advantages
+  - @character.character_has_advantages.each do |cha|
+    li
+      p.name
+        = cha.advantage.name
+      p.desc
+        = cha.advantage.description
+
 h3 Challenges
+
+ul#advantages
+  - @character.character_has_challenges.each do |chc|
+    li
+      p.name
+        = chc.challenge.name
+      p.desc
+        = cha.challenge.description
 
 h3 Derived Stats

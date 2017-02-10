@@ -14,6 +14,8 @@ class CharactersController < ApplicationController
 
 	def show
 		@character = Character.find(params[:id])
+		@attributes = ATTRIBUTES
+		@skills_training = SKILLS_TRAINING
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
