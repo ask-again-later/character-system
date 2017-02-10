@@ -1,0 +1,10 @@
+h2 Update Storytellers
+
+= form_tag '/admin/settings', method: :put do
+  - @users.each do |user|
+    .form-row
+      = fields_for :user, user do |f|
+        = f.label :name, user.name
+        = f.check_box :is_storyteller
+
+  = submit_tag "Update", class: 'button'

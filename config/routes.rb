@@ -17,8 +17,13 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    #resources :advantages
-    #resources :challenges
+    get 'settings', to: 'settings#index'
+    post 'settings', to: 'settings#update'
+  end
+
+  namespace :data do
+    resources :advantages
+    resources :challenges
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
