@@ -2,11 +2,11 @@ h2 Advantages
 
 = link_to "New Advantage", new_data_entry_advantage_path, class: 'button'
 
-- if @advantages
+- if @advantages.present?
   table
     thead
       tr
-        th name
+        th Name
         th
         th
     tbody

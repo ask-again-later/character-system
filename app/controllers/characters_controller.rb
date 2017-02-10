@@ -35,7 +35,7 @@ class CharactersController < ApplicationController
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
 		@challenges = Challenge.all
-		if (@character.id.not != current_user.id && !current_user.is_storyteller)
+		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
 	end
@@ -69,26 +69,10 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed)
+		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense)
 	end
 
-	def check_login
-		unless user_signed_in?
-			redirect_to new_user_session_path
-		end
-	end
+	def validate_character
 
-	def is_admin?
-		if user_signed_in? and @current_user.is_admin
-			return true
-		end
-		return false
-	end
-
-	def is_storyteller?
-		if user_signed_in? and @current_user.is_storyteller
-			return true
-		end
-		return false
 	end
 end

@@ -3,7 +3,7 @@ module DataEntry
     before_action :authenticate_user!, :requires_storyteller
 
     def index
-      @advantages = Advantage.all.order(:name)
+      @advantages = Advantage.all
     end
 
     def new
