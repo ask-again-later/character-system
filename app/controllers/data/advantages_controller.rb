@@ -1,9 +1,9 @@
-module DataEntry
+module Data
   class AdvantagesController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
     def index
-      @advantages = Advantage.all.order(:name)
+      @advantages = Advantage.all
     end
 
     def new
@@ -13,10 +13,10 @@ module DataEntry
     def create
       @advantage = Advantage.new(advantages_params)
       if @advantage.save!
-        flash[:success] = "New advantage created."
+        flash[:success] = "Advantage created."
         redirect_to data_entry_advantages_path
       else
-        flash[:error] = "There was an error saving your advantage."
+        flash[:error] = "There was an error creating your advantage."
         redirect_to new_data_entry_advantage_path
       end
     end
@@ -28,18 +28,24 @@ module DataEntry
     def update
       @advantage = Advantage.find(params[:id])
       if @advantage.update_attributes!(advantages_params)
-        flash[:success] = "Your advantage was successfully updated."
+        flash[:success] = "Advantage saved."
         redirect_to data_entry_advantages_path
       else
-        flash[:error] = "There was an error saving your advantage."
-        redirect_to edit_data_entry_advantage_path(@advantage)
+        flash[:error] = "There was an error creating your advantage."
+        redirect_to new_data_entry_advantage_path
       end
     end
 
-    private
+    def destroy
+      @advantage = Advantage.find(params[:id])
+      @advantage.delete
+      redirect_to data_entry_advantages_path
+    end
+
+    protected
 
     def advantages_params
-      params.require(:advantage).permit(:id, :name, :description, :prerequisites)
+      params.require(:advantage).permit(:id, :name, :description, :rating, :specification, :prerequisites)
     end
   end
 end
