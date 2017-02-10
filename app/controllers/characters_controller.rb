@@ -2,8 +2,6 @@ class CharactersController < ApplicationController
 	before_action :authenticate_user!
 
 	def index
-		puts current_user.inspect
-		puts user_session.inspect
 		if current_user.is_storyteller
 			@characters = Character.all
 		else
