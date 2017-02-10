@@ -45,7 +45,27 @@ h3 Skills and Special Training
 
 h3 Advantages
 
+select name="advantages" id="advantages"
+  - @advantages.each do |advantage|
+    option value="#{advantage.id}" #{advantage.name} #{advantage.allowed_ratings}
+= button_tag 'Add', type: '', class: 'button', id: "advantage-add"
+
+ul#advantages-list
+  - @character.character_has_advantages.each do |advantage|
+    li
+      = "#{advantage.advantage.name} "
+
 h3 Challenges
+
+select name="challenges" id="challenges"
+  - @challenges.each do |challenge|
+    option value="#{challenge.id}" #{challenge.name} #{challenge.allowed_ratings}
+= button_tag 'Add', type: '', class: 'button', id: "challenge-add"
+
+ul#advantages-list
+  - @character.character_has_challenges.each do |challenge|
+    li
+      = "#{challenge.challenge.name} "
 
 h3 Derived Stats
 .form-row
@@ -57,3 +77,27 @@ h3 Derived Stats
 .form-row
   = f.label :speed
   = f.number_field :speed
+.form-row
+  = f.label :initiative
+  = f.number_field :initiative
+
+javascript:
+  $('input[name="character[strength]"]').on('change', function() {
+    $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));
+  });
+
+  $('input[name="character[resolve]"]').on('change', function() {
+    $('input#willpower').val(5+parseInt($('input[name="character[resolve]"]:checked').val()));
+  });
+
+  $('input[name="character[composure]"], input[name="character[dexterity]"]').on('change', function() {
+    var composure = parseInt($('input[name="character[composure]"]:checked').val());
+    var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
+    $('input#character_initiative').val(composure+dexterity);
+  });
+
+  $('input[name="character[wits]"], input[name="character[dexterity]"]').on('change', function () {
+    var wits = parseInt($('input[name="character[wits]"]:checked').val());
+    var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
+    $('input#character_defense').val(wits+dexterity);
+  });

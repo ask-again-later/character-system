@@ -23,12 +23,16 @@ class CharactersController < ApplicationController
 		@character = Character.new
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
+		@advantages = Advantage.all
+		@challenges = Challenge.all
 	end
 
 	def edit
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
+		@advantages = Advantage.all
+		@challenges = Challenge.all
 		if (@character.id.not != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end

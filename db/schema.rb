@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170208160646) do
+ActiveRecord::Schema.define(version: 20170210044115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20170208160646) do
     t.integer  "presence",      default: 1, null: false
     t.integer  "manipulation",  default: 1, null: false
     t.integer  "composure",     default: 1, null: false
+    t.integer  "initiative",    default: 0
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
