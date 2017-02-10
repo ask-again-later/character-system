@@ -31,6 +31,9 @@ class CharactersController < ApplicationController
 
 	def edit
 		@character = Character.find(params[:id])
+		if @character.status > 0 and !current_user.is_storyteller
+			redirect_to character_path(@character)
+		end
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
