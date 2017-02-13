@@ -30,6 +30,7 @@ class CharactersController < ApplicationController
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
 		@challenges = Challenge.all
+		@player = current_user
 	end
 
 	def edit
@@ -41,6 +42,7 @@ class CharactersController < ApplicationController
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
 		@challenges = Challenge.all
+		@player = @character.user
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end

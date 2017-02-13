@@ -6,6 +6,8 @@
   = f.text_field :pronouns
 .form-row
   = f.label :user, "Player"
+  span
+    = @player.name
 .form-row
   = f.label :true_self
   = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
