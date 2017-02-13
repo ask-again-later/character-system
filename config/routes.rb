@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   namespace :data_entry do
     resources :advantages
     resources :challenges
+    resources :true_selves
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
