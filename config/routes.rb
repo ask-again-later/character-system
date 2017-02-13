@@ -17,8 +17,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get 'settings', to: 'settings#index'
-    post 'settings', to: 'settings#update'
+    get '/', to: 'settings#index'
+    post '/', to: 'settings#update'
   end
 
   namespace :data_entry do

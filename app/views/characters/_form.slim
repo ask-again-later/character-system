@@ -50,7 +50,7 @@ h3 Advantages
 
 select name="advantages" id="advantages"
   - @advantages.each do |advantage|
-    option value="#{advantage.id}" #{advantage.name} #{advantage.allowed_ratings}
+    option value="#{advantage.id}" #{advantage.name} [#{advantage.allowed_ratings}]
 = button_tag 'Add', type: '', class: 'button', id: "advantage-add"
 
 ul#advantages-list
