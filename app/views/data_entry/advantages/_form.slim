@@ -3,12 +3,40 @@
   = f.text_field :name
 
 .form-row
-  = f.label :description
-  = f.text_area :description
+  = f.label :allowed_ratings
+
+  ul
+      li
+        = check_box_tag "advantage[allowed_ratings][]", 1, @allowed_ratings.include?(1)
+        = label_tag "advantage_allowed_ratings_1", "1"
+
+      li
+        = check_box_tag "advantage[allowed_ratings][]", 2, @allowed_ratings.include?(2)
+        = label_tag "advantage_allowed_ratings_2", "2"
+
+      li
+        = check_box_tag "advantage[allowed_ratings][]", 3, @allowed_ratings.include?(3)
+        = label_tag "advantage_allowed_ratings_3", "3"
+
+      li
+        = check_box_tag "advantage[allowed_ratings][]", 4, @allowed_ratings.include?(4)
+        = label_tag "advantage_allowed_ratings_4", "4"
+
+      li
+        = check_box_tag "advantage[allowed_ratings][]", 5, @allowed_ratings.include?(5)
+        = label_tag "advantage_allowed_ratings_5", "5"
 
 .form-row
   = f.label :prerequisites
   = f.text_field :prerequisites
+
+.form-row
+  = f.label :description
+  = f.text_area :description
+
+.form-row
+  = f.label :requires_specification, "Requires specification?"
+  = f.check_box :requires_specification
 
 .form-row
   = f.submit "Save", class: 'button'

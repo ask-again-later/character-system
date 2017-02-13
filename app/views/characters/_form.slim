@@ -62,7 +62,7 @@ h3 Challenges
 
 select name="challenges" id="challenges"
   - @challenges.each do |challenge|
-    option value="#{challenge.id}" #{challenge.name} #{challenge.allowed_ratings}
+    option value="#{challenge.id}" #{challenge.name}
 = button_tag 'Add', type: '', class: 'button', id: "challenge-add"
 
 ul#advantages-list

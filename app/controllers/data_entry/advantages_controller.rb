@@ -12,10 +12,12 @@ module DataEntry
 
     def new
       @advantage = Advantage.new
+      @allowed_ratings = []
     end
 
     def create
       @advantage = Advantage.new(advantages_params)
+      @advantage.allowed_ratings = @advantage.allowed_ratings.join(",")
       if @advantage.save!
         flash[:success] = "New advantage created."
         redirect_to data_entry_advantages_path
@@ -27,10 +29,12 @@ module DataEntry
 
     def edit
       @advantage = Advantage.find(params[:id])
+      @allowed_ratings = @advantage.allowed_ratings.to_s.split(",").map { |x| x.to_i }
     end
 
     def update
       @advantage = Advantage.find(params[:id])
+      params[:advantage][:allowed_ratings] = params[:advantage][:allowed_ratings].join(",")
       if @advantage.update_attributes!(advantages_params)
         flash[:success] = "Your advantage was successfully updated."
         redirect_to data_entry_advantages_path
@@ -43,7 +47,7 @@ module DataEntry
     private
 
     def advantages_params
-      params.require(:advantage).permit(:id, :name, :description, :prerequisites)
+      params.require(:advantage).permit(:id, :name, :description, :prerequisites, :allowed_ratings)
     end
   end
 end
