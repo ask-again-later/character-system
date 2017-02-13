@@ -16,9 +16,12 @@
 //= require froala_editor.min.js
 //= require plugins/lists.min.js
 //= require plugins/char_counter.min.js
+//= require dataTables/jquery.dataTables
 //= require_tree .
 
 $('textarea').froalaEditor();
+
+$('.table').dataTable();
 
 $('.dot').on('click', function(e) {
   if ($(this).hasClass('filled')) {
