@@ -6,6 +6,10 @@ module DataEntry
       @advantages = Advantage.all
     end
 
+    def show
+      @advantage = Advantage.find(params[:id])
+    end
+
     def new
       @advantage = Advantage.new
     end

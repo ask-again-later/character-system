@@ -13,4 +13,18 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require froala_editor.min.js
 //= require_tree .
+
+$('textarea').froalaEditor();
+
+$('.dot').on('click', function(e) {
+  if ($(this).hasClass('filled')) {
+    $(this).removeClass('filled');
+  } else {
+    $(this).addClass('filled');
+    $(this).find('input[type="radio"]').attr("checked", "checked");
+    $(this).siblings().find('input[type="radio"]').removeAttr("checked");
+    $(this).prevAll().addClass("filled");
+  }
+});

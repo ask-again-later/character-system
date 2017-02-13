@@ -1,2 +1,10 @@
 h2
   = "Advantage: #{@advantage.name}"
+
+- if @advantage.prerequisites.present?
+  p
+    strong Prerequisites:
+    = @advantage.prerequisites
+
+div.description
+  = @advantage.description

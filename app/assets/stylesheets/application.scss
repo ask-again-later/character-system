@@ -14,6 +14,8 @@
  */
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "froala_editor.min.css";
+@import "froala_style.min.css";
 
 @import "_variables.scss";
 @import "hamburgers/hamburgers.scss";
@@ -21,3 +23,4 @@
 @import "_base.scss";
 @import "_buttons.scss";
 @import "_header.scss";
+@import "_form.scss"

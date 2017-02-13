@@ -15,8 +15,11 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
+gem 'font-awesome-rails'
 gem 'font-awesome-sass'
+# I should probably remove one of the above at one point but wysiwyg-rails depends on the latter but I was using the former???
 gem 'jquery-datatables-rails'
+gem 'wysiwyg-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
