@@ -16,8 +16,8 @@ module DataEntry
     end
 
     def create
+      params[:advantage][:allowed_ratings] = params[:advantage][:allowed_ratings].join(",")
       @advantage = Advantage.new(advantages_params)
-      @advantage.allowed_ratings = @advantage.allowed_ratings.join(",")
       if @advantage.save!
         flash[:success] = "New advantage created."
         redirect_to data_entry_advantages_path
