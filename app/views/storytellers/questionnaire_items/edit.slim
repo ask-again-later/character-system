@@ -1,0 +1,5 @@
+h2 Edit Questionnaire Item
+
+= form_for @questionnaire_item, url: {action: 'update'}, method: 'PATCH' do |f|
+  = f.hidden_field :id
+  = render partial: 'form', locals: {f: f}

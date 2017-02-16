@@ -1,6 +1,6 @@
 h2 Challenges
 
-= link_to "New Challenge", new_data_entry_challenge_path, class: 'button'
+= link_to "New Challenge", new_storytellers_challenge_path, class: 'button'
 
 - if @challenges.present?
   table.table
@@ -13,9 +13,9 @@ h2 Challenges
       - @challenges.each do |challenge|
         tr
           td
-            = link_to challenge.name, data_entry_challenge_path(challenge)
+            = link_to challenge.name, storytellers_challenge_path(challenge)
           td
-            = link_to "Edit", edit_data_entry_challenge_path(challenge)
+            = link_to "Edit", edit_storytellers_challenge_path(challenge)
           td
-            = form_tag(data_entry_challenge_path(challenge), method: 'DELETE') do
+            = form_tag(storytellers_challenge_path(challenge), method: 'DELETE') do
               = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this challenge?");', class: 'button'

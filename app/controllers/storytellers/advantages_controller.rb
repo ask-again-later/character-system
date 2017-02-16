@@ -1,4 +1,4 @@
-module DataEntry
+module Storytellers
   class AdvantagesController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
@@ -20,10 +20,10 @@ module DataEntry
       @advantage = Advantage.new(advantages_params)
       if @advantage.save!
         flash[:success] = "New advantage created."
-        redirect_to data_entry_advantages_path
+        redirect_to storytellers_advantages_path
       else
         flash[:error] = "There was an error saving your advantage."
-        redirect_to new_data_entry_advantage_path
+        redirect_to new_storytellers_advantage_path
       end
     end
 
@@ -37,10 +37,10 @@ module DataEntry
       params[:advantage][:allowed_ratings] = params[:advantage][:allowed_ratings].join(",")
       if @advantage.update_attributes!(advantages_params)
         flash[:success] = "Your advantage was successfully updated."
-        redirect_to data_entry_advantages_path
+        redirect_to storytellers_advantages_path
       else
         flash[:error] = "There was an error saving your advantage."
-        redirect_to edit_data_entry_advantage_path(@advantage)
+        redirect_to edit_storytellers_advantage_path(@advantage)
       end
     end
 

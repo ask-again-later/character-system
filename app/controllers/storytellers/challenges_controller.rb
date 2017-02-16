@@ -1,4 +1,4 @@
-module DataEntry
+module Storytellers
   class ChallengesController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
@@ -18,10 +18,10 @@ module DataEntry
       @challenge = Challenge.new(challenges_params)
       if @challenge.save!
         flash[:success] = "New challenge created."
-        redirect_to data_entry_challenges_path
+        redirect_to storytellers_challenges_path
       else
         flash[:error] = "There was an error saving your challenge."
-        redirect_to new_data_entry_challenge_path
+        redirect_to new_storytellers_challenge_path
       end
     end
 
@@ -33,10 +33,10 @@ module DataEntry
       @challenge = Challenge.find(params[:id])
       if @challenge.update_attributes!(challenges_params)
         flash[:success] = "Your challenge was successfully updated."
-        redirect_to data_entry_challenges_path
+        redirect_to storytellers_challenges_path
       else
         flash[:error] = "There was an error saving your challenge."
-        redirect_to edit_data_entry_challenge_path(@challenge)
+        redirect_to edit_storytellers_challenge_path(@challenge)
       end
     end
 
