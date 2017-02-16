@@ -53,7 +53,7 @@ h3 Advantages
 select name="advantages" id="advantages"
   - @advantages.each do |advantage|
     option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
-= button_tag 'Add', type: '', class: 'button', id: "advantage-add"
+= button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
 
 ul#advantages-list
   - @character.character_has_advantages.each do |advantage|
@@ -69,7 +69,7 @@ h3 Challenges
 select name="challenges" id="challenges"
   - @challenges.each do |challenge|
     option value="#{challenge.id}" #{challenge.name}
-= button_tag 'Add', type: '', class: 'button', id: "challenge-add"
+= button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
 
 ul#challenges-list
   - @character.character_has_challenges.each do |challenge|
@@ -146,7 +146,7 @@ javascript:
       lowestRating = ratings;
     }
 
-    $('ul#advantages-list').append('<li data-id="'+advantageId+'" data-rating="'+lowestRating+'" data-specification="'+specification+'" data-advantage-id="">'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a></li>');
+    $('ul#advantages-list').append('<li data-advantage-id="'+advantageId+'" data-rating="'+lowestRating+'" data-specification="'+specification+'" data-advantage-id="">'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a></li>');
   });
 
   $('.advantage-edit').on('click', 'body', function(e) {
@@ -157,4 +157,13 @@ javascript:
   $('.advantage-delete').on('click', 'body', function(e) {
     e.preventDefault();
     console.log('delete');
-  })
+  });
+
+  $('#challenge-add').on('click', function(e) {
+    e.preventDefault();
+    var $selected = $('#challenges option:selected');
+    var name = $selected.text();
+    var challengeId = $selected.val();
+
+    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></li>');
+  });
