@@ -98,3 +98,12 @@ p.defense
 p.speed
   strong Speed:
   = @character.speed
+
+h3 Questionnaire
+
+- @questionnaire_items.each do |qi|
+  .question
+    .question-text
+      = qi.question
+    .question-answer
+      = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
