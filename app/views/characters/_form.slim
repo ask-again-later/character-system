@@ -52,13 +52,17 @@ h3 Advantages
 
 select name="advantages" id="advantages"
   - @advantages.each do |advantage|
-    option value="#{advantage.id}" #{advantage.name} [#{advantage.allowed_ratings}]
+    option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
 = button_tag 'Add', type: '', class: 'button', id: "advantage-add"
 
 ul#advantages-list
   - @character.character_has_advantages.each do |advantage|
-    li
+    li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
       = "#{advantage.advantage.name} "
+      - if advantage.advantage.requires_specification
+        = "(#{advantage.specification}) "
+      - if advantage.advantage.allowed_ratings.split(",").length > 1
+        = advantage.rating
 
 h3 Challenges
 
@@ -67,7 +71,7 @@ select name="challenges" id="challenges"
     option value="#{challenge.id}" #{challenge.name}
 = button_tag 'Add', type: '', class: 'button', id: "challenge-add"
 
-ul#advantages-list
+ul#challenges-list
   - @character.character_has_challenges.each do |challenge|
     li
       = "#{challenge.challenge.name} "
@@ -87,6 +91,25 @@ h3 Derived Stats
   = f.number_field :initiative
 
 = f.submit "Save"
+
+.overlay#advantages
+  .modal
+    .header
+      | Edit Advantage:
+      span
+    .content
+      .form-row.specification
+        = label_tag :specification
+        = text_field_tag :specification
+
+      .form-row.rating
+        = label_tag :rating
+        = number_field_tag :rating
+
+      .form-row.description
+
+      .form-row
+        = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
 
 javascript:
   $('input[name="character[strength]"]').on('change', function() {
@@ -108,3 +131,30 @@ javascript:
     var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
     $('input#character_defense').val(wits+dexterity);
   });
+
+  $('#advantage-add').on('click', function(e) {
+    e.preventDefault();
+    var $selected = $('#advantages option:selected');
+    var specification = $selected.data('requires-specification');
+    var ratings = $selected.data('allowed-ratings');
+    var advantageId = $selected.val();
+    var name = $selected.text().replace(/\s\[[0-9\,]+\]/, "");
+    var lowestRating;
+    if (ratings.length > 1) {
+      lowestRating = ratings.split(",")[0];
+    } else {
+      lowestRating = ratings;
+    }
+
+    $('ul#advantages-list').append('<li data-id="'+advantageId+'" data-rating="'+lowestRating+'" data-specification="'+specification+'" data-advantage-id="">'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a></li>');
+  });
+
+  $('.advantage-edit').on('click', 'body', function(e) {
+    e.preventDefault();
+    console.log('edit');
+  });
+
+  $('.advantage-delete').on('click', 'body', function(e) {
+    e.preventDefault();
+    console.log('delete');
+  })
