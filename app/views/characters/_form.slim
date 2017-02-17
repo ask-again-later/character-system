@@ -76,6 +76,9 @@ ul#challenges-list
     li
       = "#{challenge.challenge.name} "
       = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+      - if challenge.challenge.description.present?
+        .description
+          = challenge.challenge.description.html_safe
       = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
       = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
 
@@ -95,7 +98,7 @@ h3 Derived Stats
 
 = f.submit "Save"
 
-.overlay#advantages
+.overlay#advantages-overlay
   .modal
     .header
       | Edit Advantage:
@@ -103,13 +106,13 @@ h3 Derived Stats
     .content
       .form-row.specification
         = label_tag :specification
-        = text_field_tag :specification
+        = text_field_tag :specification, "", id: 'modal-specification'
 
       .form-row.rating
         = label_tag :rating
-        = number_field_tag :rating
+        = number_field_tag :rating, "", id: 'modal-rating'
 
-      .form-row.description
+      .form-row#modal-description
 
       .form-row
         = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
@@ -149,17 +152,37 @@ javascript:
       lowestRating = ratings;
     }
 
-    $('ul#advantages-list').append('<li data-advantage-id="'+advantageId+'" data-rating="'+lowestRating+'" data-specification="'+specification+'" data-advantage-id="">'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a></li>');
+    $('ul#advantages-list').append('<li>'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a><input type="hidden" name="character[character_has_advantages][][id]" value="" /><input type="hidden" name="character[character_has_advantages][][advantage_id]" value="'+advantageId+'" /><input type="hidden" name="character[character_has_advantages][][rating]" value="'+lowestRating+'" /><input type="hidden" name="character[character_has_advantages][][specification]" value="" /></li>');
   });
 
-  $('.advantage-edit').on('click', "#advantages-list", function(e) {
+  $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
     e.preventDefault();
-    console.log('edit');
+    // get the modal + advantage data
+    var $modal = $('#advantages-overlay .modal');
+    var $advantage = $(this).parent('li');
+    var rating = $advantage.find('input[name="character[character_has_advantages][][rating]"]').val();
+    var advantageId = $advantage.find('input[name="character[character_has_advantages][][advantage_id]"]').val();
+    var specification = $advantage.find('input[name="character[character_has_advantages][][specification]"]').val();
+    // get advantage data from API
+
+    $.ajax({
+      url: '/api/advantages/'+advantageId,
+      method: 'GET',
+      success: function(data) {
+        $modal.find('#modal-description').html(data.description);
+        $modal.find('.header span').text(data.name);
+      }
+    })
+    // put the data in the modal from the advantage
+    $modal.find('#modal-rating').val(rating);
+    $modal.find('#modal-specification').val(specification);
+
+    $('.overlay').fadeIn();
   });
 
-  $('.advantage-delete').on('click', "#advantages-list", function(e) {
+  $('#advantages-list').delegate(".advantage-delete", 'click', function(e) {
     e.preventDefault();
-    console.log('delete');
+    $(this).parent('li').detach();
   });
 
   $('#challenge-add').on('click', function(e) {
@@ -168,7 +191,15 @@ javascript:
     var name = $selected.text();
     var challengeId = $selected.val();
 
-    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
+    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
+
+    $.ajax({
+      url: '/api/challenges/'+challengeId,
+      method: 'GET',
+      success: function(data) {
+        $('#challenges-list li').last().find('.description').html(data.description);
+      }
+    });
   });
 
   $('#challenges-list').delegate('.challenge-delete', 'click', function(e) {
