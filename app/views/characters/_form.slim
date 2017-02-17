@@ -75,6 +75,9 @@ ul#challenges-list
   - @character.character_has_challenges.each do |challenge|
     li
       = "#{challenge.challenge.name} "
+      = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+      = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
+      = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
 
 h3 Derived Stats
 .form-row
@@ -149,12 +152,12 @@ javascript:
     $('ul#advantages-list').append('<li data-advantage-id="'+advantageId+'" data-rating="'+lowestRating+'" data-specification="'+specification+'" data-advantage-id="">'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a></li>');
   });
 
-  $('.advantage-edit').on('click', 'body', function(e) {
+  $('.advantage-edit').on('click', "#advantages-list", function(e) {
     e.preventDefault();
     console.log('edit');
   });
 
-  $('.advantage-delete').on('click', 'body', function(e) {
+  $('.advantage-delete').on('click', "#advantages-list", function(e) {
     e.preventDefault();
     console.log('delete');
   });
@@ -165,5 +168,10 @@ javascript:
     var name = $selected.text();
     var challengeId = $selected.val();
 
-    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></li>');
+    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
+  });
+
+  $('#challenges-list').delegate('.challenge-delete', 'click', function(e) {
+    e.preventDefault();
+    $(this).parent('li').detach();
   });
