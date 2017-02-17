@@ -77,7 +77,7 @@ class CharactersController < ApplicationController
 				# add new advantages, and update older ones
 				params[:character][:character_has_advantages].each do |advantage|
 					unless advantage[:id].present?
-						@advantage = CharacterHasAdvantage.new(character_id: @character.id, challenge_id: advantage[:advantage_id], rating: advantage[:rating], specification: advantage[:specification])
+						@advantage = CharacterHasAdvantage.new(character_id: @character.id, advantage_id: advantage[:advantage_id], rating: advantage[:rating], specification: advantage[:specification])
 						@advantage.save!
 					else
 						# advantages have a more complex join, so we have to update attributes for non-new ones in case they haven't changed

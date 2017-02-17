@@ -114,6 +114,8 @@ h3 Derived Stats
 
       .form-row#modal-description
 
+      = hidden_field_tag :cha_id, "", id: 'modal-id'
+
       .form-row
         = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
         = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
@@ -163,6 +165,8 @@ javascript:
     // get the modal + advantage data
     var $modal = $('#advantages-overlay .modal');
     var $advantage = $(this).parent('li');
+    var index = $advantage.index();
+    console.log(index);
     var rating = $advantage.find('input[name="character[character_has_advantages][][rating]"]').val();
     var advantageId = $advantage.find('input[name="character[character_has_advantages][][advantage_id]"]').val();
     var specification = $advantage.find('input[name="character[character_has_advantages][][specification]"]').val();
@@ -191,6 +195,7 @@ javascript:
     // put the data in the modal from the advantage
     $modal.find('#modal-rating').val(rating);
     $modal.find('#modal-specification').val(specification);
+    $modal.find('#modal-id').val(index);
 
     $('.overlay').fadeIn();
   });
@@ -199,6 +204,13 @@ javascript:
     var $modal = $('#advantages-overlay .modal');
     var specification = $modal.find('#modal-specification').val();
     var rating = $modal.find('#modal-rating').val();
+    var advantageToUpdate = $modal.find('#modal-id').val();
+    var $advantage = $('#advantages-list li:nth-child('+(advantageToUpdate+1)+')');
+    // update both display and hidden field values
+    $advantage.find('.rating').text(rating);
+    $advantage.find('input[name="character[character_has_advantages][][rating]"]').val(rating);
+    $advantage.find('.specification').text(specification);
+    $advantage.find('input[name="character[character_has_advantages][][specification]"]').val(specification);
     $('.overlay').fadeOut();
   });
 
