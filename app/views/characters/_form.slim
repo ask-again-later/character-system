@@ -116,6 +116,7 @@ h3 Derived Stats
 
       .form-row
         = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
+        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
 
 javascript:
   $('input[name="character[strength]"]').on('change', function() {
@@ -141,7 +142,7 @@ javascript:
   $('#advantage-add').on('click', function(e) {
     e.preventDefault();
     var $selected = $('#advantages option:selected');
-    var specification = $selected.data('requires-specification');
+    var specification = $selected.data('specification');
     var ratings = $selected.data('allowed-ratings');
     var advantageId = $selected.val();
     var name = $selected.text().replace(/\s\[[0-9\,]+\]/, "");
@@ -152,7 +153,9 @@ javascript:
       lowestRating = ratings;
     }
 
-    $('ul#advantages-list').append('<li>'+name+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a><input type="hidden" name="character[character_has_advantages][][id]" value="" /><input type="hidden" name="character[character_has_advantages][][advantage_id]" value="'+advantageId+'" /><input type="hidden" name="character[character_has_advantages][][rating]" value="'+lowestRating+'" /><input type="hidden" name="character[character_has_advantages][][specification]" value="" /></li>');
+    console.log(specification);
+
+    $('ul#advantages-list').append('<li>'+name+((specification) ? ' (<span class="specification"></span>)' : '')+((ratings.length > 1) ? ' <span class="rating">'+lowestRating+'</span>' : '')+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a><input type="hidden" name="character[character_has_advantages][][id]" value="" /><input type="hidden" name="character[character_has_advantages][][advantage_id]" value="'+advantageId+'" /><input type="hidden" name="character[character_has_advantages][][rating]" value="'+lowestRating+'" /><input type="hidden" name="character[character_has_advantages][][specification]" value="" /></li>');
   });
 
   $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
@@ -171,6 +174,18 @@ javascript:
       success: function(data) {
         $modal.find('#modal-description').html(data.description);
         $modal.find('.header span').text(data.name);
+        // hide all the stuff that's irrelevant
+        if (!data.requires_specification) {
+          $modal.find('.specification').hide();
+        } else {
+          $modal.find('.specification').show();
+        }
+        console.log(data.allowed_ratings.length > 1);
+        if (!(data.allowed_ratings.length > 1)) {
+          $modal.find('.rating').hide();
+        } else {
+          $modal.find('.rating').show();
+        }
       }
     })
     // put the data in the modal from the advantage
@@ -178,6 +193,17 @@ javascript:
     $modal.find('#modal-specification').val(specification);
 
     $('.overlay').fadeIn();
+  });
+
+  $('#save-advantage').on('click', function(e) {
+    var $modal = $('#advantages-overlay .modal');
+    var specification = $modal.find('#modal-specification').val();
+    var rating = $modal.find('#modal-rating').val();
+    $('.overlay').fadeOut();
+  });
+
+  $('#cancel-advantage').on('click', function(e) {
+    $('.overlay').fadeOut();
   });
 
   $('#advantages-list').delegate(".advantage-delete", 'click', function(e) {

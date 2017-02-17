@@ -47,7 +47,7 @@ module Storytellers
     private
 
     def advantages_params
-      params.require(:advantage).permit(:id, :name, :description, :prerequisites, :allowed_ratings)
+      params.require(:advantage).permit(:id, :name, :description, :prerequisites, :allowed_ratings, :requires_specification)
     end
   end
 end
