@@ -60,9 +60,15 @@ ul#advantages-list
     li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
       = "#{advantage.advantage.name} "
       - if advantage.advantage.requires_specification
-        = "(#{advantage.specification}) "
+        = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
       - if advantage.advantage.allowed_ratings.split(",").length > 1
-        = advantage.rating
+        = " <span class='rating'>#{advantage.rating}</span>".html_safe
+      = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
+      = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
+      = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
+      = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
+      = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
+      = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
 
 h3 Challenges
 
@@ -205,8 +211,10 @@ javascript:
     var specification = $modal.find('#modal-specification').val();
     var rating = $modal.find('#modal-rating').val();
     var advantageToUpdate = $modal.find('#modal-id').val();
-    var $advantage = $('#advantages-list li:nth-child('+(advantageToUpdate+1)+')');
+    var $advantage = $('#advantages-list li:nth-child('+(parseInt(advantageToUpdate)+1)+')');
+    console.log($advantage);
     // update both display and hidden field values
+
     $advantage.find('.rating').text(rating);
     $advantage.find('input[name="character[character_has_advantages][][rating]"]').val(rating);
     $advantage.find('.specification').text(specification);

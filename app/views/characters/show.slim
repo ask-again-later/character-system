@@ -64,12 +64,12 @@ ul#advantages
     li
       p.name
         = cha.advantage.name
-        - if cha.advantage.requires_specification
+        - if cha.advantage.requires_specification?
           = " (#{cha.specification})"
         - if cha.advantage.allowed_ratings.length > 1
           = " #{cha.rating}"
       p.desc
-        = cha.advantage.description
+        = cha.advantage.description.html_safe
 
 h3 Challenges
 
