@@ -58,25 +58,41 @@ h3 Advantages
 
 select name="advantages" id="advantages"
   - @advantages.each do |advantage|
-    option value="#{advantage.id}" #{advantage.name} [#{advantage.allowed_ratings}]
-= button_tag 'Add', type: '', class: 'button', id: "advantage-add"
+    option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
+= button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
 
 ul#advantages-list
   - @character.character_has_advantages.each do |advantage|
-    li
+    li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
       = "#{advantage.advantage.name} "
+      - if advantage.advantage.requires_specification
+        = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
+      - if advantage.advantage.allowed_ratings.split(",").length > 1
+        = " <span class='rating'>#{advantage.rating}</span>".html_safe
+      = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
+      = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
+      = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
+      = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
+      = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
+      = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
 
 h3 Challenges
 
 select name="challenges" id="challenges"
   - @challenges.each do |challenge|
     option value="#{challenge.id}" #{challenge.name}
-= button_tag 'Add', type: '', class: 'button', id: "challenge-add"
+= button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
 
-ul#advantages-list
+ul#challenges-list
   - @character.character_has_challenges.each do |challenge|
     li
       = "#{challenge.challenge.name} "
+      = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+      - if challenge.challenge.description.present?
+        .description
+          = challenge.challenge.description.html_safe
+      = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
+      = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
 
 h3 Derived Stats
 .form-row
@@ -110,33 +126,26 @@ h3 Questionnaire
 
 = f.submit "Save"
 
-javascript:
-  $('input[name="character[strength]"]').on('change', function() {
-    $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));
-  });
+.overlay#advantages-overlay
+  .modal
+    .header
+      | Edit Advantage:
+      span
+    .content
+      .form-row.specification
+        = label_tag :specification
+        = text_field_tag :specification, "", id: 'modal-specification'
 
-  $('input[name="character[resolve]"]').on('change', function() {
-    $('input#willpower').val(5+parseInt($('input[name="character[resolve]"]:checked').val()));
-  });
+      .form-row.rating
+        = label_tag :rating
+        = number_field_tag :rating, "", id: 'modal-rating'
 
-  $('input[name="character[composure]"], input[name="character[dexterity]"]').on('change', function() {
-    var composure = parseInt($('input[name="character[composure]"]:checked').val());
-    var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
-    $('input#character_initiative').val(composure+dexterity);
-  });
+      .form-row#modal-description
 
-  $('input[name="character[wits]"], input[name="character[dexterity]"]').on('change', function () {
-    var wits = parseInt($('input[name="character[wits]"]:checked').val());
-    var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
-    $('input#character_defense').val(wits+dexterity);
-  });
+      = hidden_field_tag :cha_id, "", id: 'modal-id'
 
-  $('.dot').on('click', function(e) {
-    e.preventDefault();
-    if ($(e.target).hasClass('dot')) {
-      $(this).addClass('selected').prevAll().addClass('selected');
-      $(this).nextAll().removeClass('selected');
-      $(this).find('input').attr("checked", "checked");
-      $(this).find('input').change();
-    }
-  });
+      .form-row
+        = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
+        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
+
+<%= javascript_include_tag 'characters', 'data-turbolinks-track' => true %>

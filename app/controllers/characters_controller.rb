@@ -61,6 +61,48 @@ class CharactersController < ApplicationController
 		@character = Character.find(params[:id])
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
+			if params[:character][:character_has_challenges].present?
+				chc_ids = []
+				# add new challenges, and catalog all the challenges that should be on the sheet
+				params[:character][:character_has_challenges].each do |challenge|
+					unless challenge[:id].present?
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id])
+						@challenge.save!
+						chc_ids << @challenge.id.to_i
+					else
+						chc_ids << challenge[:id].to_i
+					end
+				end
+				# remove any challenges that are no longer on the sheet
+				@character.character_has_challenges.each do |chc|
+					unless chc_ids.include?(chc.id)
+						@challenge = CharacterHasChallenge.find(chc.id)
+						@challenge.delete
+					end
+				end
+			end
+			if params[:character][:character_has_advantages].present?
+				cha_ids = []
+				# add new advantages, and update older ones
+				params[:character][:character_has_advantages].each do |advantage|
+					unless advantage[:id].present?
+						@advantage = CharacterHasAdvantage.new(character_id: @character.id, advantage_id: advantage[:advantage_id], rating: advantage[:rating], specification: advantage[:specification])
+						@advantage.save!
+					else
+						# advantages have a more complex join, so we have to update attributes for non-new ones in case they haven't changed
+						@advantage = CharacterHasAdvantage.find(advantage[:id])
+						@advantage.update_attributes!(rating: advantage[:rating], specification: advantage[:specification])
+					end
+					cha_ids << @advantage.id
+				end
+				# remove any advantages that are no longer on the sheet
+				@character.character_has_advantages.each do |cha|
+					unless cha_ids.include?(cha.id)
+						@advantage = CharacterHasAdvantage.find(cha.id)
+						@advantage.delete
+					end
+				end
+			end
 			params[:character][:questionnaire_answers].each do |qa|
 				if qa[:id].present?
 					@qa = QuestionnaireAnswer.find(qa[:id])
@@ -81,6 +123,48 @@ class CharactersController < ApplicationController
 		@character = Character.new(characters_params)
 		if @character.save!
 			flash[:success] = "Your character was saved."
+			if params[:character][:character_has_challenges].present?
+				chc_ids = []
+				# add new challenges, and catalog all the challenges that should be on the sheet
+				params[:character][:character_has_challenges].each do |challenge|
+					unless challenge[:id].present?
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id])
+						@challenge.save!
+						chc_ids << @challenge.id.to_i
+					else
+						chc_ids << challenge[:id].to_i
+					end
+				end
+				# remove any challenges that are no longer on the sheet
+				@character.character_has_challenges.each do |chc|
+					unless chc_ids.include?(chc.id)
+						@challenge = CharacterHasChallenge.find(chc.id)
+						@challenge.delete
+					end
+				end
+			end
+			if params[:character][:character_has_advantages].present?
+				cha_ids = []
+				# add new advantages, and update older ones
+				params[:character][:character_has_advantages].each do |advantage|
+					unless advantage[:id].present?
+						@advantage = CharacterHasAdvantage.new(character_id: @character.id, advantage_id: advantage[:advantage_id], rating: advantage[:rating], specification: advantage[:specification])
+						@advantage.save!
+					else
+						# advantages have a more complex join, so we have to update attributes for non-new ones in case they haven't changed
+						@advantage = CharacterHasAdvantage.find(advantage[:id])
+						@advantage.update_attributes!(rating: advantage[:rating], specification: advantage[:specification])
+					end
+					cha_ids << @advantage.id
+				end
+				# remove any advantages that are no longer on the sheet
+				@character.character_has_advantages.each do |cha|
+					unless cha_ids.include?(cha.id)
+						@advantage = CharacterHasAdvantage.find(cha.id)
+						@advantage.delete
+					end
+				end
+			end
 			params[:character][:questionnaire_answers].each do |qa|
 				@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 				@qa.save!
