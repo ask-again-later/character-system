@@ -31,3 +31,35 @@
 .template {
   display: none;
 }
+
+.dot {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border: 2px $black solid;
+  background-color: transparent;
+  border-radius: 10px;
+  text-indent: -99px;
+  transition: .3s;
+  cursor: pointer;
+  overflow: hidden;
+  vertical-align: middle;
+  margin: 0 2px;
+
+  &.selected, &:hover {
+    background-color: $black;
+  }
+}
+
+.dot.reset {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: $black;
+  width: 5px;
+  height: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  text-indent: -99px;
+  border: none;
+}
