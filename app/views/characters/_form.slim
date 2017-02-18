@@ -120,6 +120,7 @@ javascript:
     if ($(e.target).hasClass('dot')) {
       $(this).addClass('selected').prevAll().addClass('selected');
       $(this).nextAll().removeClass('selected');
-      $(this).find('input').prop("checked", "checked");
+      $(this).find('input').attr("checked", "checked");
+      $(this).find('input').change();
     }
   });
