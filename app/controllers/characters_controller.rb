@@ -33,6 +33,11 @@ class CharactersController < ApplicationController
 		@challenges = Challenge.all
 		@player = current_user
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
+		@questionnaire_items.each do |q|
+			QuestionnaireAnswer.new(character: @character,
+															questionnaire_item: q)
+		end
+		@questionnaire_answers = @character.questionnaire_answers
 	end
 
 	def edit
@@ -46,7 +51,7 @@ class CharactersController < ApplicationController
 		@challenges = Challenge.all
 		@player = @character.user
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
-		@questionnaire_answers = QuestionnaireAnswer.where(character: params[:id])
+		@questionnaire_answers = @character.questionnaire_answers
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
