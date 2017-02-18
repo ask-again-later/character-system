@@ -37,7 +37,7 @@ module Storytellers
     def destroy
       @true_self = TrueSelf.find(params[:id])
       @true_self.delete
-      redirec_to storytellers_true_selves_path
+      redirect_to storytellers_true_selves_path
     end
 
     protected
