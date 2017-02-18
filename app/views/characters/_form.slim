@@ -161,8 +161,6 @@ javascript:
       lowestRating = ratings;
     }
 
-    console.log(specification);
-
     $('ul#advantages-list').append('<li>'+name+((specification) ? ' (<span class="specification"></span>)' : '')+((ratings.length > 1) ? ' <span class="rating">'+lowestRating+'</span>' : '')+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a><input type="hidden" name="character[character_has_advantages][][id]" value="" /><input type="hidden" name="character[character_has_advantages][][advantage_id]" value="'+advantageId+'" /><input type="hidden" name="character[character_has_advantages][][rating]" value="'+lowestRating+'" /><input type="hidden" name="character[character_has_advantages][][specification]" value="" /></li>');
   });
 
@@ -172,7 +170,6 @@ javascript:
     var $modal = $('#advantages-overlay .modal');
     var $advantage = $(this).parent('li');
     var index = $advantage.index();
-    console.log(index);
     var rating = $advantage.find('input[name="character[character_has_advantages][][rating]"]').val();
     var advantageId = $advantage.find('input[name="character[character_has_advantages][][advantage_id]"]').val();
     var specification = $advantage.find('input[name="character[character_has_advantages][][specification]"]').val();
@@ -190,7 +187,6 @@ javascript:
         } else {
           $modal.find('.specification').show();
         }
-        console.log(data.allowed_ratings.length > 1);
         if (!(data.allowed_ratings.length > 1)) {
           $modal.find('.rating').hide();
         } else {
@@ -212,7 +208,6 @@ javascript:
     var rating = $modal.find('#modal-rating').val();
     var advantageToUpdate = $modal.find('#modal-id').val();
     var $advantage = $('#advantages-list li:nth-child('+(parseInt(advantageToUpdate)+1)+')');
-    console.log($advantage);
     // update both display and hidden field values
 
     $advantage.find('.rating').text(rating);
