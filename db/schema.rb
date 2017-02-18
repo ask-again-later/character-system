@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 20170213050602) do
     t.integer  "user_id"
     t.integer  "stability",     default: 7
     t.integer  "handy",         default: 0
-    t.integer  "religion"
+    t.integer  "religion",      default: 0
     t.integer  "bureaucracy",   default: 0
     t.integer  "athletics",     default: 0
     t.integer  "fight",         default: 0
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20170213050602) do
     t.integer  "artsy",         default: 0
     t.integer  "intimidation",  default: 0
     t.integer  "persuasion",    default: 0
-    t.integer  "lies"
+    t.integer  "lies",          default: 0
     t.integer  "academics",     default: 0
     t.integer  "investigation", default: 0
     t.integer  "medicine",      default: 0
@@ -133,7 +133,6 @@ ActiveRecord::Schema.define(version: 20170213050602) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.string   "pronouns"
     t.boolean  "is_storyteller",         default: false
     t.boolean  "is_admin",               default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
