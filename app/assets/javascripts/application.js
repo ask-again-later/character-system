@@ -23,14 +23,3 @@
 $('textarea').froalaEditor();
 
 $('.table').dataTable();
-
-$('.dot').on('click', function(e) {
-  if ($(this).hasClass('filled')) {
-    $(this).removeClass('filled');
-  } else {
-    $(this).addClass('filled');
-    $(this).find('input[type="radio"]').attr("checked", "checked");
-    $(this).siblings().find('input[type="radio"]').removeAttr("checked");
-    $(this).prevAll().addClass("filled");
-  }
-});

@@ -39,6 +39,7 @@ gem 'thin'
 gem 'mina'
 gem 'angularjs-rails', '~> 1.6', '>= 1.6.1'
 
+gem 'pry'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -48,6 +49,7 @@ gem 'angularjs-rails', '~> 1.6', '>= 1.6.1'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'pry'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
