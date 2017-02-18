@@ -102,6 +102,22 @@ h3 Derived Stats
   = f.label :initiative
   = f.number_field :initiative
 
+h3 Questionnaire
+
+- if @questionnaire_items.present?
+  - @questionnaire_items.each do |question|
+    .question
+      .question-text
+        = question.question
+      - if @questionnaire_answers.where(questionnaire_item_id: question.id).length > 0
+        - current_question = @questionnaire_answers.where(questionnaire_item_id: question.id).first
+        = text_area_tag "character[questionnaire_answers][][answer]", current_question.answer
+        = hidden_field_tag "character[questionnaire_answers][][id]", current_question.id
+      - else
+        = text_area_tag "character[questionnaire_answers][][answer]"
+        = hidden_field_tag "character[questionnaire_answers][][id]"
+      = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+
 = f.submit "Save"
 
 .overlay#advantages-overlay

@@ -1,5 +1,6 @@
 module Storytellers
   class QuestionnaireItemsController < ApplicationController
+    before_action :authenticate_user!, :requires_storyteller
     def index
       @questionnaire_items = QuestionnaireItem.all.order(order: :asc)
       @questionnaire_item = QuestionnaireItem.new
