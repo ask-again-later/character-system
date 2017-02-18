@@ -1,5 +1,6 @@
 module Storytellers
   class QuestionnaireItemsController < ApplicationController
+    before_action :authenticate_user!, :requires_storyteller
     def index
       @questionnaire_items = QuestionnaireItem.all.order(order: :asc)
       @questionnaire_item = QuestionnaireItem.new
@@ -12,7 +13,6 @@ module Storytellers
 
   		@questions.each do |question|
   			if question[:question].present? #skip empties
-  				puts question.inspect
   				if question[:id].present?
   					# Update existing questions
   					@question = QuestionnaireItem.find(question[:id].to_i)
