@@ -1,0 +1,4 @@
+h2 New Questionnaire Item
+
+= form_for @questionnaire_item, url: {action: 'create'} do |f|
+  = render partial: 'form', locals: {f: f}

@@ -21,10 +21,13 @@ Rails.application.routes.draw do
     post '/', to: 'settings#update'
   end
 
-  namespace :data_entry do
+  namespace :storytellers do
+    get '/', to: 'dashboard#index'
     resources :advantages
     resources :challenges
     resources :true_selves
+    get '/questionnaire', to: 'questionnaire_items#index'
+    post '/questionnaire', to: 'questionnaire_items#update'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

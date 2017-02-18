@@ -1,4 +1,4 @@
-module DataEntry
+module Storytellers
   class TrueSelvesController < ApplicationController
     def index
       @true_selves = TrueSelf.all

@@ -19,6 +19,7 @@ class CharactersController < ApplicationController
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
+		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
@@ -31,6 +32,12 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = current_user
+		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
+		@questionnaire_items.each do |q|
+			QuestionnaireAnswer.new(character: @character,
+															questionnaire_item: q)
+		end
+		@questionnaire_answers = @character.questionnaire_answers
 	end
 
 	def edit
@@ -43,6 +50,8 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = @character.user
+		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
+		@questionnaire_answers = @character.questionnaire_answers
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
@@ -52,6 +61,15 @@ class CharactersController < ApplicationController
 		@character = Character.find(params[:id])
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
+			params[:character][:questionnaire_answers].each do |qa|
+				if qa[:id].present?
+					@qa = QuestionnaireAnswer.find(qa[:id])
+					@qa.update_attributes!(answer: qa[:answer])
+				else
+					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
+					@qa.save!
+				end
+			end
 			redirect_to character_path(@character)
 		else
 			flash[:error] = "There was an error saving your character."
@@ -63,6 +81,10 @@ class CharactersController < ApplicationController
 		@character = Character.new(characters_params)
 		if @character.save!
 			flash[:success] = "Your character was saved."
+			params[:character][:questionnaire_answers].each do |qa|
+				@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
+				@qa.save!
+			end
 			redirect_to character_path(@character)
 		else
 			flash[:error] = "There was an error saving your character."
@@ -83,7 +105,7 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns)
+		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :character_has_challenges => [:character_id, :challenge_id], :character_has_advantages => [:character_id, :advantage_id, :specification])
 	end
 
 	def get_status(status)
