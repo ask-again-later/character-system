@@ -21,25 +21,4 @@ h2 Questionnaire
   = button_tag "Add Question", type: 'button', id: 'add', class: 'button'
   = button_tag "Save", type: 'submit', class: 'button'
 
-javascript:
-	$(document).ready(function() {
-		$('#questionnaire').sortable({
-			handle: 'label',
-			stop: function() {
-				var length = $('#questionnaire li').length;
-				$('#questionnaire li').each(function (index) {
-					$(this).find('.order-field').val(index);
-				});
-			}
-		});
-
-		$('#add').click(function(e) {
-			e.preventDefault();
-			var $newItem = $('.template').children().clone();
-			$('#questionnaire').append($newItem);
-		});
-
-		$('.delete').click(function() {
-			$(this).parent().remove();
-		})
-	});
+<%= javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true %>
