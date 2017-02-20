@@ -1,10 +1,10 @@
 class CreateCharacterHasAdvantages < ActiveRecord::Migration[5.0]
   def change
     create_table :character_has_advantages do |t|
-      t.integer :character_id
-      t.integer :advantage_id
+      t.references :character, index: true, foreign_key: true, null: false
+      t.references :advantage, index: true, foreign_key: true, null: false
       t.integer :rating
-      t.string :description
+      t.string :specification
 
       t.timestamps
     end
