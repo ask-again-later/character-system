@@ -4,4 +4,4 @@ task :not_production do
 end
 
 desc 'Sets up the project by running migration and populating sample data'
-task setup: [:environment, :not_production, 'db:drop', 'db:create', 'db:migrate']
+task setup: [:environment, :not_production, 'db:drop', 'db:create', 'db:migrate', 'db:seed']
