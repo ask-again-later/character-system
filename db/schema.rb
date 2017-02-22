@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217040920) do
+ActiveRecord::Schema.define(version: 201702020635481) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 20170217040920) do
     t.string   "name"
     t.text     "description"
     t.string   "allowed_ratings",        default: ""
+    t.boolean  "requires_specification", default: false
+    t.string   "prerequisites",          default: ""
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.string   "prerequisites",          default: ""
-    t.boolean  "requires_specification", default: false
   end
 
   create_table "challenges", force: :cascade do |t|
@@ -34,25 +34,41 @@ ActiveRecord::Schema.define(version: 20170217040920) do
   end
 
   create_table "character_has_advantages", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "advantage_id"
+    t.integer  "character_id",  null: false
+    t.integer  "advantage_id",  null: false
     t.integer  "rating"
     t.string   "specification"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["advantage_id"], name: "index_character_has_advantages_on_advantage_id", using: :btree
+    t.index ["character_id"], name: "index_character_has_advantages_on_character_id", using: :btree
   end
 
   create_table "character_has_challenges", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "challenge_id"
+    t.integer  "character_id", null: false
+    t.integer  "challenge_id", null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
+    t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "user_id"
-    t.integer  "stability",     default: 7
+    t.string   "name",                       null: false
+    t.string   "pronouns",      default: "", null: false
+    t.integer  "status",        default: 0,  null: false
+    t.text     "public_blurb",  default: ""
+    t.integer  "user_id",                    null: false
+    t.integer  "true_self_id",               null: false
+    t.integer  "intelligence",  default: 1,  null: false
+    t.integer  "wits",          default: 1,  null: false
+    t.integer  "resolve",       default: 1,  null: false
+    t.integer  "strength",      default: 1,  null: false
+    t.integer  "dexterity",     default: 1,  null: false
+    t.integer  "stamina",       default: 1,  null: false
+    t.integer  "presence",      default: 1,  null: false
+    t.integer  "manipulation",  default: 1,  null: false
+    t.integer  "composure",     default: 1,  null: false
     t.integer  "handy",         default: 0
     t.integer  "religion",      default: 0
     t.integer  "bureaucracy",   default: 0
@@ -76,34 +92,26 @@ ActiveRecord::Schema.define(version: 20170217040920) do
     t.integer  "science",       default: 0
     t.integer  "computers",     default: 0
     t.integer  "engineering",   default: 0
-    t.text     "public_blurb",  default: ""
-    t.integer  "willpower",     default: 6
-    t.integer  "defense",       default: 2
-    t.integer  "speed",         default: 6
+    t.integer  "health",        default: 2,  null: false
+    t.integer  "willpower",     default: 6,  null: false
+    t.integer  "stability",     default: 7,  null: false
+    t.integer  "defense",       default: 2,  null: false
+    t.integer  "speed",         default: 6,  null: false
+    t.integer  "initiative",    default: 2,  null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-    t.integer  "true_self_id",  default: 0,  null: false
-    t.integer  "intelligence",  default: 1,  null: false
-    t.integer  "wits",          default: 1,  null: false
-    t.integer  "resolve",       default: 1,  null: false
-    t.integer  "strength",      default: 1,  null: false
-    t.integer  "dexterity",     default: 1,  null: false
-    t.integer  "stamina",       default: 1,  null: false
-    t.integer  "presence",      default: 1,  null: false
-    t.integer  "manipulation",  default: 1,  null: false
-    t.integer  "composure",     default: 1,  null: false
-    t.integer  "initiative",    default: 2
-    t.integer  "health",        default: 6
-    t.string   "pronouns",      default: ""
-    t.integer  "status",        default: 0
+    t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
+    t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
-    t.integer  "questionnaire_item_id"
-    t.integer  "character_id"
+    t.integer  "questionnaire_item_id", null: false
+    t.integer  "character_id",          null: false
     t.text     "answer"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["character_id"], name: "index_questionnaire_answers_on_character_id", using: :btree
+    t.index ["questionnaire_item_id"], name: "index_questionnaire_answers_on_questionnaire_item_id", using: :btree
   end
 
   create_table "questionnaire_items", force: :cascade do |t|
@@ -123,6 +131,8 @@ ActiveRecord::Schema.define(version: 20170217040920) do
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "name",                   default: "",    null: false
+    t.boolean  "is_storyteller",         default: false, null: false
+    t.boolean  "is_admin",               default: false, null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -133,18 +143,26 @@ ActiveRecord::Schema.define(version: 20170217040920) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.boolean  "is_storyteller",         default: false
-    t.boolean  "is_admin",               default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "xp_records", force: :cascade do |t|
-    t.integer  "character_id"
+    t.integer  "character_id", null: false
     t.integer  "amount"
     t.string   "description"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["character_id"], name: "index_xp_records_on_character_id", using: :btree
   end
 
+  add_foreign_key "character_has_advantages", "advantages"
+  add_foreign_key "character_has_advantages", "characters"
+  add_foreign_key "character_has_challenges", "challenges"
+  add_foreign_key "character_has_challenges", "characters"
+  add_foreign_key "characters", "true_selves"
+  add_foreign_key "characters", "users"
+  add_foreign_key "questionnaire_answers", "characters"
+  add_foreign_key "questionnaire_answers", "questionnaire_items"
+  add_foreign_key "xp_records", "characters"
 end
