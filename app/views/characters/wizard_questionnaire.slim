@@ -2,6 +2,8 @@
 
   h2 Character Creation Wizard: #{@character.name}
 
+  = render partial: 'wizard_toc'
+
   - if @page.present?
 
     h3
@@ -30,7 +32,7 @@
 
   = hidden_field_tag "formaction", "", id: 'form-action'
   = f.submit "Save", id: 'save'
-  = f.submit "Save and Continue", id: 'save-continue'
+  = f.submit "Save and Next Page", id: 'save-continue'
   = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
 
 = javascript_include_tag 'wizard', 'data-turbolinks-track' => true

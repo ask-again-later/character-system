@@ -1,0 +1,15 @@
+.div
+  p.title Navigation
+  ol
+    - @questionnaire.each do |section|
+      li
+        = link_to section.title, "/characters/#{@character.id}/wizard/#{section.id}"
+    - unless @character.use_extended?
+      li
+        = link_to "Basics", "/characters/#{@character.id}/wizard/basics"
+      li
+        = link_to "Skills & Special Trainings", "/characters/#{@character.id}/wizard/skills_trainings"
+      li
+        = link_to "Challenges and Advantages", "/characters/#{@character.id}/wizard/challenges_advantages"
+    li
+      = link_to "Full Character Sheet", edit_character_path(@character)

@@ -103,13 +103,15 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			params[:character][:questionnaire_answers].each do |qa|
-				if qa[:id].present?
-					@qa = QuestionnaireAnswer.find(qa[:id])
-					@qa.update_attributes!(answer: qa[:answer])
-				else
-					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
-					@qa.save!
+			if params[:character][:questionnaire_answers].present?
+				params[:character][:questionnaire_answers].each do |qa|
+					if qa[:id].present?
+						@qa = QuestionnaireAnswer.find(qa[:id])
+						@qa.update_attributes!(answer: qa[:answer])
+					else
+						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
+						@qa.save!
+					end
 				end
 			end
 			if params[:wizard].present?
@@ -119,6 +121,10 @@ class CharactersController < ApplicationController
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
 				elsif params[:formaction] == "save-skip"
 					redirect_to edit_character_path(@character) and return
+				elsif params[:formaction] == "switch-non-mechanics"
+					@first_qual = QuestionnaireSection.all.order(:order)
+					@first_qual = @first_qual.to_a.reject! {|q| q.questionnaire_items.where(extended: false).any? }
+					redirect_to "/characters/#{@character.id}/wizard/#{@first_qual.first.id}" and return
 				else
 					redirect_to character_path(@character) and return
 				end
@@ -179,9 +185,11 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			params[:character][:questionnaire_answers].each do |qa|
-				@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
-				@qa.save!
+			if params[:character][:questionnaire_answers].present?
+				params[:character][:questionnaire_answers].each do |qa|
+					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
+					@qa.save!
+				end
 			end
 			if params[:wizard].present?
 				if params[:formaction] == "save"
@@ -190,6 +198,10 @@ class CharactersController < ApplicationController
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
 				elsif params[:formaction] == "save-skip"
 					redirect_to edit_character_path(@character) and return
+				elsif params[:formaction] == "switch-non-mechanics"
+					@first_qual = QuestionnaireSection.all.order(:order)
+					@first_qual = @first_qual.to_a.reject! {|q| q.questionnaire_items.where(extended: false)}
+					redirect_to "/characters/#{@character.id}/wizard/#{@first_qual.first.id}" and return
 				else
 					redirect_to character_path(@character) and return
 				end
@@ -218,32 +230,51 @@ class CharactersController < ApplicationController
 
 	def wizard_questionnaire
 		@questionnaire = QuestionnaireSection.all.order(:order)
-		@page = @questionnaire[params[:page].to_i-1]
 		@character = Character.find(params[:id])
-		@questionnaire_answers = @character.questionnaire_answers
 		unless @character.present?
-			redirect_to new_character_wizard_path
+			redirect_to new_character_wizard_path and return
 		end
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
+		@page = @questionnaire[params[:page].to_i-1]
+		@questionnaire_answers = @character.questionnaire_answers
 	end
 
 	def wizard_basics
+		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
-		if @character.empty?
-			redirect_to new_character_wizard_path
+		@attributes = ATTRIBUTES
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
 
 	def wizard_skills_trainings
+		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
-		if @character.empty?
-			redirect_to new_character_wizard_path
+		@skills_training = SKILLS_TRAINING
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
 
 	def wizard_challenges_advantages
+		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
-		if @character.empty?
-			redirect_to new_character_wizard_path
+		@advantages = Advantage.all.order(:name)
+		@challenges = Challenge.all.order(:name)
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
 
@@ -254,7 +285,7 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :character_has_challenges => [:character_id, :challenge_id], :character_has_advantages => [:character_id, :advantage_id, :specification])
+		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :character_has_challenges => [:character_id, :challenge_id], :character_has_advantages => [:character_id, :advantage_id, :specification])
 	end
 
 	def get_status(status)

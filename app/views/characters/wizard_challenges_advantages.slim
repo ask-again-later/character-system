@@ -1,0 +1,76 @@
+= form_for @character, method: 'PATCH' do |f|
+
+  h2 Character Creation Wizard: #{@character.name}
+
+  = render partial: 'wizard_toc'
+
+  h3 Advantages
+
+  select name="advantages" id="advantages"
+    - @advantages.each do |advantage|
+      option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
+  = button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
+
+  ul#advantages-list
+    - @character.character_has_advantages.each do |advantage|
+      li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
+        = "#{advantage.advantage.name} "
+        - if advantage.advantage.requires_specification
+          = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
+        - if advantage.advantage.allowed_ratings.split(",").length > 1
+          = " <span class='rating'>#{advantage.rating}</span>".html_safe
+        = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
+        = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
+        = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
+        = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
+        = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
+        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
+
+  h3 Challenges
+
+  select name="challenges" id="challenges"
+    - @challenges.each do |challenge|
+      option value="#{challenge.id}" #{challenge.name}
+  = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
+
+  ul#challenges-list
+    - @character.character_has_challenges.each do |challenge|
+      li
+        = "#{challenge.challenge.name} "
+        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+        - if challenge.challenge.description.present?
+          .description
+            = challenge.challenge.description.html_safe
+        = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
+        = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
+
+  = hidden_field_tag "wizard_current", "challenges_advantages"
+  = hidden_field_tag "wizard", "full"
+
+  = hidden_field_tag "formaction", "", id: 'form-action'
+  = f.submit "Finish", id: 'finish'
+
+.overlay#advantages-overlay
+  .modal
+    .header
+      | Edit Advantage:
+      span
+    .content
+      .form-row.specification
+        = label_tag :specification
+        = text_field_tag :specification, "", id: 'modal-specification'
+
+      .form-row.rating
+        = label_tag :rating
+        = select_tag :rating, "", id: 'modal-rating'
+
+      .form-row#modal-description
+
+      = hidden_field_tag :cha_id, "", id: 'modal-id'
+
+      .form-row
+        = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
+        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
+
+= javascript_include_tag 'wizard', 'data-turbolinks-track' => true
+= javascript_include_tag 'characters', 'data-turbolinks-track' => true

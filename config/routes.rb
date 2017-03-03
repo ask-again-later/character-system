@@ -5,10 +5,10 @@ Rails.application.routes.draw do
 
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
   resources :characters
-  get 'characters/:id/wizard/:page', to: 'characters#wizard_questionnaire'
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'
   get 'characters/:id/wizard/skills_trainings', to: 'characters#wizard_skills_trainings'
   get 'characters/:id/wizard/challenges_advantages', to: 'characters#wizard_challenges_advantages'
+  get 'characters/:id/wizard/:page', to: 'characters#wizard_questionnaire'
   post 'characters/wizard', to: 'characters#wizard_router', as: 'wizard_update'
 
   namespace :api do

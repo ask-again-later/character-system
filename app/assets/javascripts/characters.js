@@ -58,15 +58,26 @@ $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
       } else {
         $modal.find('.specification').show();
       }
+      var ratings = data.allowed_ratings.split(",");
+      var opt = "";
+      $modal.find('#modal-rating').empty();
+      for (var i = 0; i < ratings.length; i++) {
+        opt = "<option value='"+ratings[i]+"'";
+        if (ratings[i] === rating) {
+          opt += " selected='selected'";
+        }
+        opt += ">"+ratings[i]+"</option>";
+        $modal.find('#modal-rating').append(opt);
+      }
       if (!(data.allowed_ratings.length > 1)) {
-        $modal.find('.rating').hide();
+        $modal.find('.rating').attr("disabled", "disabled");
       } else {
-        $modal.find('.rating').show();
+        $modal.find('.rating').removeAttr("disabled");
       }
     }
-  })
+  });
   // put the data in the modal from the advantage
-  $modal.find('#modal-rating').val(rating);
+
   $modal.find('#modal-specification').val(specification);
   $modal.find('#modal-id').val(index);
 

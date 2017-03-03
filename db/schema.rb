@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.string   "pronouns",      default: ""
     t.integer  "status",        default: 0
     t.text     "public_blurb",  default: ""
-    t.integer  "user_id",                    null: false
+    t.integer  "user_id",                       null: false
     t.integer  "true_self_id"
     t.integer  "intelligence",  default: 1
     t.integer  "wits",          default: 1
@@ -92,14 +92,15 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.integer  "science",       default: 0
     t.integer  "computers",     default: 0
     t.integer  "engineering",   default: 0
-    t.integer  "health",        default: 2,  null: false
-    t.integer  "willpower",     default: 6,  null: false
-    t.integer  "stability",     default: 7,  null: false
-    t.integer  "defense",       default: 2,  null: false
-    t.integer  "speed",         default: 6,  null: false
-    t.integer  "initiative",    default: 2,  null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.integer  "health",        default: 2,     null: false
+    t.integer  "willpower",     default: 6,     null: false
+    t.integer  "stability",     default: 7,     null: false
+    t.integer  "defense",       default: 2,     null: false
+    t.integer  "speed",         default: 6,     null: false
+    t.integer  "initiative",    default: 2,     null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "use_extended",  default: false
     t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
