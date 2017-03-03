@@ -169,9 +169,23 @@ class CharactersController < ApplicationController
 				@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 				@qa.save!
 			end
+			if params[:wizard]
+				if params[:action] == "save"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}"
+				elsif params[:action] == "save-continue"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}"
+				elsif params[:action] == "save-skip"
+					redirect_to edit_character_path(@character)
+				else
+					redirect_to character_path(@character)
+				end
+			end
 			redirect_to character_path(@character)
 		else
 			flash[:error] = "There was an error saving your character."
+			if params[:wizard]
+				redirect_to new_character_wizard_path
+			end
 			redirect_to new_character_path
 		end
 	end
@@ -180,6 +194,42 @@ class CharactersController < ApplicationController
 		@character = Character.find(params[:id])
 		@character.delete
 		redirect_to characters_path
+	end
+
+	def wizard
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@section = @questionnaire.first
+		@character = Character.new
+	end
+
+	def wizard_questionnaire
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@page = @questionnaire[params[:page]-1]
+		@character = Character.find(params[:id])
+		if @character.empty?
+			redirect_to new_character_wizard_path
+		end
+	end
+
+	def wizard_basics
+		@character = Character.find(params[:id])
+		if @character.empty?
+			redirect_to new_character_wizard_path
+		end
+	end
+
+	def wizard_skills_trainings
+		@character = Character.find(params[:id])
+		if @character.empty?
+			redirect_to new_character_wizard_path
+		end
+	end
+
+	def wizard_challenges_advantages
+		@character = Character.find(params[:id])
+		if @character.empty?
+			redirect_to new_character_wizard_path
+		end
 	end
 
 	def validate_character

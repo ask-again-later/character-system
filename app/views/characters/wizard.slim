@@ -1,0 +1,36 @@
+= form_for @character, url: {action: 'create'} do |f|
+  h2 Character Creation Wizard
+
+  = hidden_field_tag "character[user_id]", current_user.id
+
+  .form-row
+    = f.label :name
+    = f.text_field :name
+
+  - if @section.present?
+
+    h3
+      = @section.title
+
+    - if @section.instructions.present?
+      .instructions
+        = @section.instructions.html_safe
+
+    - if @section.questionnaire_items.present?
+      - @section.questionnaire_items.each do |question|
+        .question
+          .question-text
+            = question.question
+            = text_area_tag "character[questionnaire_answers][][answer]"
+            = hidden_field_tag "character[questionnaire_answers][][id]"
+          = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+
+  = hidden_field_tag "wizard_current", "1"
+  = hidden_field_tag "wizard", @questionnaire.length > 1 ? '2', 'basics'
+
+  = hidden_field_tag "action", "", id: 'form-action'
+  = f.submit "Save", id: 'save'
+  = f.submit "Save and Continue", id: 'save-continue'
+  = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+
+= javascript_include_tag 'wizard', 'data-turbolinks-track' => true
