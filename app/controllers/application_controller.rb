@@ -12,9 +12,15 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:edit, keys: [:name])
   end
 
-  def current_user
-    @current_user = User.find_by(id: session[:user_id])
+  def requires_storyteller
+    unless user_signed_in? and current_user.is_storyteller
+      redirect_to root_path
+    end
   end
 
-  helper_method :current_user
+  def requires_admin
+    unless user_signed_in? and current_user.is_admin
+      redirect_to root_path
+    end
+  end
 end

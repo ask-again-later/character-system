@@ -8,8 +8,9 @@
 </head>
 <body>
   <%= render partial: 'layouts/header' %>
-  yo
+
   <%= yield %>
 
+  <%= javascript_include_tag 'footer', 'data-turbolinks-track' => true %>
 </body>
 </html>

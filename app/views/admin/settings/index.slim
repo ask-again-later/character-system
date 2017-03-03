@@ -1,0 +1,9 @@
+h2 Update Storytellers
+
+= form_tag '/admin', method: :post do
+  - @users.each do |user|
+    .form-row
+      = label_tag "users_#{user.id}_is_storyteller", user.name
+      = check_box_tag "users[]", user.id, user.is_storyteller
+
+  = submit_tag "Update", class: 'button'

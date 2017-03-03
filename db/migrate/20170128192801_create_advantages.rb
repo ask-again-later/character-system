@@ -3,8 +3,9 @@ class CreateAdvantages < ActiveRecord::Migration[5.0]
     create_table :advantages do |t|
     	t.string :name
     	t.text :description
-    	t.integer :rating
-    	t.string :specification
+    	t.string :allowed_ratings, default: ""
+    	t.boolean :requires_specification, default: false
+      t.string :prerequisites, default: ""
       t.timestamps
     end
   end

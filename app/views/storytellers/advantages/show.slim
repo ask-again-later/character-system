@@ -1,0 +1,14 @@
+h2
+  = "Advantage: #{@advantage.name}"
+
+p
+  strong Allowed Ratings:
+  = @advantage.allowed_ratings.split(",").join(", ")
+
+- if @advantage.prerequisites.present?
+  p
+    strong Prerequisites:
+    = @advantage.prerequisites
+
+div.description
+  = @advantage.description.html_safe

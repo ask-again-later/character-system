@@ -18,12 +18,12 @@
       - @characters.each do |character|
         tr
           td
-            = link_to character.name, character_path
+            = link_to character.name, character_path(character)
           - if current_user.is_storyteller?
             td
               = character.user.name
           td
-            = link_to character.name edit_character_path
+            = link_to "Edit", edit_character_path(character)
           td
             = form_tag(character_path(character), method: 'DELETE') do
               = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this character?");', class: 'button'

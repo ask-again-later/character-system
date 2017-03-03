@@ -1,0 +1,4 @@
+h2 New Challenge
+
+= form_for @challenge, url: {action: 'create'} do |f|
+  = render partial: 'form', locals: {f: f}

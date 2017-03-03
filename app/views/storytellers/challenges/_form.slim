@@ -1,0 +1,14 @@
+.form-row
+  = f.label :name
+  = f.text_field :name
+
+.form-row
+  = f.label :description
+  = f.text_area :description
+
+.form-row
+  = f.label :is_creature_challenge, "Is Creature Challenge?"
+  = f.check_box :is_creature_challenge
+
+.form-row
+  = f.submit "Save", class: 'button'

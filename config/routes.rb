@@ -5,9 +5,29 @@ Rails.application.routes.draw do
 
   resources :characters
 
+  namespace :api do
+    get 'characters', to: 'characters#index'
+    get 'characters/:id', to: 'characters#show'
+
+    get 'advantages', to: 'advantages#index'
+    get 'advantages/:id', to: 'advantages#show'
+
+    get 'challenges', to: 'challenges#index'
+    get 'challenges/:id', to: 'challenges#show'
+  end
+
   namespace :admin do
-    #resources :advantages
-    #resources :challenges
+    get '/', to: 'settings#index'
+    post '/', to: 'settings#update'
+  end
+
+  namespace :storytellers do
+    get '/', to: 'dashboard#index'
+    resources :advantages
+    resources :challenges
+    resources :true_selves
+    get '/questionnaire', to: 'questionnaire_items#index'
+    post '/questionnaire', to: 'questionnaire_items#update'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
