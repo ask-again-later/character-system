@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   enable_extension "plpgsql"
 
   create_table "advantages", force: :cascade do |t|
-    t.string   "name"
-    t.text     "description"
+    t.string   "name",                                   null: false
+    t.text     "description",                            null: false
     t.string   "allowed_ratings",        default: ""
     t.boolean  "requires_specification", default: false
     t.string   "prerequisites",          default: ""
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   create_table "character_has_advantages", force: :cascade do |t|
     t.integer  "character_id",  null: false
     t.integer  "advantage_id",  null: false
-    t.integer  "rating"
+    t.integer  "rating",        null: false
     t.string   "specification"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   create_table "questionnaire_answers", force: :cascade do |t|
     t.integer  "questionnaire_item_id", null: false
     t.integer  "character_id",          null: false
-    t.text     "answer"
+    t.text     "answer",                null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.index ["character_id"], name: "index_questionnaire_answers_on_character_id", using: :btree
@@ -115,14 +115,14 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "questionnaire_items", force: :cascade do |t|
-    t.string   "question"
+    t.string   "question",   null: false
     t.integer  "order"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -143,18 +143,13 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-<<<<<<< Updated upstream
-=======
-    t.boolean  "is_storyteller",         default: false
-    t.boolean  "is_admin",               default: false
->>>>>>> Stashed changes
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "xp_records", force: :cascade do |t|
     t.integer  "character_id", null: false
-    t.integer  "amount"
+    t.integer  "amount",       null: false
     t.string   "description"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
