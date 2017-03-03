@@ -1,1 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+user_one:
+  id: 1
+  email: test@test.comp
+  encrypted_password: $2a$11$89axVuocLOv1y4bE1govMuWxIvKHYfv7n1t.BGNmvQqei5/tqGoSe # welcome
+  name: tester testerson
