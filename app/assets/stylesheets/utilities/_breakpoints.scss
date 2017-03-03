@@ -1,0 +1,27 @@
+// ------------- MEDIA QUERIES ------------- //
+
+//@media (max-width:$x-large-media-query-size)
+$x-large-media-query-size: 1600px;
+
+//@media (max-width:$large-media-query-size)
+$large-media-query-size: 1280px;
+
+//@media (max-width:$medium-media-query-size)
+$medium-media-query-size: 1025px;
+
+//@media (max-width:$small-media-query-size)
+$small-media-query-size: 700px;
+
+//@media (max-width:$mobile-media-query-size)
+$mobile-media-query-size: 340px;
+
+// ------------- BREAKPOINTS MAP ------------- //
+
+$breakpoints: (
+    large : $large-media-query-size,
+    medium: $medium-media-query-size,
+    small : $small-media-query-size,
+    mobile : $mobile-media-query-size
+);
+
+$max-page-width: $large-media-query-size;

@@ -33,3 +33,7 @@ a {
   color: $green;
   text-decoration: underline;
 }
+
+@mixin text-glow {
+  text-shadow: 1px 1px 3px #a6ada7;
+}

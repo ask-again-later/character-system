@@ -1,5 +1,5 @@
-@import "utilities/*";
 @import "base/*";
+@import "utilities/*";
 @import "components/*";
 @import "pages/*";
 
@@ -10,4 +10,5 @@
 @import "plugins/char_counter.min.css";
 @import "dataTables/jquery.dataTables";
 
+@import "hamburgers/hamburgers";
 @import "hamburgers/*";
