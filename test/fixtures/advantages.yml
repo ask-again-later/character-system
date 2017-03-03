@@ -1,11 +1,20 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+dread_attack:
+  name: Dread Attack
+  description: I am a very dread attack yooo
+  allowed_ratings: 1,2,3
+  requires_specification: true
+  prerequisites:
 
-# This model initially had no columns defined. If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one: {}
-# column: value
-#
-two: {}
-# column: value
+allies:
+  name: Allies
+  description: Your friends
+  allowed_ratings: 1,2,3,4,5
+  requires_specification: true
+  prerequisites:
+
+social_engineering:
+  name: Social Engineering
+  description: a whole bunch of stuff
+  allowed_ratings: 3
+  requires_specification: false
+  prerequisites: A whole bunch

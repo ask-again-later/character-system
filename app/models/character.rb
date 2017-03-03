@@ -8,4 +8,6 @@ class Character < ApplicationRecord
 	belongs_to :true_self
 
 	accepts_nested_attributes_for :questionnaire_answers, :character_has_challenges, :character_has_advantages
+
+	validates :user, presence: true
 end

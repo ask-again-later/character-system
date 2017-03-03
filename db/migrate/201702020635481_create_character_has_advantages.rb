@@ -3,8 +3,8 @@ class CreateCharacterHasAdvantages < ActiveRecord::Migration[5.0]
     create_table :character_has_advantages do |t|
       t.references :character, index: true, foreign_key: true, null: false
       t.references :advantage, index: true, foreign_key: true, null: false
-      t.integer :rating
-      t.string :specification
+      t.integer    :rating,    null: false
+      t.string     :specification
 
       t.timestamps
     end
