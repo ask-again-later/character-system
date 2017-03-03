@@ -1,17 +1,8 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
- *= require_self
- */
+@import "base/*";
+@import "utilities/*";
+@import "components/*";
+@import "pages/*";
+
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "froala_editor.min.css";
@@ -19,47 +10,5 @@
 @import "plugins/char_counter.min.css";
 @import "dataTables/jquery.dataTables";
 
-@import "_variables.scss";
-@import "hamburgers/hamburgers.scss";
-@import "_fonts.scss";
-@import "_base.scss";
-@import "_buttons.scss";
-@import "_header.scss";
-@import "_form.scss";
-@import "_character.scss";
-
-.template {
-  display: none;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  display: inline-block;
-  border: 2px $black solid;
-  background-color: transparent;
-  border-radius: 10px;
-  text-indent: -99px;
-  transition: .3s;
-  cursor: pointer;
-  overflow: hidden;
-  vertical-align: middle;
-  margin: 0 2px;
-
-  &.selected, &:hover {
-    background-color: $black;
-  }
-}
-
-.dot.reset {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  background-color: $black;
-  width: 5px;
-  height: 5px;
-  border-radius: 5px;
-  overflow: hidden;
-  text-indent: -99px;
-  border: none;
-}
+@import "hamburgers/hamburgers";
+@import "hamburgers/*";
