@@ -117,9 +117,11 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   create_table "questionnaire_items", force: :cascade do |t|
     t.string   "question"
     t.integer  "order"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.integer  "questionnaire_section_id"
+    t.boolean  "required",                 default: true
+    t.boolean  "extended",                 default: false
   end
 
   create_table "questionnaire_sections", force: :cascade do |t|
