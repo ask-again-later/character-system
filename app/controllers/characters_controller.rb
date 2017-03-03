@@ -112,10 +112,24 @@ class CharactersController < ApplicationController
 					@qa.save!
 				end
 			end
-			redirect_to character_path(@character)
+			if params[:wizard].present?
+				if params[:formaction] == "save"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+				elsif params[:formaction] == "save-continue"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
+				elsif params[:formaction] == "save-skip"
+					redirect_to edit_character_path(@character) and return
+				else
+					redirect_to character_path(@character) and return
+				end
+			end
+			redirect_to character_path(@character) and return
 		else
 			flash[:error] = "There was an error saving your character."
-			redirect_to edit_character_path(@character)
+			if params[:wizard].present?
+				redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+			end
+			redirect_to edit_character_path(@character) and return
 		end
 	end
 
@@ -169,24 +183,24 @@ class CharactersController < ApplicationController
 				@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 				@qa.save!
 			end
-			if params[:wizard]
-				if params[:action] == "save"
-					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}"
-				elsif params[:action] == "save-continue"
-					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}"
-				elsif params[:action] == "save-skip"
-					redirect_to edit_character_path(@character)
+			if params[:wizard].present?
+				if params[:formaction] == "save"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+				elsif params[:formaction] == "save-continue"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
+				elsif params[:formaction] == "save-skip"
+					redirect_to edit_character_path(@character) and return
 				else
-					redirect_to character_path(@character)
+					redirect_to character_path(@character) and return
 				end
 			end
-			redirect_to character_path(@character)
+			redirect_to character_path(@character) and return
 		else
 			flash[:error] = "There was an error saving your character."
-			if params[:wizard]
-				redirect_to new_character_wizard_path
+			if params[:wizard].present?
+				redirect_to new_character_wizard_path and return
 			end
-			redirect_to new_character_path
+			redirect_to new_character_path and return
 		end
 	end
 
@@ -204,9 +218,10 @@ class CharactersController < ApplicationController
 
 	def wizard_questionnaire
 		@questionnaire = QuestionnaireSection.all.order(:order)
-		@page = @questionnaire[params[:page]-1]
+		@page = @questionnaire[params[:page].to_i-1]
 		@character = Character.find(params[:id])
-		if @character.empty?
+		@questionnaire_answers = @character.questionnaire_answers
+		unless @character.present?
 			redirect_to new_character_wizard_path
 		end
 	end

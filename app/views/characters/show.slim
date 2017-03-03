@@ -110,4 +110,5 @@ h3 Questionnaire
     .question-text
       = qi.question
     .question-answer
-      = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
+      - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
+        = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe

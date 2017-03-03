@@ -1,0 +1,23 @@
+= form_for @character, method: 'PATCH' do |f|
+
+  h2 Character Creation Wizard: #{@character.name}
+
+  h3 Basics
+
+  .form-row
+    = f.label :pronouns
+    = f.text_field :pronouns, @character.pronouns
+
+  .form-row
+    = f.label :true_self_id, "True Self"
+    = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
+
+  = hidden_field_tag "wizard_current", "basics"
+  = hidden_field_tag "wizard", "skills_trainings"
+
+  = hidden_field_tag "formaction", "", id: 'form-action'
+  = f.submit "Save", id: 'save'
+  = f.submit "Save and Continue", id: 'save-continue'
+  = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+
+= javascript_include_tag 'wizard', 'data-turbolinks-track' => true

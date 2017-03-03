@@ -54,21 +54,21 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",                       null: false
-    t.string   "pronouns",      default: "", null: false
-    t.integer  "status",        default: 0,  null: false
+    t.string   "name"
+    t.string   "pronouns",      default: ""
+    t.integer  "status",        default: 0
     t.text     "public_blurb",  default: ""
     t.integer  "user_id",                    null: false
-    t.integer  "true_self_id",               null: false
-    t.integer  "intelligence",  default: 1,  null: false
-    t.integer  "wits",          default: 1,  null: false
-    t.integer  "resolve",       default: 1,  null: false
-    t.integer  "strength",      default: 1,  null: false
-    t.integer  "dexterity",     default: 1,  null: false
-    t.integer  "stamina",       default: 1,  null: false
-    t.integer  "presence",      default: 1,  null: false
-    t.integer  "manipulation",  default: 1,  null: false
-    t.integer  "composure",     default: 1,  null: false
+    t.integer  "true_self_id"
+    t.integer  "intelligence",  default: 1
+    t.integer  "wits",          default: 1
+    t.integer  "resolve",       default: 1
+    t.integer  "strength",      default: 1
+    t.integer  "dexterity",     default: 1
+    t.integer  "stamina",       default: 1
+    t.integer  "presence",      default: 1
+    t.integer  "manipulation",  default: 1
+    t.integer  "composure",     default: 1
     t.integer  "handy",         default: 0
     t.integer  "religion",      default: 0
     t.integer  "bureaucracy",   default: 0
