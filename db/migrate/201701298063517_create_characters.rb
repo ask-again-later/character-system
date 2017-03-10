@@ -9,7 +9,7 @@ class CreateCharacters < ActiveRecord::Migration[5.0]
       t.references :true_self,          index: true, foreign_key: true
       t.integer :intelligence,          default: 1
       t.integer :wits,                  default: 1
-      t.integer :resolve,               default: 1,
+      t.integer :resolve,               default: 1
       t.integer :strength,              default: 1
       t.integer :dexterity,             default: 1
       t.integer :stamina,               default: 1
