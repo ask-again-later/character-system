@@ -117,6 +117,8 @@ class CharactersController < ApplicationController
 			if params[:wizard].present?
 				if params[:formaction] == "save"
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+				elsif params[:formaction] == "save-back"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_prev]}" and return
 				elsif params[:formaction] == "save-continue"
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
 				elsif params[:formaction] == "save-skip"

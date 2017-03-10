@@ -25,6 +25,7 @@
                     = f.radio_button val.parameterize("_").to_sym, i, label: false
 
   = hidden_field_tag "wizard_current", "skills_trainings"
+  = hidden_field_tag "wizard_prev", "basics"
   = hidden_field_tag "wizard", "challenges_advantages"
 
   = hidden_field_tag "formaction", "", id: 'form-action'

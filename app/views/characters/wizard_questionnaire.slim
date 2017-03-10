@@ -28,7 +28,7 @@
           = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
   = hidden_field_tag "wizard_current", @page.id
-  = hidden_field_tag "wizard_back", @page.id == 1 ? 'wizard' : @page.id-1
+  = hidden_field_tag "wizard_prev", @page.id != @questionnaire.second.id ? @page.id-1 : ''
   = hidden_field_tag "wizard", @questionnaire.length > @page.id ? @page.id+1 : 'basics'
 
   = hidden_field_tag "formaction", "", id: 'form-action'
