@@ -81,7 +81,7 @@ $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
   $modal.find('#modal-specification').val(specification);
   $modal.find('#modal-id').val(index);
 
-  $('.overlay').fadeIn();
+  $('.overlay').fadeIn().css("display", "flex");
 });
 
 $('#save-advantage').on('click', function(e) {

@@ -32,6 +32,19 @@ select {
   height: 44px;
 }
 
+.form-row {
+  margin: 20px 0;
+
+  button + button {
+    margin-left: 10px;
+  }
+}
+
+label + select,
+label + input {
+  margin-left: 10px;
+}
+
 .template {
   display: none;
 }
