@@ -1,6 +1,9 @@
 = form_for @character, url: {action: 'create'} do |f|
   h2 Character Creation Wizard
 
+  - if params[:id].present?
+    = render partial: 'wizard_toc'
+
   = hidden_field_tag "character[user_id]", current_user.id
 
   .form-row

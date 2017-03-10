@@ -227,7 +227,11 @@ class CharactersController < ApplicationController
 	def wizard
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@section = @questionnaire.first
-		@character = Character.new
+		if params[:id].present?
+			@character = Character.find(params[:id])
+		else
+			@character = Character.new
+		end
 	end
 
 	def wizard_questionnaire
