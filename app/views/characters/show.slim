@@ -117,3 +117,5 @@ h3 Questionnaire
             .question-answer
               - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
                 = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
+
+= javascript_include_tag 'characters', 'data-turbolinks-track' => true
