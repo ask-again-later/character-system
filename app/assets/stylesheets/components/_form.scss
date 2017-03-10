@@ -1,5 +1,7 @@
 input[type="text"],
 input[type="number"],
+input[type="email"],
+input[type="password"],
 textarea {
   background-color: $white;
   border: 1px $black solid;
@@ -34,6 +36,11 @@ select {
 
 .form-row {
   margin: 20px 0;
+
+  strong {
+    min-width: 100px;
+    display: inline-block;
+  }
 
   button + button {
     margin-left: 10px;

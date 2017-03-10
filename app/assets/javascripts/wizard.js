@@ -1,3 +1,9 @@
+$('#back').on('click', function(e) {
+  e.preventDefault();
+  $('#form-action').val('save-back');
+  $('form').submit();
+});
+
 $('#save').on('click', function(e) {
   e.preventDefault();
   $('#form-action').val('save');

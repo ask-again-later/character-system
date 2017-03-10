@@ -28,9 +28,11 @@
           = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
   = hidden_field_tag "wizard_current", @page.id
+  = hidden_field_tag "wizard_back", @page.id == 1 ? 'wizard' : @page.id-1
   = hidden_field_tag "wizard", @questionnaire.length > @page.id ? @page.id+1 : 'basics'
 
   = hidden_field_tag "formaction", "", id: 'form-action'
+  = f.submit "Back", id: 'back'
   = f.submit "Save", id: 'save'
   = f.submit "Save and Next Page", id: 'save-continue'
   = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
