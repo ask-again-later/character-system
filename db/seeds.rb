@@ -19,10 +19,44 @@ challenges_list = [
   ["Single Parent", "You are a single parent", false]
 ]
 
+questionnaire_sections_list = [
+  ["About Your Character", 1],
+  ["Your Character's Struggles", 2],
+  ["Optional Questions", 3],
+  ["Additional Information", 4],
+  ["Extended Written Proposal", 5]
+]
+
 questionnaire_items_list = [
-  ["Are you a player?", 1],
-  ["Do you enjoy cheese?", 2],
-  ["What about cows?", 3]
+  ["What are your character’s most valued Norms? What shocks or offends your character?", 1, 1, true, false],
+  ["What is your character's goal in life?", 2, 1, true, false],
+  ["What is your character’s day-to-day life like? Do they have any hobbies? What do they do to make money? How do they have fun?", 3, 1, true, false],
+  ["Describe your character's personal life. What's their relationship like with their parents? Do they have any close friends? Romantic relationships? Children or siblings?", 4, 1, true, false],
+  ["What are your character's religious/spiritual views?", 5, 1, true, false],
+  ["How does your character deal with hardship and stress?", 6, 2, true, false],
+  ["What is one memory your character has of the unexplainable? Why has it stuck with them?", 7, 2],
+  ["What is your character most afraid of?", 8, 2, true, false],
+  ["What does your character consider to be the worst thing they have ever done?", 9, 2, true, false],
+  ["Has your character had any traumatic experiences? Describe the one that affected them the most.", 10, 2, true, false],
+  ["What does your character think makes someone or something a monster?", 11, 2, true, false],
+  ["If you are a supernatural creature, how did you become one? Was it your choice? How has it changed your life? How do you hide your unnatural state?", 12, 2, true, false],
+  ["Has your character ever left Nulpert County, or Winnemac? If so why? Why did they return to Osthigwanegon?", 13, 3, false, false],
+  ["How has life been unfair to your character? Why does your character believe they haven’t gotten further in life?", 14, 3, false, false],
+  ["What is your character hiding from the people around them? What is their most closely kept secret?", 15, 3, false, false],
+  ["What does loss mean to your character? What is a noteworthy loss they have experienced?", 16, 3, false, false],
+  ["What is one thing your character believes about themselves, that isn't actually true?", 17, 3, false, false],
+  ["What does your character believe makes for a successful life?", 18, 3, false, false],
+  ["Under what circumstances would your character kill another human being?", 19, 3, false, false],
+  ["What does your character like about their life?", 20, 3, false, false],
+  ["What is your character’s proudest achievement?", 21, 3, false, false],
+  ["Is there anything else we need to know about your character or their history?", 22, 4, false, false],
+  ["What are your goals for your character, OOC, if any?", 23, 4, false, false],
+  ["Describe your character’s profession, career, level of education, or majority of their daily life in detail. What are they good at? What are they bad at? Mention specific Skills or Special Trainings if possible.", 24, 5, true, true],
+  ["What Norms does your character struggle with? What makes them an outsider? Mention specific True Selves and Challenges if possible.", 25, 5, true, true],
+  ["Is your character able to do things that others cannot? Are they supernatural in any way? Weirdly good at that one thing? Mention specific Advantages if possible.", 26, 5, true, true],
+  ["What are your character’s hobbies? Does your character have any specific membership within or to connections to a group, whether public or private?", 27, 5, true, true],
+  ["Is there anything else you have seen in the specific mechanics you would like your character to be able to do? Anything you want to avoid, whether for complexity reasons or otherwise?", 28, 5, true, true],
+  ["Is there any particular part of the setting not yet mentioned you want to engage with? Anything you want to avoid?", 29, 5, true, true]
 ]
 
 true_selves_list = [
@@ -90,9 +124,14 @@ challenges_list.each do |name, description, is_creature_challenge|
                    is_creature_challenge: is_creature_challenge)
 end
 
-questionnaire_items_list.each do |question, order|
+questionnaire_sections_list.each do |section, order|
+  puts "Creating seed Questionnaire Sections"
+  QuestionnaireSection.create(title: section, order: order)
+end
+
+questionnaire_items_list.each do |question, order, section, required, extended|
   puts "Creating seed Questions"
-  QuestionnaireItem.create(question: question, order: order)
+  QuestionnaireItem.create(question: question, order: order, questionnaire_section_id: section, required: required, extended: extended)
 end
 
 true_selves_list.each do |name|

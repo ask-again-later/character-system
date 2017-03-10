@@ -6,7 +6,5 @@ class CreateQuestionnaireSections < ActiveRecord::Migration[5.0]
       t.integer :order, default: 0
       t.timestamps
     end
-
-    add_column :questionnaire_items, :questionnaire_section_id, :integer
   end
 end
