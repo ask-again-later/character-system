@@ -32,6 +32,7 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = current_user
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_items.each do |q|
 			QuestionnaireAnswer.new(character: @character,
@@ -50,6 +51,7 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = @character.user
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_answers = @character.questionnaire_answers
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
