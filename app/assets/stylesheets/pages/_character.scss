@@ -74,3 +74,17 @@
     }
   }
 }
+
+.questionnaire {
+  h4 {
+    cursor: pointer;
+
+    &.open {
+
+    }
+  }
+
+  .section-content {
+    display: none;
+  }
+}

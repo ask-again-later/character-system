@@ -18,5 +18,4 @@
 //= require plugins/lists.min.js
 //= require plugins/char_counter.min.js
 //= require dataTables/jquery.dataTables
-
-$('.table').dataTable();
+//= require common

@@ -19,7 +19,7 @@ class CharactersController < ApplicationController
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end

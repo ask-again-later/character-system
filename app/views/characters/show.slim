@@ -105,10 +105,15 @@ p.speed
 
 h3 Questionnaire
 
-- @questionnaire_items.each do |qi|
-  .question
-    .question-text
-      = qi.question
-    .question-answer
-      - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
-        = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
+.questionnaire
+  - @questionnaire_sections.each do |qs|
+    .questionnaire-section
+      h4 #{qs.title}
+      .section-content
+        - qs.questionnaire_items.each do |qi|
+          .question
+            .question-text
+              = qi.question
+            .question-answer
+              - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
+                = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
