@@ -1,6 +1,9 @@
 .form-row
   = f.label :name
   = f.text_field :name
+.form-row
+  = f.label :description
+  = f.text_area :description
 
 .form-row
   = f.submit "Save", class: 'button'

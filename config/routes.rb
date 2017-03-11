@@ -21,6 +21,9 @@ Rails.application.routes.draw do
 
     get 'challenges', to: 'challenges#index'
     get 'challenges/:id', to: 'challenges#show'
+
+    get 'true_selves', to: 'true_selves#index'
+    get 'true_selves/:id', to: 'true_selves#show'
   end
 
   namespace :admin do
