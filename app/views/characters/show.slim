@@ -60,16 +60,18 @@ h3 Skills and Special Training
 h3 Advantages
 
 ul#advantages
-  - @character.character_has_advantages.each do |cha|
-    li
-      p.name
-        = cha.advantage.name
-        - if cha.advantage.requires_specification?
-          = " (#{cha.specification})"
-        - if cha.advantage.allowed_ratings.length > 1
-          = " #{cha.rating}"
-      p.desc
-        = cha.advantage.description.html_safe
+  - @character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+    - group.each_with_index do |cha, i|
+      li
+        p.name
+          = cha.advantage.name
+          - if cha.advantage.requires_specification?
+            = " (#{cha.specification})"
+          - if cha.advantage.allowed_ratings.length > 1
+            = " #{cha.rating}"
+        - if i == group.length-1
+          p.desc
+            = cha.advantage.description.html_safe
 
 h3 Challenges
 
