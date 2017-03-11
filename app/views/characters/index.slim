@@ -13,6 +13,7 @@
         th Name
         - if current_user.is_storyteller?
           th Player Name
+        th Status
         th
         th
     tbody
@@ -23,6 +24,8 @@
           - if current_user.is_storyteller?
             td
               = character.user.name
+          td
+            = character.get_status
           td
             = link_to "Edit", edit_character_path(character)
           td

@@ -1,11 +1,9 @@
 class CharactersController < ApplicationController
 	before_action :authenticate_user!
 
-	helper_method :get_status
-
 	ATTRIBUTES = {"Mental": ["Intelligence", "Wits", "Resolve"], "Physical": ["Strength", "Dexterity", "Stamina"], "Social": ["Presence", "Manipulation", "Composure"]}
 	SKILLS_TRAINING = {"Skills": ["Artsy", "Athletics", "Bureaucracy", "Drive", "Empathy", "Fight", "Guns", "Handy", "Intimidation", "Lies", "Outdoorsy", "Persuasion", "Religion", "Stealth", "Theft"], "Special Training": ["Academics", "Computers", "Engineering", "Investigation", "Law", "Local Lore", "Medicine", "Science"]}
-	STATUS_ENUM = ["Editing", "Submitted", "Active", "Inactive"]
+	STATUS_ENUM = [["In Progress", 0], ["Submitted", 1], ["Active", 2], ["Inactive", 3]]
 
 	def index
 		if current_user.is_storyteller
@@ -35,6 +33,7 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = current_user
+		@statuses = STATUS_ENUM
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		if !@character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
@@ -58,6 +57,7 @@ class CharactersController < ApplicationController
 		@challenges = Challenge.all
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+		@statuses = STATUS_ENUM
 		if !@character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
@@ -70,6 +70,9 @@ class CharactersController < ApplicationController
 
 	def update
 		@character = Character.find(params[:id])
+		if params[:submit].present? && params[:submit]
+			@character.status = 1
+		end
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
 			if params[:character][:character_has_challenges].present?
@@ -302,10 +305,6 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended)
-	end
-
-	def get_status(status)
-		STATUS_ENUM[status]
+		params.require(:character).permit(:name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended)
 	end
 end

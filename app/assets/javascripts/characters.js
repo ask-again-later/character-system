@@ -139,3 +139,9 @@ $('.dot').on('click', function(e) {
     $(this).find('input').change();
   }
 });
+
+$('#save-submit').on('click', function(e) {
+  e.preventDefault();
+  $('#status').val(1);
+  $('form').submit();
+});
