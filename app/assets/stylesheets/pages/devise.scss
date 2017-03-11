@@ -1,0 +1,41 @@
+.devise-page {
+  flex: 1;
+  background-image: url('/assets/misty-woods.jpg');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &-form {
+    padding: 1.2em;
+    background-color: rgba(256, 256, 256, 0.4);
+    box-shadow: 0 0 17px 10px rgba(255,255,255,0.4);
+    border-radius: 5px;
+    max-width: 500px;
+
+    h2 {
+      margin-bottom: .5em;
+    }
+
+    form {
+      margin-bottom: .5em;
+
+      > .field {
+        margin-bottom: .5em;
+
+        > .help-text {
+          font-style: italic;
+          font-size: .8em;
+        }
+      }
+
+      > .actions {
+        margin: 1em 0;
+      }
+    }
+
+    a {
+      color: $black;
+    }
+  }
+}
