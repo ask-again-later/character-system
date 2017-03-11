@@ -10,4 +10,12 @@ class Character < ApplicationRecord
 	accepts_nested_attributes_for :questionnaire_answers, :character_has_challenges, :character_has_advantages
 
 	validates :user, presence: true
+
+	def get_status
+		return STATUS[self.status]
+	end
+
+	private
+
+	STATUS = ["In Progress", "Submitted", "Active", "Inactive"]
 end
