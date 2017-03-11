@@ -142,6 +142,6 @@ $('.dot').on('click', function(e) {
 
 $('#save-submit').on('click', function(e) {
   e.preventDefault();
-  $('#submit').val(true);
+  $('#status').val(1);
   $('form').submit();
 });

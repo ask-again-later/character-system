@@ -70,6 +70,9 @@ class CharactersController < ApplicationController
 
 	def update
 		@character = Character.find(params[:id])
+		if params[:submit].present? && params[:submit]
+			@character.status = 1
+		end
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
 			if params[:character][:character_has_challenges].present?
