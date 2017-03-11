@@ -1,5 +1,7 @@
 input[type="text"],
 input[type="number"],
+input[type="email"],
+input[type="password"],
 textarea {
   background-color: $white;
   border: 1px $black solid;
@@ -21,6 +23,33 @@ textarea {
     -webkit-box-shadow: 0 0 6px rgba($green, .5);
     border-color: $green;
   }
+}
+
+select {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px $black solid;
+  background-color: $white;
+  font-size: 16px;
+  height: 44px;
+}
+
+.form-row {
+  margin: 20px 0;
+
+  strong {
+    min-width: 100px;
+    display: inline-block;
+  }
+
+  button + button {
+    margin-left: 10px;
+  }
+}
+
+label + select,
+label + input {
+  margin-left: 10px;
 }
 
 .template {

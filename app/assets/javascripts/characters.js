@@ -58,19 +58,30 @@ $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
       } else {
         $modal.find('.specification').show();
       }
+      var ratings = data.allowed_ratings.split(",");
+      var opt = "";
+      $modal.find('#modal-rating').empty();
+      for (var i = 0; i < ratings.length; i++) {
+        opt = "<option value='"+ratings[i]+"'";
+        if (ratings[i] === rating) {
+          opt += " selected='selected'";
+        }
+        opt += ">"+ratings[i]+"</option>";
+        $modal.find('#modal-rating').append(opt);
+      }
       if (!(data.allowed_ratings.length > 1)) {
-        $modal.find('.rating').hide();
+        $modal.find('.rating').attr("disabled", "disabled");
       } else {
-        $modal.find('.rating').show();
+        $modal.find('.rating').removeAttr("disabled");
       }
     }
-  })
+  });
   // put the data in the modal from the advantage
-  $modal.find('#modal-rating').val(rating);
+
   $modal.find('#modal-specification').val(specification);
   $modal.find('#modal-id').val(index);
 
-  $('.overlay').fadeIn();
+  $('.overlay').fadeIn().css("display", "flex");
 });
 
 $('#save-advantage').on('click', function(e) {
@@ -103,7 +114,7 @@ $('#challenge-add').on('click', function(e) {
   var name = $selected.text();
   var challengeId = $selected.val();
 
-  $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
+  $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
 
   $.ajax({
     url: '/api/challenges/'+challengeId,

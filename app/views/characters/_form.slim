@@ -113,20 +113,24 @@ h3 Public Blurb
 = f.text_area :public_blurb
 
 h3 Questionnaire
-
-- if @questionnaire_items.present?
-  - @questionnaire_items.each do |question|
-    .question
-      .question-text
-        = question.question
-      - if @questionnaire_answers.where(questionnaire_item_id: question.id).length > 0
-        - current_question = @questionnaire_answers.where(questionnaire_item_id: question.id).first
-        = text_area_tag "character[questionnaire_answers][][answer]", current_question.answer
-        = hidden_field_tag "character[questionnaire_answers][][id]", current_question.id
-      - else
-        = text_area_tag "character[questionnaire_answers][][answer]"
-        = hidden_field_tag "character[questionnaire_answers][][id]"
-      = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+.questionnaire
+  - if @questionnaire_sections.present?
+    - @questionnaire_sections.each do |qs|
+      h4 #{qs.title}
+      .section-content
+        - if qs.questionnaire_items.present?
+          - qs.questionnaire_items.each do |question|
+            .question
+              .question-text
+                = question.question
+              - if @questionnaire_answers.where(questionnaire_item_id: question.id).length > 0
+                - current_question = @questionnaire_answers.where(questionnaire_item_id: question.id).first
+                = text_area_tag "character[questionnaire_answers][][answer]", current_question.answer
+                = hidden_field_tag "character[questionnaire_answers][][id]", current_question.id
+              - else
+                = text_area_tag "character[questionnaire_answers][][answer]"
+                = hidden_field_tag "character[questionnaire_answers][][id]"
+              = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
 = f.submit "Save"
 
@@ -142,7 +146,7 @@ h3 Questionnaire
 
       .form-row.rating
         = label_tag :rating
-        = number_field_tag :rating, "", id: 'modal-rating'
+        = select_tag :rating, "", id: 'modal-rating'
 
       .form-row#modal-description
 
@@ -152,4 +156,4 @@ h3 Questionnaire
         = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
         = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
 
-<%= javascript_include_tag 'characters', 'data-turbolinks-track' => true %>
+= javascript_include_tag 'characters', 'data-turbolinks-track' => true

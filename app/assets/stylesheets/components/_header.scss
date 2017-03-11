@@ -22,10 +22,89 @@ header {
       padding: 0;
       display: flex;
 
-      li a {
-        text-decoration: none;
-        color: $white;
-        @include text-glow;
+      > li {
+        position: relative;
+
+        > a, > span {
+          text-decoration: none;
+          color: $white;
+          height: auto;
+          @include text-glow;
+
+          &:after {
+            content: "";
+            background-color: $ash-grey;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            opacity: 0;
+            transition: .5s;
+            transform: translateY(5px);
+          }
+
+          &:hover {
+            &:after {
+              transform: translateY(0);
+              opacity: 1;
+            }
+          }
+        }
+        ul.sub-menu {
+          display: block;
+          position: absolute;
+          top: calc(100% - 2px);
+          left: 0;
+          border-top: 2px $ash-grey solid;
+          background-color: $dirty-polaroid;
+          box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+          opacity: 0;
+          transform: translateY(-5px);
+          transition: transform .5s, opacity .5s;
+          z-index: 99;
+          min-width: 100%;
+          pointer-events: none;
+          height: auto;
+
+          li {
+            margin: 0;
+            padding: 0;
+            height: auto;
+
+            a {
+              color: $black !important;
+              padding: 10px;
+              white-space: nowrap;
+              width: 100%;
+              height: auto;
+              line-height: 1;
+              display: block;
+
+              &:hover {
+                background-color: rgba($silver, .3);
+              }
+
+              &:after {
+                display: none;
+              }
+            }
+          }
+        }
+        &:hover {
+          a {
+            &:after {
+              opacity: 1;
+              transform: translate(0);
+            }
+          }
+          ul.sub-menu {
+            transform: translateY(0);
+            opacity: 1;
+            display: block;
+            pointer-events: all;
+          }
+        }
       }
     }
   }
@@ -62,10 +141,6 @@ header {
           padding: 0 .8em;
           display: flex;
           align-items: center;
-
-          &:hover {
-            background-color: $green;
-          }
 
         }
 

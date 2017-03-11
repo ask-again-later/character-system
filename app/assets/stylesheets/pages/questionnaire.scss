@@ -1,0 +1,20 @@
+.toc {
+  float: right;
+  border: 1px $black solid;
+  padding: 0 20px 20px;
+  width: 250px;
+
+  .title {
+      font-weight: bold;
+      position: relative;
+      top: -10px;
+      background-color: $white;
+      padding: 0 5px;
+      display: inline-block;
+  }
+
+  ol {
+    list-style: decimal;
+    padding-left: 25px;
+  }
+}

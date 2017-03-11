@@ -19,7 +19,10 @@ class CharactersController < ApplicationController
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path
 		end
@@ -32,6 +35,10 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = current_user
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_items.each do |q|
 			QuestionnaireAnswer.new(character: @character,
@@ -50,6 +57,10 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all
 		@challenges = Challenge.all
 		@player = @character.user
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+		if !@character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_answers = @character.questionnaire_answers
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
@@ -103,19 +114,41 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			params[:character][:questionnaire_answers].each do |qa|
-				if qa[:id].present?
-					@qa = QuestionnaireAnswer.find(qa[:id])
-					@qa.update_attributes!(answer: qa[:answer])
-				else
-					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
-					@qa.save!
+			if params[:character][:questionnaire_answers].present?
+				params[:character][:questionnaire_answers].each do |qa|
+					if qa[:id].present?
+						@qa = QuestionnaireAnswer.find(qa[:id])
+						@qa.update_attributes!(answer: qa[:answer])
+					else
+						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
+						@qa.save!
+					end
 				end
 			end
-			redirect_to character_path(@character)
+			if params[:wizard].present?
+				if params[:formaction] == "save"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+				elsif params[:formaction] == "save-back"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_prev]}" and return
+				elsif params[:formaction] == "save-continue"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
+				elsif params[:formaction] == "save-skip"
+					redirect_to edit_character_path(@character) and return
+				elsif params[:formaction] == "switch-non-mechanics"
+					@first_qual = QuestionnaireSection.all.order(:order)
+					@first_qual = @first_qual.to_a.reject! {|q| q.questionnaire_items.where(extended: false).any? }
+					redirect_to "/characters/#{@character.id}/wizard/#{@first_qual.first.id}" and return
+				else
+					redirect_to character_path(@character) and return
+				end
+			end
+			redirect_to character_path(@character) and return
 		else
 			flash[:error] = "There was an error saving your character."
-			redirect_to edit_character_path(@character)
+			if params[:wizard].present?
+				redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+			end
+			redirect_to edit_character_path(@character) and return
 		end
 	end
 
@@ -165,14 +198,34 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			params[:character][:questionnaire_answers].each do |qa|
-				@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
-				@qa.save!
+			if params[:character][:questionnaire_answers].present?
+				params[:character][:questionnaire_answers].each do |qa|
+					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
+					@qa.save!
+				end
 			end
-			redirect_to character_path(@character)
+			if params[:wizard].present?
+				if params[:formaction] == "save"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
+				elsif params[:formaction] == "save-continue"
+					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard]}" and return
+				elsif params[:formaction] == "save-skip"
+					redirect_to edit_character_path(@character) and return
+				elsif params[:formaction] == "switch-non-mechanics"
+					@first_qual = QuestionnaireSection.all.order(:order)
+					@first_qual = @first_qual.to_a.reject! {|q| q.questionnaire_items.where(extended: false)}
+					redirect_to "/characters/#{@character.id}/wizard/#{@first_qual.first.id}" and return
+				else
+					redirect_to character_path(@character) and return
+				end
+			end
+			redirect_to character_path(@character) and return
 		else
 			flash[:error] = "There was an error saving your character."
-			redirect_to new_character_path
+			if params[:wizard].present?
+				redirect_to new_character_wizard_path and return
+			end
+			redirect_to new_character_path and return
 		end
 	end
 
@@ -182,6 +235,66 @@ class CharactersController < ApplicationController
 		redirect_to characters_path
 	end
 
+	def wizard
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@section = @questionnaire.first
+		if params[:id].present?
+			@character = Character.find(params[:id])
+		else
+			@character = Character.new
+		end
+	end
+
+	def wizard_questionnaire
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@character = Character.find(params[:id])
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		unless @character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
+		@page = @questionnaire[params[:page].to_i-1]
+		@questionnaire_answers = @character.questionnaire_answers
+	end
+
+	def wizard_basics
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@character = Character.find(params[:id])
+		@attributes = ATTRIBUTES
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		unless @character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
+	end
+
+	def wizard_skills_trainings
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@character = Character.find(params[:id])
+		@skills_training = SKILLS_TRAINING
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		unless @character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
+	end
+
+	def wizard_challenges_advantages
+		@questionnaire = QuestionnaireSection.all.order(:order)
+		@character = Character.find(params[:id])
+		@advantages = Advantage.all.order(:name)
+		@challenges = Challenge.all.order(:name)
+		unless @character.present?
+			redirect_to new_character_wizard_path and return
+		end
+		unless @character.use_extended
+			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
+		end
+	end
+
 	def validate_character
 
 	end
@@ -189,7 +302,7 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :character_has_challenges => [:character_id, :challenge_id], :character_has_advantages => [:character_id, :advantage_id, :specification])
+		params.require(:character).permit(:name, :user_id, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended)
 	end
 
 	def get_status(status)
