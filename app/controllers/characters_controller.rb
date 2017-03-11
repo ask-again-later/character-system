@@ -242,7 +242,7 @@ class CharactersController < ApplicationController
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
-		if !@character.use_extended
+		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 		@page = @questionnaire[params[:page].to_i-1]
@@ -256,7 +256,7 @@ class CharactersController < ApplicationController
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
-		if !@character.use_extended
+		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
@@ -268,7 +268,7 @@ class CharactersController < ApplicationController
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
-		if !@character.use_extended
+		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
@@ -281,7 +281,7 @@ class CharactersController < ApplicationController
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
-		if !@character.use_extended
+		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
