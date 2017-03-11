@@ -5,7 +5,7 @@
       <ul>
         <% if current_user %>
           <li class="parent"><span>My Characters</span>
-            <ul>
+            <ul class="sub-menu">
                 <% current_user.characters.each do |character| %>
                   <li><%= link_to character.name, character_path(character) %></li>
                 <% end %>
