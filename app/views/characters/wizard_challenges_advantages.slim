@@ -30,19 +30,32 @@
 
   select name="challenges" id="challenges"
     - @challenges.each do |challenge|
-      option value="#{challenge.id}" #{challenge.name}
+      option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
   = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
       li
-        = "#{challenge.challenge.name} "
+        - if challenge.challenge.is_custom
+          - if challenge.custom_name.present?
+            = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
+          - else
+            = "<span class='custom-name'>#{challenge.challenge.name}</span> ".html_safe
+        - else
+          = "#{challenge.challenge.name} "
+        - if challenge.challenge.is_custom
+          = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'challenge-edit'
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
-        - if challenge.challenge.description.present?
+        - if challenge.custom_description.present?
+          .description
+            = challenge.custom_description.html_safe
+        - elsif challenge.challenge.description.present?
           .description
             = challenge.challenge.description.html_safe
         = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
+        = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
+        = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
 
   = hidden_field_tag "wizard_current", "challenges_advantages"
   = hidden_field_tag "wizard_prev", "skills_trainings"
@@ -73,6 +86,26 @@
       .form-row
         = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
         = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
+
+.overlay#challenges-overlay
+  .modal
+    .header
+      | Edit Challenge:
+      span
+    .content
+      .form-row.name
+        = label_tag :custom_name, "Name"
+        = text_field_tag :custom_name, "", id: 'modal-custom-name'
+
+      .form-row.description
+        = label_tag :custom_description, "Description"
+        = text_area_tag :custom_description, "", id: 'modal-custom-description'
+
+      = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
+
+      .form-row
+        = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
+        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
 
 = javascript_include_tag 'wizard', 'data-turbolinks-track' => true
 = javascript_include_tag 'characters', 'data-turbolinks-track' => true
