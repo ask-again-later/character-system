@@ -1,0 +1,126 @@
+- @characters.each do |character|
+  .sheet
+    h2
+      = "Character: #{character.name}"
+
+    .form-row
+      strong Name
+      = character.name
+    .form-row
+      strong Status
+      = character.get_status
+    .form-row
+      strong Character Pronouns
+      = character.pronouns
+    .form-row
+      strong Player
+      = character.user.name
+    .form-row
+      strong True Self
+      - if character.true_self
+        = character.true_self.name
+
+    h3 Attributes
+
+    .flex-container
+      - @attributes.each do |cat, vals|
+        .column
+          strong
+            = cat
+          - vals.each do |val|
+            .row
+              span.label
+                = val
+              .dots
+                - eval("character.#{val.parameterize("_")}").times do
+                  = icon 'circle'
+
+                - (5-eval("character.#{val.parameterize("_")}")).times do
+                  = icon 'circle-o'
+
+              .numeric
+                = eval "character.#{val.parameterize("_")}"
+
+    h3 Skills and Special Training
+
+    .flex-container
+      - @skills_training.each do |cat, vals|
+        .column
+          strong
+            = cat
+          - vals.each do |val|
+            .row
+              span.label
+                = val
+              .dots
+                - eval("character.#{val.parameterize("_")}").times do
+                  = icon 'circle'
+
+                - (5-eval("character.#{val.parameterize("_")}")).times do
+                  = icon 'circle-o'
+
+              .numeric
+                = eval "character.#{val.parameterize("_")}"
+
+    h3 Advantages
+
+    ul#advantages
+      - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+        - group.each_with_index do |cha, i|
+          li
+            p.name
+              = cha.advantage.name
+              - if cha.advantage.requires_specification?
+                = " (#{cha.specification})"
+              - if cha.advantage.allowed_ratings.length > 1
+                = " #{cha.rating}"
+            - if i == group.length-1
+              p.desc
+                = cha.advantage.description.html_safe
+
+    h3 Challenges
+
+    ul#advantages
+      - character.character_has_challenges.each do |chc|
+        li
+          p.name
+            = chc.challenge.name
+          p.desc
+            = chc.challenge.description
+
+    h3 Derived Stats
+
+    p.willpower
+      strong Willpower:
+      = character.willpower
+
+    p.health
+      strong Health:
+      = character.health
+
+    p.initiative
+      strong Initiative:
+      = character.initiative
+
+    p.defense
+      strong Defense:
+      = character.defense
+
+    p.speed
+      strong Speed:
+      = character.speed
+
+    h3 Questionnaire
+
+    .questionnaire
+      - @questionnaire_sections.each do |qs|
+        .questionnaire-section
+          h4 #{qs.title}
+          .section-content
+            - qs.questionnaire_items.each do |qi|
+              .question
+                .question-text
+                  = qi.question
+                .question-answer
+                  - if character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
+                    = character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
