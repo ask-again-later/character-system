@@ -10,3 +10,15 @@ body {
   line-height: 22px;
   font-family: 'Roboto', sans-serif;
 }
+
+.sheet {
+  page-break-after: always;
+
+  .stats {
+    page-break-after: always;
+  }
+
+  .qualitative {
+    page-break-before: always;
+  }
+}
