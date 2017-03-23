@@ -184,3 +184,15 @@ $('#save-submit').on('click', function(e) {
   $('#status').val(1);
   $('form').submit();
 });
+
+$('#character_is_npc').on('change', function() {
+  if ($(this).is(':checked')) {
+    $('.qualitative').hide();
+    $('.blurb').hide();
+  } else {
+    $('.qualitative').show();
+    $('.blurb').show();
+  }
+});
+
+$('#character_is_npc').change();
