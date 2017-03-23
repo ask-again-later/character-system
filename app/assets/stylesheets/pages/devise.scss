@@ -12,6 +12,7 @@
     box-shadow: 0 0 17px 10px rgba(255,255,255,0.4);
     border-radius: 5px;
     max-width: 500px;
+    margin: 18px 0;
 
     h2 {
       margin-bottom: .5em;
@@ -27,11 +28,24 @@
           font-style: italic;
           font-size: .8em;
         }
+
+        input {
+          width: 80%;
+          min-width: 350px;
+        }
       }
 
       > .actions {
         margin: 1em 0;
       }
+    }
+
+    h3 {
+      margin-top: 1.5em;
+    }
+
+    p {
+      margin: .5em 0;
     }
 
     a {
