@@ -46,7 +46,7 @@ class CreateCharacters < ActiveRecord::Migration[5.0]
       t.integer :speed,                 default: 6
       t.integer :initiative,            default: 2
       t.boolean :use_extended,          default: false
-
+      t.boolean :is_npc,                default: false
       t.timestamps
     end
   end
