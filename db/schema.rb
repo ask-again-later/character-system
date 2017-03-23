@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",          default: ""
     t.string   "pronouns",      default: ""
     t.integer  "status",        default: 0
     t.text     "public_blurb",  default: ""
@@ -95,15 +95,15 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.integer  "science",       default: 0
     t.integer  "computers",     default: 0
     t.integer  "engineering",   default: 0
-    t.integer  "health",        default: 2,     null: false
-    t.integer  "willpower",     default: 6,     null: false
-    t.integer  "stability",     default: 7,     null: false
-    t.integer  "defense",       default: 2,     null: false
-    t.integer  "speed",         default: 6,     null: false
-    t.integer  "initiative",    default: 2,     null: false
+    t.integer  "health",        default: 2
+    t.integer  "willpower",     default: 6
+    t.integer  "stability",     default: 7
+    t.integer  "defense",       default: 2
+    t.integer  "speed",         default: 6
+    t.integer  "initiative",    default: 2
+    t.boolean  "use_extended",  default: false
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
-    t.boolean  "use_extended",  default: false
     t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
@@ -121,19 +121,19 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   create_table "questionnaire_items", force: :cascade do |t|
     t.string   "question",                                 null: false
     t.integer  "order"
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
-    t.integer  "questionnaire_section_id"
+    t.integer  "questionnaire_section_id", default: 1
     t.boolean  "required",                 default: true
     t.boolean  "extended",                 default: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
   end
 
   create_table "questionnaire_sections", force: :cascade do |t|
     t.string   "title"
     t.text     "instructions"
+    t.integer  "order",        default: 0
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.integer  "order",        default: 0
   end
 
   create_table "true_selves", force: :cascade do |t|
