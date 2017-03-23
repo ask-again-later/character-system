@@ -11,4 +11,8 @@
   = f.check_box :is_creature_challenge
 
 .form-row
+  = f.label :is_custom, "Is Custom Challenge?"
+  = f.check_box :is_custom
+
+.form-row
   = f.submit "Save", class: 'button'
