@@ -1,3 +1,7 @@
+h3.attributes, h3.skills-training {
+  text-align: center;
+}
+
 .overlay {
   position: fixed;
   background-color: rgba(0,0,0,.5);
@@ -37,7 +41,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin: 0 -20px;
+  margin: 0 -20px 40px;
 
   .column {
     flex-grow: 1;
@@ -57,6 +61,26 @@
 
       .numeric {
         display: none;
+      }
+
+      .boxes {
+        font-size: 24px;
+        i {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+
+  &.start {
+    .column {
+      .row {
+        justify-content: flex-start;
+
+        strong {
+          min-width: 175px;
+          text-align: left;
+        }
       }
     }
   }
