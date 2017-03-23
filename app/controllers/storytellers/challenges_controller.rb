@@ -43,7 +43,7 @@ module Storytellers
     private
 
     def challenges_params
-      params.require(:challenge).permit(:id, :name, :description, :is_creature_challenge)
+      params.require(:challenge).permit(:id, :name, :description, :is_creature_challenge, :is_custom)
     end
   end
 end

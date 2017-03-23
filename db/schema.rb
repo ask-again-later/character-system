@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.boolean  "is_creature_challenge"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.boolean  "is_custom"
   end
 
   create_table "character_has_advantages", force: :cascade do |t|
@@ -45,10 +46,12 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "character_has_challenges", force: :cascade do |t|
-    t.integer  "character_id", null: false
-    t.integer  "challenge_id", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "character_id",       null: false
+    t.integer  "challenge_id",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "custom_name"
+    t.text     "custom_description"
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
@@ -116,7 +119,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "questionnaire_items", force: :cascade do |t|
-    t.string   "question",   null: false
+    t.string   "question",                                 null: false
     t.integer  "order"
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
@@ -134,9 +137,10 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                     null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "description", default: ""
   end
 
   create_table "users", force: :cascade do |t|

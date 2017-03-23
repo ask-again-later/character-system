@@ -114,15 +114,54 @@ $('#challenge-add').on('click', function(e) {
   var name = $selected.text();
   var challengeId = $selected.val();
 
-  $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'">'+name+'<a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
+  $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
 
   $.ajax({
     url: '/api/challenges/'+challengeId,
     method: 'GET',
     success: function(data) {
       $('#challenges-list li').last().find('.description').html(data.description);
+      if (data.is_custom) {
+        $('#challenges-list li').last().find('.challenge-delete').before('<a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a>');
+      }
     }
   });
+});
+
+$('#challenges-list').delegate('.challenge-edit', 'click', function(e) {
+  e.preventDefault();
+  var $modal = $('#challenges-overlay .modal');
+  var $challenge = $(this).parent('li');
+  var index = $challenge.index();
+  var challengeId = $challenge.find('input[name="character[character_has_challenges][][challenge_id]"]').val();
+  var name = $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val();
+  var description = $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val();
+
+  $modal.find('#modal-custom-name').val(name);
+  $modal.find('#modal-custom-description').text(description);
+
+  $modal.find('#modal-chc-id').val(index);
+
+  $('.overlay').fadeIn().css("display", "flex");
+});
+
+$('#save-challenge').on('click', function(e) {
+  var $modal = $('#challenges-overlay .modal');
+  var name = $modal.find('#modal-custom-name').val();
+  var description = $modal.find('#modal-custom-description').val();
+  var challengeToUpdate = $modal.find('#modal-chc-id').val();
+  var $challenge = $('#challenges-list li:nth-child('+(parseInt(challengeToUpdate)+1)+')');
+  // update both display and hidden field values
+
+  $challenge.find('.custom-name').text(name);
+  $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val(name);
+  $challenge.find('.description').html(description);
+  $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val(description);
+  $('.overlay').fadeOut();
+});
+
+$('#cancel-challenge').on('click', function(e) {
+  $('.overlay').fadeOut();
 });
 
 $('#challenges-list').delegate('.challenge-delete', 'click', function(e) {

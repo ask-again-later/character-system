@@ -78,13 +78,19 @@ ul#advantages
 
 h3 Challenges
 
-ul#advantages
+ul#challenges
   - @character.character_has_challenges.each do |chc|
     li
       p.name
-        = chc.challenge.name
+        - if chc.challenge.is_custom and chc.custom_name.present?
+          = chc.custom_name
+        - else
+          = chc.challenge.name
       p.desc
-        = chc.challenge.description
+        - if chc.challenge.is_custom and chc.custom_description.present?
+          = chc.custom_description.html_safe
+        - else
+          = chc.challenge.description.html_safe
 
 h3 Derived Stats
 

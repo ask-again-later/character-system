@@ -4,6 +4,7 @@ class CreateChallenges < ActiveRecord::Migration[5.0]
     	t.string :name
     	t.text :description
     	t.boolean :is_creature_challenge
+      t.boolean :is_custom
       t.timestamps
     end
   end
