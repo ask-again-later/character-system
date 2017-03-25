@@ -37,7 +37,8 @@ module Storytellers
     def edit
       @advantage = Advantage.find(params[:id])
       @allowed_ratings = @advantage.allowed_ratings.to_s.split(",").map { |x| x.to_i }
-      add_breadcrumb "Edit Advantage: #{@advantage.name}", edit_storytellers_advantage_path(@advantage)
+      add_breadcrumb @advantage.name, storytellers_advantage_path(@advantage)
+      add_breadcrumb "Edit", edit_storytellers_advantage_path(@advantage)
     end
 
     def update

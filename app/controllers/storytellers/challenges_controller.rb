@@ -18,6 +18,7 @@ module Storytellers
 
     def new
       @challenge = Challenge.new
+      add_breadcrumb "New", new_storytellers_challenge_path
     end
 
     def create
@@ -33,6 +34,8 @@ module Storytellers
 
     def edit
       @challenge = Challenge.find(params[:id])
+      add_breadcrumb @challenge.name, storytellers_challenge_path(@challenge)
+      add_breadcrumb "Edit", edit_storytellers_challenge_path(@challenge)
     end
 
     def update

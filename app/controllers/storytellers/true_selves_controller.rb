@@ -1,11 +1,15 @@
 module Storytellers
   class TrueSelvesController < ApplicationController
+
+    add_breadcrumb "Storytellers", :storytellers_path
+    add_breadcrumb "True Selves", :storytellers_true_selves_path
     def index
       @true_selves = TrueSelf.all
     end
 
     def new
       @true_self = TrueSelf.new
+      add_breadcrumb "New", new_storytellers_true_self_path
     end
 
     def create
@@ -21,6 +25,8 @@ module Storytellers
 
     def edit
       @true_self = TrueSelf.find(params[:id])
+      add_breadcrumb @true_self.name, storytellers_true_self_path(@true_self)
+      add_breadcrumb "Edit", edit_storytellers_true_self_path(@true_self)
     end
 
     def update
@@ -38,6 +44,7 @@ module Storytellers
       @true_self = TrueSelf.find(params[:id])
       renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 			@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+      add_breadcrumb @true_self.name, storytellers_true_self_path(@true_self)
     end
 
     def destroy
