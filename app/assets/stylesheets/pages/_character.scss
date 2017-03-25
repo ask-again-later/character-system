@@ -1,3 +1,36 @@
+@media (min-width:$small-media-query-size) {
+  .character-form {
+    .basic-stats {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: space-between;
+
+      .stat {
+        display: flex;
+        flex-direction: column;
+
+        &:not(:first-child) {
+          margin-left: 10px;
+        }
+
+        input, select {
+          margin: 0;
+          height: 42px;
+          box-sizing: border-box;
+        }
+
+        &.name input {
+          min-width: 360px;
+        }
+
+
+      }
+    }
+  }
+}
+
 h3.attributes, h3.skills-training {
   text-align: center;
 }

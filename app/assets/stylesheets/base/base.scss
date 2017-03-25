@@ -22,3 +22,11 @@ body {
     max-width: $max-page-width;
   }
 }
+
+
+@media (max-width:$large-media-query-size) {
+  .main {
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+}
