@@ -170,6 +170,20 @@ h3.attributes, h3.skills-training {
   }
 }
 
+.form-row .button {
+  margin-left: 12px;
+}
+
+ul#challenges-list, ul#advantages-list {
+  list-style: disc;
+  margin-left: 20px;
+  margin-bottom: 40px;
+
+  li {
+    margin-bottom: 6px;
+  }
+}
+
 .questionnaire {
   h4 {
     cursor: pointer;
