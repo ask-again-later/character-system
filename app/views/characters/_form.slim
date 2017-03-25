@@ -113,25 +113,27 @@
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
         = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
 
-  h3.section Derived Stats
-  .form-row
-    = f.label :willpower
-    = f.number_field :willpower
-  .form-row
-    = f.label :defense
-    = f.number_field :defense
-  .form-row
-    = f.label :speed
-    = f.number_field :speed
-  .form-row
-    = f.label :initiative
-    = f.number_field :initiative
+  - if current_user.is_storyteller || @character.status == 3
+    h3.section Derived Stats
+    .derived-stats
+      .stat
+        = f.label :willpower
+        = f.number_field :willpower
+      .stat
+        = f.label :defense
+        = f.number_field :defense
+      .stat
+        = f.label :speed
+        = f.number_field :speed
+      .stat
+        = f.label :initiative
+        = f.number_field :initiative
 
-  h3 Public Blurb
+  h3.section Public Blurb
 
   = f.text_area :public_blurb
 
-  h3 Questionnaire
+  h3.section Questionnaire
   .questionnaire
     - if @questionnaire_sections.present?
       - @questionnaire_sections.each do |qs|
