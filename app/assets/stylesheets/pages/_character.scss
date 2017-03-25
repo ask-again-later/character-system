@@ -1,32 +1,32 @@
-@media (min-width:$small-media-query-size) {
-  .character-form {
-    .basic-stats {
+.character-form {
+  .basic-stats {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+
+    .stat {
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      width: 100%;
-      justify-content: space-between;
+      flex-direction: column;
 
-      .stat {
-        display: flex;
-        flex-direction: column;
-
-        &:not(:first-child) {
-          margin-left: 10px;
-        }
-
-        input, select {
-          margin: 0;
-          height: 42px;
-          box-sizing: border-box;
-        }
-
-        &.name input {
-          min-width: 360px;
-        }
-
-
+      input, select {
+        margin: 0;
+        height: 42px;
+        box-sizing: border-box;
       }
+
+      &.name input {
+        min-width: 360px;
+      }
+    }
+  }
+}
+
+@media (max-width:$small-media-query-size) {
+  .character-form .basic-stats {
+    .stat {
+      margin-bottom: 12px;
     }
   }
 }
