@@ -22,3 +22,14 @@
     margin-left: 0px;
   }
 }
+
+.data-entry-questionnaire {
+  input[type="text"] {
+    width: 100%;
+    max-width: none;
+  }
+
+  label + input {
+    margin-left: 0;
+  }
+}
