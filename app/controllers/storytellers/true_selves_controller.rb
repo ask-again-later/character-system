@@ -34,6 +34,12 @@ module Storytellers
       end
     end
 
+    def show
+      @true_self = TrueSelf.find(params[:id])
+      renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+			@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+    end
+
     def destroy
       @true_self = TrueSelf.find(params[:id])
       @true_self.delete
@@ -43,7 +49,7 @@ module Storytellers
     protected
 
     def true_self_params
-      params.require(:true_self).permit(:id, :name)
+      params.require(:true_self).permit(:id, :name, :description)
     end
   end
 end
