@@ -1,4 +1,10 @@
 .character-form {
+  h3.section {
+    border-bottom: 3px solid $green;
+    display: inline-block;
+    padding-right: 24px;
+  }
+
   .basic-stats {
     display: flex;
     flex-direction: row;
@@ -27,6 +33,37 @@
   .character-form .basic-stats {
     .stat {
       margin-bottom: 12px;
+    }
+  }
+
+  .flex-container.attributes, .flex-container.skills-training {
+    .column {
+      width: 100%;
+
+      &:not(:last-child) {
+        margin-bottom: 1em;
+      }
+
+      strong {
+        text-align: left;
+      }
+
+      .row {
+        max-width: 200px;
+      }
+    }
+  }
+}
+
+@media (min-width:$small-media-query-size) {
+  .flex-container {
+    .column {
+      min-width: 180px;
+      max-width: 250px;
+
+      &:not(:last-child) {
+        margin-right: 12px;
+      }
     }
   }
 }
@@ -73,13 +110,15 @@ h3.attributes, h3.skills-training {
 .flex-container {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 0 -20px 40px;
+  flex-wrap: wrap;
 
   .column {
     flex-grow: 1;
     flex-shrink: 1;
     padding: 0 20px;
+    box-sizing: border-box;
 
     strong {
       text-align: center;
@@ -125,7 +164,6 @@ h3.attributes, h3.skills-training {
           display: block;
         }
         .dots {
-          display: none;
         }
       }
     }

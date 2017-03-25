@@ -19,9 +19,8 @@
       = f.label :true_self
       = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
 
-  h3 Attributes
-
-  .flex-container
+  h3.section Attributes
+  .flex-container.attributes
     - @attributes.each do |cat,vals|
       .column
         strong
@@ -39,9 +38,9 @@
                   span.dot
                     = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-  h3 Skills and Special Training
+  h3.section Skills and Special Training
 
-  .flex-container
+  .flex-container.skills-training
     - @skills_training.each do |cat,vals|
       .column
         strong
@@ -61,7 +60,7 @@
                   span.dot
                     = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-  h3 Advantages
+  h3.section Advantages
 
   select name="advantages" id="advantages"
     - @advantages.each do |advantage|
@@ -83,7 +82,7 @@
         = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
 
-  h3 Challenges
+  h3.section Challenges
 
   select name="challenges" id="challenges"
     - @challenges.each do |challenge|
@@ -114,7 +113,7 @@
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
         = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
 
-  h3 Derived Stats
+  h3.section Derived Stats
   .form-row
     = f.label :willpower
     = f.number_field :willpower
