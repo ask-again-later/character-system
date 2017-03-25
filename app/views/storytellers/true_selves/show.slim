@@ -3,3 +3,6 @@ h2
 
 .description
   = raw @markdown.render(@true_self.description)
+
+.button-row
+  = link_to "Edit True Self", edit_storytellers_true_self_path(@true_self), class: 'button'

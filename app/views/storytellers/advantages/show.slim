@@ -12,3 +12,6 @@ p
 
 div.description
   = raw @markdown.render(@advantage.description)
+
+  .button-row
+    = link_to "Edit Advantage", edit_storytellers_advantage_path(@advantage), class: 'button'

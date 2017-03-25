@@ -1,9 +1,8 @@
 .data-entry-index
-  .page-header
-    h2 Challenges
+  h2 Challenges
 
-    .buttons
-      = link_to "New Challenge", new_storytellers_challenge_path, class: 'button'
+  .button-row.right
+    = link_to "New Challenge", new_storytellers_challenge_path, class: 'button'
 
   - if @challenges.present?
     table.table

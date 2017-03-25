@@ -1,4 +1,5 @@
-h2 New True Self
+.data-entry-form
+  h2 New True Self
 
-= form_for @true_self, url: {action: 'create'} do |f|
-  = render partial: 'form', locals: {f: f}
+  = form_for @true_self, url: {action: 'create'} do |f|
+    = render partial: 'form', locals: {f: f}
