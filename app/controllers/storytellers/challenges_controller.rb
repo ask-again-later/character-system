@@ -2,6 +2,11 @@ module Storytellers
   class ChallengesController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
+    add_breadcrumb "Storytellers", :storytellers_path
+    add_breadcrumb "Challenges", :storytellers_challenges_path
+    add_breadcrumb "New", :new_storytellers_challenge_path
+    add_breadcrumb "Edit", :edit_storytellers_challenge_path
+
     def index
       @challenges = Challenge.all
     end

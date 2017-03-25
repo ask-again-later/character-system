@@ -1,0 +1,15 @@
+.data-entry-index {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-shrink: 1;
+  }
+}
+
+.data-entry-form {
+  label {
+    font-weight: bold;
+  }
+}

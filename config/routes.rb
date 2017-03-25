@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   end
 
   namespace :storytellers do
-    get '/', to: 'dashboard#index'
+    get '/', to: 'dashboard#index', as: 'storytellers'
     resources :advantages
     resources :challenges
     resources :true_selves

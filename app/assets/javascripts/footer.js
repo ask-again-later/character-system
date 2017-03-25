@@ -1,1 +1,3 @@
-$('textarea').froalaEditor();
+$('textarea').froalaEditor({
+  heightMin: 150
+});
