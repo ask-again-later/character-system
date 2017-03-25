@@ -2,4 +2,4 @@ h2
   = "Challenge: #{@challenge.name}"
 
 .description
-  = @challenge.description
+  = raw @markdown.render(@challenge.description)

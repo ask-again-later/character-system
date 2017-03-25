@@ -11,4 +11,4 @@ p
     = @advantage.prerequisites
 
 div.description
-  = @advantage.description.html_safe
+  = raw @markdown.render(@advantage.description)
