@@ -5,7 +5,7 @@
     padding-right: 24px;
   }
 
-  .basic-stats {
+  .basic-stats, .derived-stats {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -24,6 +24,30 @@
 
       &.name input {
         min-width: 360px;
+      }
+    }
+  }
+
+  .derived-stats {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 40px;
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+
+      &:not(:first-child) {
+        margin-left: 12px;
+      }
+
+      input {
+        margin: 0;
+        width: 80px;
+        height: 42px;
+        box-sizing: border-box;
       }
     }
   }
