@@ -1,6 +1,0 @@
-h2
-  = "Edit Challenge: #{@challenge.name}"
-
-= form_for @challenge, url: {action: 'update'}, method: 'PATCH' do |f|
-  = f.hidden_field :id
-  = render partial: 'form', locals: {f: f}

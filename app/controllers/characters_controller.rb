@@ -18,6 +18,8 @@ class CharactersController < ApplicationController
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		if !@character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end

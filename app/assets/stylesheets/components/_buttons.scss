@@ -14,6 +14,8 @@
   font-weight: bold;
   font-size: 16px;
   min-width: 100px;
+  width: auto;
+  text-align: center;
   transition: .5s;
 
   &:hover, &:focus {

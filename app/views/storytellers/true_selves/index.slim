@@ -13,7 +13,7 @@ h2 True Selves
       - @true_selves.each do |true_self|
         tr
           td
-            = true_self.name
+            = link_to true_self.name, storytellers_true_self_path(true_self)
           td
             = link_to "Edit", edit_storytellers_true_self_path(true_self)
           td
