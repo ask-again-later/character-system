@@ -26,6 +26,11 @@ class CharactersController < ApplicationController
 		end
 	end
 
+	def print
+		show
+		render layout: 'print'
+	end
+
 	def new
 		@character = Character.new
 		@attributes = ATTRIBUTES
@@ -300,6 +305,18 @@ class CharactersController < ApplicationController
 		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
+	end
+
+	def print_all
+		unless current_user.is_storyteller
+			redirect_to root_path and return
+		end
+		@characters = Character.where({status: 2}).order(:name)
+		@attributes = ATTRIBUTES
+		@skills_training = SKILLS_TRAINING
+		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+
+		render layout: 'print'
 	end
 
 	def validate_character
