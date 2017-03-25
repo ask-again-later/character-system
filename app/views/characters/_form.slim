@@ -1,201 +1,203 @@
-.form-row
-  = f.label :name
-  = f.text_field :name
-- if current_user.is_storyteller
-  .form-row
-    = f.label :status
-    = f.select :status, options_for_select(@statuses, @character.status)
-.form-row
-  = f.label :pronouns, "Character Pronouns"
-  = f.text_field :pronouns
-.form-row
-  = f.label :user, "Player"
-  span
-    = @player.name
-.form-row
-  = f.label :true_self
-  = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
+.character-form
+  .form-row.basic-stats
+    .stat.name
+      = f.label :name
+      = f.text_field :name
+    - if current_user.is_storyteller
+      .stat
+        = f.label :status
+        = f.select :status, options_for_select(@statuses, @character.status)
+    .stat
+      = f.label :pronouns, "Character Pronouns"
+      = f.text_field :pronouns
+    - if current_user.is_storyteller
+      .stat
+        = f.label :user, "Player: "
+        span
+          = @player.name
+    .stat
+      = f.label :true_self
+      = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
 
-h3 Attributes
+  h3.section Attributes
+  .flex-container.attributes
+    - @attributes.each do |cat,vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            label
+              = val
+            .dots
+              - (1..5).each do |i|
+                - if @character.send(val.parameterize("_").to_sym) >= i
+                  span.dot.selected
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                - else
+                  span.dot
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-.flex-container
-  - @attributes.each do |cat,vals|
-    .column
-      strong
-        = cat
-      - vals.each do |val|
-        .row
-          label
-            = val
-          .dots
-            - (1..5).each do |i|
-              - if @character.send(val.parameterize("_").to_sym) >= i
-                span.dot.selected
-                  = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
-              - else
-                span.dot
-                  = f.radio_button val.parameterize("_").to_sym, i, label: false
+  h3.section Skills and Special Training
 
-h3 Skills and Special Training
+  .flex-container.skills-training
+    - @skills_training.each do |cat,vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            label
+              = val
+            .dots
+              span.dot.reset
+                = f.radio_button val.parameterize("_").to_sym, 0, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(0) ? 'checked' : ''
+              - (1..5).each do |i|
+                - if @character.send(val.parameterize("_").to_sym) >= i
+                  span.dot.selected
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                - else
+                  span.dot
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-.flex-container
-  - @skills_training.each do |cat,vals|
-    .column
-      strong
-        = cat
-      - vals.each do |val|
-        .row
-          label
-            = val
-          .dots
-            span.dot.reset
-              = f.radio_button val.parameterize("_").to_sym, 0, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(0) ? 'checked' : ''
-            - (1..5).each do |i|
-              - if @character.send(val.parameterize("_").to_sym) >= i
-                span.dot.selected
-                  = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
-              - else
-                span.dot
-                  = f.radio_button val.parameterize("_").to_sym, i, label: false
+  h3.section Advantages
 
-h3 Advantages
+  select name="advantages" id="advantages"
+    - @advantages.each do |advantage|
+      option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
+  = button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
 
-select name="advantages" id="advantages"
-  - @advantages.each do |advantage|
-    option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
-= button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
+  ul#advantages-list
+    - @character.character_has_advantages.each do |advantage|
+      li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
+        = "#{advantage.advantage.name} "
+        - if advantage.advantage.requires_specification
+          = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
+        - if advantage.advantage.allowed_ratings.split(",").length > 1
+          = " <span class='rating'>#{advantage.rating}</span>".html_safe
+        = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
+        = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
+        = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
+        = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
+        = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
+        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
 
-ul#advantages-list
-  - @character.character_has_advantages.each do |advantage|
-    li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
-      = "#{advantage.advantage.name} "
-      - if advantage.advantage.requires_specification
-        = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
-      - if advantage.advantage.allowed_ratings.split(",").length > 1
-        = " <span class='rating'>#{advantage.rating}</span>".html_safe
-      = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
-      = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
-      = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
-      = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
-      = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
-      = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
+  h3.section Challenges
 
-h3 Challenges
+  select name="challenges" id="challenges"
+    - @challenges.each do |challenge|
+      option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
+  = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
 
-select name="challenges" id="challenges"
-  - @challenges.each do |challenge|
-    option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
-= button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
-
-ul#challenges-list
-  - @character.character_has_challenges.each do |challenge|
-    li
-      - if challenge.challenge.is_custom
-        - if challenge.custom_name.present?
-          = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
+  ul#challenges-list
+    - @character.character_has_challenges.each do |challenge|
+      li
+        - if challenge.challenge.is_custom
+          - if challenge.custom_name.present?
+            = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
+          - else
+            = "<span class='custom-name'>#{challenge.challenge.name}</span> ".html_safe
         - else
-          = "<span class='custom-name'>#{challenge.challenge.name}</span> ".html_safe
-      - else
-        = "#{challenge.challenge.name} "
-      - if challenge.challenge.is_custom
-        = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'challenge-edit'
-      = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
-      - if challenge.custom_description.present?
-        .description
-          = challenge.custom_description.html_safe
-      - elsif challenge.challenge.description.present?
-        .description
-          = challenge.challenge.description.html_safe
-      = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
-      = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
-      = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
-      = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
+          = "#{challenge.challenge.name} "
+        - if challenge.challenge.is_custom
+          = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'challenge-edit'
+        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+        - if challenge.custom_description.present?
+          .description
+            = challenge.custom_description.html_safe
+        - elsif challenge.challenge.description.present?
+          .description
+            = challenge.challenge.description.html_safe
+        = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
+        = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
+        = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
+        = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
 
-h3 Derived Stats
-.form-row
-  = f.label :willpower
-  = f.number_field :willpower
-.form-row
-  = f.label :defense
-  = f.number_field :defense
-.form-row
-  = f.label :speed
-  = f.number_field :speed
-.form-row
-  = f.label :initiative
-  = f.number_field :initiative
+  h3.section Derived Stats
+  .form-row
+    = f.label :willpower
+    = f.number_field :willpower
+  .form-row
+    = f.label :defense
+    = f.number_field :defense
+  .form-row
+    = f.label :speed
+    = f.number_field :speed
+  .form-row
+    = f.label :initiative
+    = f.number_field :initiative
 
-h3 Public Blurb
+  h3 Public Blurb
 
-= f.text_area :public_blurb
+  = f.text_area :public_blurb
 
-h3 Questionnaire
-.questionnaire
-  - if @questionnaire_sections.present?
-    - @questionnaire_sections.each do |qs|
-      h4 #{qs.title}
-      .section-content
-        - if qs.questionnaire_items.present?
-          - qs.questionnaire_items.each do |question|
-            .question
-              .question-text
-                = question.question
-              - if @questionnaire_answers.where(questionnaire_item_id: question.id).length > 0
-                - current_question = @questionnaire_answers.where(questionnaire_item_id: question.id).first
-                = text_area_tag "character[questionnaire_answers][][answer]", current_question.answer
-                = hidden_field_tag "character[questionnaire_answers][][id]", current_question.id
-              - else
-                = text_area_tag "character[questionnaire_answers][][answer]"
-                = hidden_field_tag "character[questionnaire_answers][][id]"
-              = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+  h3 Questionnaire
+  .questionnaire
+    - if @questionnaire_sections.present?
+      - @questionnaire_sections.each do |qs|
+        h4 #{qs.title}
+        .section-content
+          - if qs.questionnaire_items.present?
+            - qs.questionnaire_items.each do |question|
+              .question
+                .question-text
+                  = question.question
+                - if @questionnaire_answers.where(questionnaire_item_id: question.id).length > 0
+                  - current_question = @questionnaire_answers.where(questionnaire_item_id: question.id).first
+                  = text_area_tag "character[questionnaire_answers][][answer]", current_question.answer
+                  = hidden_field_tag "character[questionnaire_answers][][id]", current_question.id
+                - else
+                  = text_area_tag "character[questionnaire_answers][][answer]"
+                  = hidden_field_tag "character[questionnaire_answers][][id]"
+                = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
 
 
-= f.submit "Save"
-- if @character.status == 0 and (current_user == @character.user or @character.user.nil?)
-  = hidden_field_tag "status", @character.status
-  = f.submit "Save and Submit", id: 'save-submit'
+  = f.submit "Save"
+  - if @character.status == 0 and (current_user == @character.user or @character.user.nil?)
+    = hidden_field_tag "status", @character.status
+    = f.submit "Save and Submit", id: 'save-submit'
 
-.overlay#advantages-overlay
-  .modal
-    .header
-      | Edit Advantage:
-      span
-    .content
-      .form-row.specification
-        = label_tag :specification
-        = text_field_tag :specification, "", id: 'modal-specification'
+  .overlay#advantages-overlay
+    .modal
+      .header
+        | Edit Advantage:
+        span
+      .content
+        .form-row.specification
+          = label_tag :specification
+          = text_field_tag :specification, "", id: 'modal-specification'
 
-      .form-row.rating
-        = label_tag :rating
-        = select_tag :rating, "", id: 'modal-rating'
+        .form-row.rating
+          = label_tag :rating
+          = select_tag :rating, "", id: 'modal-rating'
 
-      .form-row#modal-description
+        .form-row#modal-description
 
-      = hidden_field_tag :cha_id, "", id: 'modal-id'
+        = hidden_field_tag :cha_id, "", id: 'modal-id'
 
-      .form-row
-        = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
-        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
+        .form-row
+          = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
+          = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
 
-.overlay#challenges-overlay
-  .modal
-    .header
-      | Edit Challenge:
-      span
-    .content
-      .form-row.name
-        = label_tag :custom_name, "Name"
-        = text_field_tag :custom_name, "", id: 'modal-custom-name'
+  .overlay#challenges-overlay
+    .modal
+      .header
+        | Edit Challenge:
+        span
+      .content
+        .form-row.name
+          = label_tag :custom_name, "Name"
+          = text_field_tag :custom_name, "", id: 'modal-custom-name'
 
-      .form-row.description
-        = label_tag :custom_description, "Description"
-        = text_area_tag :custom_description, "", id: 'modal-custom-description'
+        .form-row.description
+          = label_tag :custom_description, "Description"
+          = text_area_tag :custom_description, "", id: 'modal-custom-description'
 
-      = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
+        = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
 
-      .form-row
-        = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
-        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
+        .form-row
+          = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
+          = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
 
-= javascript_include_tag 'characters', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters', 'data-turbolinks-track' => true

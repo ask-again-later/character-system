@@ -20,13 +20,14 @@ h1 {
 h2 {
   font-size: 32px;
   line-height: 40px;
-  margin: .5em 0 1em;
+  margin: .5em 0;
+  border-bottom: 3px solid $green;
 }
 
 h3 {
   font-size: 24px;
   line-height: 36px;
-  margin: .5em 0 0;
+  margin: .5em 0;
 }
 
 h4, h5, h6 {
