@@ -12,4 +12,9 @@
   label {
     font-weight: bold;
   }
+
+  label + select,
+  label + input {
+    margin-left: 0px;
+  }
 }

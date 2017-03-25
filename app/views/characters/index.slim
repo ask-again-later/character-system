@@ -3,8 +3,9 @@
 - else
   h2 My Characters
 
-= link_to "New Character", new_character_path, class: 'button new-character-button'
-= link_to "Character Wizard", new_character_wizard_path, class: 'button'
+.button-row.right
+  = link_to "New Character", new_character_path, class: 'button new-character-button'
+  = link_to "Character Wizard", new_character_wizard_path, class: 'button'
 
 - if @characters.length > 0
   table.table
