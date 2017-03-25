@@ -2,6 +2,9 @@ module Storytellers
   class AdvantagesController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
+    add_breadcrumb "Storytellers", :storytellers_path
+    add_breadcrumb "Advantages", :storytellers_advantages_path
+
     def index
       @advantages = Advantage.all
     end
@@ -10,11 +13,13 @@ module Storytellers
       @advantage = Advantage.find(params[:id])
       renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 			@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+      add_breadcrumb @advantage.name, storytellers_advantage_path(@advantage)
     end
 
     def new
       @advantage = Advantage.new
       @allowed_ratings = []
+      add_breadcrumb "New Advantage", new_storytellers_advantage_path
     end
 
     def create
@@ -32,6 +37,7 @@ module Storytellers
     def edit
       @advantage = Advantage.find(params[:id])
       @allowed_ratings = @advantage.allowed_ratings.to_s.split(",").map { |x| x.to_i }
+      add_breadcrumb "Edit Advantage: #{@advantage.name}", edit_storytellers_advantage_path(@advantage)
     end
 
     def update

@@ -4,8 +4,6 @@ module Storytellers
 
     add_breadcrumb "Storytellers", :storytellers_path
     add_breadcrumb "Challenges", :storytellers_challenges_path
-    add_breadcrumb "New", :new_storytellers_challenge_path
-    add_breadcrumb "Edit", :edit_storytellers_challenge_path
 
     def index
       @challenges = Challenge.all
@@ -15,6 +13,7 @@ module Storytellers
       @challenge = Challenge.find(params[:id])
       renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 			@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+      add_breadcrumb @challenge.name, storytellers_challenge_path(@challenge)
     end
 
     def new
