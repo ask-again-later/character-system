@@ -8,10 +8,25 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  > header {
+    width: 100%;
+  }
 
   > .main {
     flex: 1;
     display: flex;
     flex-direction: column;
+    width: 100%;
+    max-width: $max-page-width;
+  }
+}
+
+
+@media (max-width:$large-media-query-size) {
+  .main {
+    padding: 0 12px;
+    box-sizing: border-box;
   }
 }
