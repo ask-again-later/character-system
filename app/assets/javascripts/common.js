@@ -1,4 +1,13 @@
 $(document).ready(function() {
+  $('.hamburger').on('click', function() {
+    $(this).toggleClass('is-active');
+    if ($(this).hasClass('is-active')) {
+      $('nav').addClass('show');
+    } else {
+      $('nav').removeClass('show');
+    }
+  });
+
   $('.questionnaire h4').on('click', function() {
     if ($(this).hasClass('open')) {
       $(this).removeClass('open');
