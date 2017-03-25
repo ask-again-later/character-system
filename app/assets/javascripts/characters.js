@@ -81,7 +81,7 @@ $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
   $modal.find('#modal-specification').val(specification);
   $modal.find('#modal-id').val(index);
 
-  $('.overlay').fadeIn().css("display", "flex");
+  $('#advantages-overlay').fadeIn().css("display", "flex");
 });
 
 $('#save-advantage').on('click', function(e) {
@@ -142,7 +142,7 @@ $('#challenges-list').delegate('.challenge-edit', 'click', function(e) {
 
   $modal.find('#modal-chc-id').val(index);
 
-  $('.overlay').fadeIn().css("display", "flex");
+  $('#challenges-overlay').fadeIn().css("display", "flex");
 });
 
 $('#save-challenge').on('click', function(e) {
