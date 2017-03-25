@@ -74,7 +74,7 @@ ul#advantages
             = " #{cha.rating}"
         - if i == group.length-1
           p.desc
-            = cha.advantage.description.html_safe
+            = raw @markdown.render(cha.advantage.description)
 
 h3 Challenges
 
@@ -88,9 +88,9 @@ ul#challenges
           = chc.challenge.name
       p.desc
         - if chc.challenge.is_custom and chc.custom_description.present?
-          = chc.custom_description.html_safe
+          = raw @markdown.render(chc.custom_description)
         - else
-          = chc.challenge.description.html_safe
+          = raw @markdown.render(chc.challenge.description)
 
 h3 Derived Stats
 
@@ -127,6 +127,6 @@ h3 Questionnaire
               = qi.question
             .question-answer
               - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
-                = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
+                = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
 
 = javascript_include_tag 'characters', 'data-turbolinks-track' => true
