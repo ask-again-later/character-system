@@ -19,12 +19,12 @@ body {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: $max-page-width;
+    max-width: 1280px;
   }
 }
 
 
-@media (max-width:$large-media-query-size) {
+@media (max-width: 1280px) {
   .main {
     padding: 0 12px;
     box-sizing: border-box;
