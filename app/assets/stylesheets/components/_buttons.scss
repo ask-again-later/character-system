@@ -23,3 +23,32 @@
     background-color: $white;
   }
 }
+
+.button-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: 20px 0;
+  width: 100%;
+
+  .button {
+    margin-right: 20px;
+    margin-left: 0;
+  }
+
+  &.right {
+    justify-content: flex-end;
+
+    .button {
+      margin-left: 20px;
+      margin-right: 0;
+    }
+  }
+
+  &.center {
+    justify-content: center;
+
+    .button {
+      margin: 0 20px;
+    }
+  }
+}

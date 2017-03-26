@@ -1,6 +1,10 @@
-h2
-  = "Edit True Self: #{@true_self.name}"
+.data-entry-form
+  .breadcrumbs
+    = render_breadcrumbs
 
-= form_for @true_self, url: {action: 'update'}, method: 'PATCH' do |f|
-  = f.hidden_field :id
-  = render partial: 'form', locals: {f: f}
+  h2
+    = "Edit True Self: #{@true_self.name}"
+
+  = form_for @true_self, url: {action: 'update'}, method: 'PATCH' do |f|
+    = f.hidden_field :id
+    = render partial: 'form', locals: {f: f}

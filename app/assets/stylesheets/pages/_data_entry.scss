@@ -1,0 +1,35 @@
+.breadcrumbs {
+  margin: 20px 0;
+}
+
+.data-entry-index {
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-shrink: 1;
+  }
+}
+
+.data-entry-form {
+  label {
+    font-weight: bold;
+  }
+
+  label + select,
+  label + input {
+    margin-left: 0px;
+  }
+}
+
+.data-entry-questionnaire {
+  input[type="text"] {
+    width: 100%;
+    max-width: none;
+  }
+
+  label + input {
+    margin-left: 0;
+  }
+}

@@ -1,21 +1,26 @@
-h2 Advantages
+.data-entry-index
+  .breadcrumbs
+    = render_breadcrumbs
 
-= link_to "New Advantage", new_storytellers_advantage_path, class: 'button'
+  h2 Advantages
 
-- if @advantages.present?
-  table.table
-    thead
-      tr
-        th Name
-        th
-        th
-    tbody
-      - @advantages.each do |advantage|
+  .button-row.right
+    = link_to "New Advantage", new_storytellers_advantage_path, class: 'button'
+
+  - if @advantages.present?
+    table.table
+      thead
         tr
-          td
-            = link_to advantage.name, storytellers_advantage_path(advantage)
-          td
-            = link_to "Edit", edit_storytellers_advantage_path(advantage)
-          td
-            = form_tag(storytellers_advantage_path(advantage), method: 'DELETE') do
-              = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this advantage?");', class: 'button'
+          th Name
+          th
+          th
+      tbody
+        - @advantages.each do |advantage|
+          tr
+            td
+              = link_to advantage.name, storytellers_advantage_path(advantage)
+            td
+              = link_to "Edit", edit_storytellers_advantage_path(advantage)
+            td
+              = form_tag(storytellers_advantage_path(advantage), method: 'DELETE') do
+                = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this advantage?");', class: 'button'

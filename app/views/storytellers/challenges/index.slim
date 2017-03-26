@@ -1,21 +1,26 @@
-h2 Challenges
+.data-entry-index
+  .breadcrumbs
+    = render_breadcrumbs
+    
+  h2 Challenges
 
-= link_to "New Challenge", new_storytellers_challenge_path, class: 'button'
+  .button-row.right
+    = link_to "New Challenge", new_storytellers_challenge_path, class: 'button'
 
-- if @challenges.present?
-  table.table
-    thead
-      tr
-        th Name
-        th
-        th
-    tbody
-      - @challenges.each do |challenge|
+  - if @challenges.present?
+    table.table
+      thead
         tr
-          td
-            = link_to challenge.name, storytellers_challenge_path(challenge)
-          td
-            = link_to "Edit", edit_storytellers_challenge_path(challenge)
-          td
-            = form_tag(storytellers_challenge_path(challenge), method: 'DELETE') do
-              = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this challenge?");', class: 'button'
+          th Name
+          th
+          th
+      tbody
+        - @challenges.each do |challenge|
+          tr
+            td
+              = link_to challenge.name, storytellers_challenge_path(challenge)
+            td
+              = link_to "Edit", edit_storytellers_challenge_path(challenge)
+            td
+              = form_tag(storytellers_challenge_path(challenge), method: 'DELETE') do
+                = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this challenge?");', class: 'button'
