@@ -16,7 +16,7 @@
         <% end %>
         <li><a href="http://askagainlater.com/" rel="external" target="_blank">Info Site</a></li>
         <% if current_user %>
-          <li><%= link_to "Log Out", destroy_user_session_path %></li>
+          <li><%= form_tag(destroy_user_session_path, method: 'DELETE') do %><button type="submit" class="nav-link">Log Out</button><% end %></li>
         <% else %>
           <li><%= link_to "Log In", new_user_session_path %></li>
           <li><%= link_to "Create an Account", new_user_registration_path %></li>
