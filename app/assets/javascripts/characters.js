@@ -1,3 +1,5 @@
+// DERIVED STAT CALCULATION
+
 $('input[name="character[strength]"]').on('change', function() {
   $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));
 });
@@ -17,6 +19,166 @@ $('input[name="character[wits]"], input[name="character[dexterity]"]').on('chang
   var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
   $('input#character_defense').val(wits+dexterity);
 });
+
+// VALIDATION
+
+$('.attributes input').on('change', function () {
+  var mentals = parseInt($('input[name="character[intelligence]"]:checked').val()) + parseInt($('input[name="character[wits]"]:checked').val()) + parseInt($('input[name="character[resolve]"]:checked').val()) - 3;
+  var physicals = parseInt($('input[name="character[strength]"]:checked').val()) + parseInt($('input[name="character[dexterity]"]:checked').val()) + parseInt($('input[name="character[stamina]"]:checked').val()) - 3;
+  var socials = parseInt($('input[name="character[presence]"]:checked').val()) + parseInt($('input[name="character[manipulation]"]:checked').val()) + parseInt($('input[name="character[composure]"]:checked').val()) - 3;
+  var errors = [];
+
+  console.log(mentals);
+  console.log(physicals);
+  console.log(socials);
+
+  // general error validation
+  if (mentals > 6) {
+    errors.push("You'll need to remove at least "+(mentals - 6)+" dots from mental attributes.");
+  }
+  if (physicals > 6) {
+    errors.push("You'll need to remove at least "+(physicals - 6)+" dots from physical attributes.");
+  }
+  if (socials > 6) {
+    errors.push("You'll need to remove at least "+(socials - 6)+" dots from social attributes.");
+  }
+
+  var primary_name = "";
+  var secondary_name = "";
+  var tertiary_name = "";
+  var primary_val = 0;
+  var secondary_val = 0;
+  var tertiary_val = 0;
+
+  // if user has allocated all dots (or has too many)
+  if (mentals + physicals + socials >= 13) {
+    if (mentals >= physicals && mentals >= socials) {
+      primary_name = "mental";
+      primary_val = mentals;
+      // mental is primary category
+      if (physicals >= socials) {
+        // physical is secondary
+        secondary_name = "physical";
+        secondary_val = physicals;
+        tertiary_name = "social";
+        tertiary_val = socials;
+      } else {
+        // social is secondary
+        secondary_name = "social";
+        secondary_val = socials;
+        tertiary_name = "physical";
+        tertiary_val = physicals;
+      }
+    } else if (physicals >= mentals && physicals >= socials) {
+      // physical is primary
+      primary_name = "physical";
+      primary_val = physicals;
+      if (mentals >= socials) {
+        // mental is secondary
+        secondary_name = "mental";
+        secondary_val = mentals;
+        tertiary_name = "social";
+        tertiary_val = socials;
+      } else {
+        // social is secondary
+        secondary_name = "social";
+        secondary_val = socials;
+        tertiary_name = "mental";
+        tertiary_val = mentals;
+      }
+    } else {
+      // social is primary
+      primary_name = "social";
+      primary_val = socials;
+      if (mentals >= physicals) {
+        // mental is secondary
+        secondary_name = "mental";
+        secondary_val = mentals;
+        tertiary_name = "physical";
+        tertiary_val = physicals;
+      } else {
+        // physical is secondary
+        secondary_name = "physical";
+        secondary_val = physicals;
+        tertiary_name = "mental";
+        tertiary_val = mentals;
+      }
+    }
+    if (primary_val === 6) {
+      // configuration should be 6/4/3
+      if (secondary_val > 4) {
+        errors.push("You'll need to remove at least "+(secondary_val - 4)+" dot"+ (((secondary_val - 4) > 1) ? 's' : '')+" from "+secondary_name+" attributes.");
+      } else if (secondary_val < 4) {
+        errors.push("You'll need to add at least "+(4 - secondary_val)+" dot"+ (((4 - secondary_val) > 1) ? 's' : '')+" to "+secondary_name+" attributes.");
+      }
+      if (tertiary_val > 3) {
+        errors.push("You'll need to remove at least "+(tertiary_val - 3)+" dot"+ (((tertiary_val - 3) > 1) ? 's' : '')+" from "+tertiary_name+" attributes.");
+      } else if (tertiary_val < 3) {
+        errors.push("You'll need to add at least"+(3 - tertiary_val)+" dot"+ (((3 - tertiary_val) > 1) ? 's' : '')+" to "+tertiary_name+" attributes.");
+      }
+    } else {
+      if (secondary_val === 5) {
+        // configuration should be 5/5/3
+        if (secondary_val > 5) {
+          errors.push("You'll need to remove at least "+(secondary_val - 5)+" dot"+ (((secondary_val - 4) > 1) ? 's' : '')+" from "+secondary_name+" attributes.");
+        } else if (secondary_val < 5) {
+          errors.push("You'll need to add at least "+(5- secondary_val)+" dot"+ (((5 - secondary_val) > 1) ? 's' : '')+" to "+secondary_name+" attributes.");
+        }
+        if (tertiary_val > 3) {
+          errors.push("You'll need to remove at least "+(tertiary_val - 3)+" dot"+ (((tertiary_val - 3) > 1) ? 's' : '')+" from "+tertiary_name+" attributes.");
+        } else if (tertiary_val < 3) {
+          errors.push("You'll need to add at least "+(3 - tertiary_val)+" dot"+ (((tertiary_val - 3) > 1) ? 's' : '')+" to "+tertiary_name+" attributes.");
+        }
+      } else {
+        // configuration should be 5/4/4
+        if (secondary_val > 4) {
+          errors.push("You'll need to remove at least "+(secondary_val - 4)+" dot"+ (((secondary_val - 4) > 1) ? 's' : '')+" from "+secondary_name+" attributes.");
+        } else if (secondary_val < 4) {
+          errors.push("You'll need to add at least "+(4- secondary_val)+" dot"+ (((4 - secondary_val) > 1) ? 's' : '')+" to "+secondary_name+" attributes.");
+        }
+        if (tertiary_val > 4) {
+          errors.push("You'll need to remove at least "+(tertiary_val - 4)+" dot"+ (((tertiary_val - 4) > 1) ? 's' : '')+" from "+tertiary_name+" attributes.");
+        } else if (tertiary_val < 4) {
+          errors.push("You'll need to add at least"+(4 - tertiary_val)+" dot"+ (((4 - tertiary_val) > 1) ? 's' : '')+" to "+tertiary_name+" attributes.");
+        }
+      }
+    }
+  }
+});
+
+function totalSkillsTrainingCount() {
+  var total = 0;
+  $('.skills-training input').each(function() {
+    total += $(this).val();
+  });
+
+  return total;
+}
+
+function specialTrainingCount() {
+  var trainings = 0;
+  $('.special-training input').each(function() {
+    trainings += $(this).val();
+  });
+
+  return trainings;
+}
+
+function advantageCount() {
+  var count = 0;
+  var $advantages = $('#advantages-list input[name="character[character_has_advantages][][rating]"]');
+  $advantages.each(function() {
+    count += $(this).val();
+  });
+  return 17 - count;
+}
+
+function challengeCount() {
+  var count = $('#challenges-list li').length;
+  return 2 - count;
+}
+
+// ADVANTAGES
 
 $('#advantage-add').on('click', function(e) {
   e.preventDefault();
@@ -108,6 +270,8 @@ $('#advantages-list').delegate(".advantage-delete", 'click', function(e) {
   $(this).parent('li').detach();
 });
 
+// CHALLENGES
+
 $('#challenge-add').on('click', function(e) {
   e.preventDefault();
   var $selected = $('#challenges option:selected');
@@ -169,6 +333,8 @@ $('#challenges-list').delegate('.challenge-delete', 'click', function(e) {
   $(this).parent('li').detach();
 });
 
+// DOT FUNCTIONALITY
+
 $('.dot').on('click', function(e) {
   e.preventDefault();
   if ($(e.target).hasClass('dot')) {
@@ -178,6 +344,8 @@ $('.dot').on('click', function(e) {
     $(this).find('input').change();
   }
 });
+
+// ON SAVE WITH SUBMIT, CHANGE STATUS
 
 $('#save-submit').on('click', function(e) {
   e.preventDefault();

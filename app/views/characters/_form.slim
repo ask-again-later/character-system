@@ -42,7 +42,7 @@
 
   .flex-container.skills-training
     - @skills_training.each do |cat,vals|
-      .column
+      div class="column #{cat.to_s.parameterize}"
         strong
           = cat
         - vals.each do |val|
@@ -88,6 +88,7 @@
       - @challenges.each do |challenge|
         option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
     = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
+
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
