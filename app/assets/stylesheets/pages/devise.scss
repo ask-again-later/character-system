@@ -1,7 +1,11 @@
-.devise-page {
-  flex: 1;
+.main.devise {
+  max-width: none;
   background-image: url('/assets/misty-woods.jpg');
   background-size: cover;
+}
+
+.devise-page {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
