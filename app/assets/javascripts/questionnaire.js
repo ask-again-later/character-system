@@ -1,10 +1,27 @@
 $(document).ready(function() {
-  $('#questionnaire').sortable({
+  /*$('#questionnaire').sortable({
     handle: 'label',
     stop: function() {
-      var length = $('#questionnaire li').length;
-      $('#questionnaire li').each(function (index) {
+      var length = $('#questionnaire > li').length;
+      $('#questionnaire > li').each(function (index) {
         $(this).find('.order-field').val(index);
+      });
+    }
+  });*/
+
+  $('#questionnaire').nestedSortable({
+    handle: 'label.handle',
+    listType: 'ul',
+    items: 'li',
+    toleranceElement: '.container',
+    maxLevels: 2,
+    protectRoot: true,
+    stop: function() {
+      $('#questionnaire > li').each(function (index) {
+        $(this).find('.order-field').val(index);
+        $(this).find('ul').children().each(function(subindex) {
+          $(this).find('.order-field').val(subindex);
+        })
       });
     }
   });

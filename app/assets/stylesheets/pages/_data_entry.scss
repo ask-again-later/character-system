@@ -32,4 +32,29 @@
   label + input {
     margin-left: 0;
   }
+
+  form {
+    max-width: 50em;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  label.handle {
+    cursor: move;
+  }
+
+  #questionnaire {
+    > li {
+      position: relative;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px $green solid;
+
+      .delete {
+        position: absolute;
+        top: 2px;
+        right: 0;
+      }
+    }
+  }
 }
