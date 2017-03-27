@@ -89,7 +89,7 @@
     select name="challenges" id="challenges"
       - @challenges.each do |challenge|
         option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
-    = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
+    = button_tag 'Add Creature Challenge', type: 'button', class: 'button', id: "challenge-add"
     - if @custom_challenge.present?
       = button_tag 'New Challenge', type: 'button', class: 'button', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
 
