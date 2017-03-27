@@ -43,6 +43,10 @@
     cursor: move;
   }
 
+  .section-template, .question-template {
+    display: none;
+  }
+
   #questionnaire {
     li {
       position: relative;
@@ -58,6 +62,7 @@
       margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 1px $green solid;
+
       > .container {
         > input[type="text"] {
           font-size: 24px;

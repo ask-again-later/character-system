@@ -6,7 +6,7 @@
       - if @sections.present?
         - @sections.each do |section|
           li
-            .container
+            .container.top
               = label_tag :title, "Section Title", class: 'handle'
               = text_field_tag "questionnaire_section[][title]", section.title
               = label_tag :instructions
@@ -22,9 +22,43 @@
                     li
                       .container
                         = label_tag :question, "Question Text", class: 'handle'
-                        = text_field_tag "questionnaire_item[][question]", question.question
-                        = hidden_field_tag "questionnaire_item[][id]", question.id
-                        = hidden_field_tag "questionnaire_item[][order]", question.order, class: 'order-field'
+                        = text_field_tag "questionnaire_section[][questionnaire_items][question]", question.question
+                        = hidden_field_tag "questionnaire_section[][questionnaire_items][id]", question.id
+                        = hidden_field_tag "questionnaire_section[][questionnaire_items][order]", question.order, class: 'order-field'
+                        = hidden_field_tag "questionnaire_section[][questionnaire_items][questionnaire_section_id]", question.questionnaire_section_id, class: 'section-id-field'
                         i.fa.fa-minus-circle.delete
+
+              .button-row.center
+                = link_to "Add Question", "#", class: 'button add-question'
+
+  .button-row.center
+    = link_to "Add Section", '#', class: 'button add-section'
+
+  .section-template
+    li
+      .container.top
+        = label_tag :title, "Section Title", class: 'handle'
+        = text_field_tag "questionnaire_section[][title]", ""
+        = label_tag :instructions
+        = text_area_tag "questionnaire_section[][instructions]", ""
+        = hidden_field_tag "questionnaire_section[][id]", ""
+        = hidden_field_tag "questionnaire_section[][order]", "", class: 'order-field'
+        i.fa.fa-minus-circle.delete
+
+        .subsection-title Questions
+        ul
+
+        .button-row.center
+          = link_to "Add Question", "#", class: 'button add-question'
+
+  .question-template
+    li
+      .container
+        = label_tag :question, "Question Text", class: 'handle'
+        = text_field_tag "questionnaire_section[][questionnaire_items][question]", ""
+        = hidden_field_tag "questionnaire_section[][questionnaire_items][id]", ""
+        = hidden_field_tag "questionnaire_section[][questionnaire_items][order]", "", class: 'order-field'
+        = hidden_field_tag "questionnaire_section[][questionnaire_items][questionnaire_section_id]", "", class: 'section-id-field'
+        i.fa.fa-minus-circle.delete
 
 = javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true

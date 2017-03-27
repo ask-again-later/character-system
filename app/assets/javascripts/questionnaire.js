@@ -8,6 +8,7 @@ $(document).ready(function() {
     maxLevels: 2,
     protectRoot: true,
     stop: function() {
+      var sectionId;
       $('#questionnaire > li').each(function (index) {
         $(this).find('.order-field').val(index);
         $(this).find('ul').children().each(function(subindex) {
@@ -17,24 +18,33 @@ $(document).ready(function() {
     }
   });
 
-  $('#add').click(function(e) {
+  $('#questionnaire').delegate('.add-question', 'click', function(e) {
     e.preventDefault();
-    var $newItem = $('.template').children().clone();
-    $('#questionnaire').append($newItem);
+    var $newItem = $('.question-template').children().clone();
+    var $list = $(this).closest('li').find('ul');
+    $list.append($newItem);
+    $('#questionnaire').trigger('stop');
   });
 
-  $('#questionnaire > li .delete').click(function() {
+  $('.add-section').click(function(e) {
+    e.preventDefault();
+    var $newItem = $('.section-template').children().clone();
+    $('#questionnaire').append($newItem);
+    $('#questionnaire').trigger('stop');
+  });
+
+  $('#questionnaire').delegate('li > .container.top > .delete', 'click', function() {
     var conf = confirm('Are you sure you want to delete this section? This will also delete all questions within the section.');
     if (conf === true) {
-      $(this).parents('li').remove();
+      $(this).closest('li').remove();
     }
     return;
   });
 
-  $('#questionnaire > li > ul > li .delete').click(function() {
+  $('#questionnaire').delegate('li > .container ul > li .delete', 'click', function() {
     var conf = confirm('Are you sure you want to delete this question?');
     if (conf === true) {
-      $(this).parents('li').remove();
+      $(this).closest('li').remove();
     }
     return;
   });
