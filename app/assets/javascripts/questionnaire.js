@@ -1,13 +1,4 @@
 $(document).ready(function() {
-  /*$('#questionnaire').sortable({
-    handle: 'label',
-    stop: function() {
-      var length = $('#questionnaire > li').length;
-      $('#questionnaire > li').each(function (index) {
-        $(this).find('.order-field').val(index);
-      });
-    }
-  });*/
 
   $('#questionnaire').nestedSortable({
     handle: 'label.handle',
@@ -32,7 +23,18 @@ $(document).ready(function() {
     $('#questionnaire').append($newItem);
   });
 
-  $('.delete').click(function() {
-    $(this).parent().remove();
-  })
+  $('#questionnaire > li .delete').click(function() {
+    var conf = confirm('Are you sure you want to delete this section?');
+    if (conf === true) {
+      $(this).parents('li').remove();
+    }
+    return;
+  });
+
+  $('#questionnaire > li ul li .delete').click(function() {
+    var conf = confirm('Are you sure you want to delete this question?');
+    if (conf === true) {
+      $(this).parents('li').remove();
+    }
+  });
 });

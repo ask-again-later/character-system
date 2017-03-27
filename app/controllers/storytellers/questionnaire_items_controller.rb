@@ -38,12 +38,6 @@ module Storytellers
   		redirect_to '/storytellers/questionnaire'
     end
 
-    def destroy
-      @questionnaire_item = QuestionnaireItem.find(params[:id])
-      @questionnaire_item.destroy
-      redirect_to storytellers_questionnaire_items_path
-    end
-
     private
 
     def questionnaire_item_params
