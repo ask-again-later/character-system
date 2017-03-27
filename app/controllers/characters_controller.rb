@@ -38,7 +38,8 @@ class CharactersController < ApplicationController
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
-		@challenges = Challenge.all
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = current_user
 		@statuses = STATUS_ENUM
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
@@ -61,7 +62,8 @@ class CharactersController < ApplicationController
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
-		@challenges = Challenge.all
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@statuses = STATUS_ENUM

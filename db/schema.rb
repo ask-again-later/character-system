@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   create_table "challenges", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.boolean  "is_creature_challenge"
-    t.boolean  "is_custom"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.boolean  "is_creature_challenge", default: false
+    t.boolean  "is_custom",             default: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   create_table "character_has_advantages", force: :cascade do |t|
@@ -46,12 +46,13 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "character_has_challenges", force: :cascade do |t|
-    t.integer  "character_id",       null: false
-    t.integer  "challenge_id",       null: false
+    t.integer  "character_id",                          null: false
+    t.integer  "challenge_id",                          null: false
     t.string   "custom_name"
     t.text     "custom_description"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.boolean  "is_creature_challenge", default: false
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end

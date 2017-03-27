@@ -121,9 +121,21 @@ $('#challenge-add').on('click', function(e) {
     method: 'GET',
     success: function(data) {
       $('#challenges-list li').last().find('.description').html(data.description);
-      if (data.is_custom) {
-        $('#challenges-list li').last().find('.challenge-delete').before('<a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a>');
-      }
+    }
+  });
+});
+
+$('#challenge-add-custom').on('click', function(e) {
+  e.preventDefault();
+  var id = $(this).data('challenge-id');
+
+  $('ul#challenges-list').append('<li data-challenge-id="'+id+'"><span class="custom-name"></span> <a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+id+'" /></li>');
+
+  $.ajax({
+    url: '/api/challenges/'+id,
+    method: 'GET',
+    success: function(data) {
+      $('#challenges-list li').last().find('.custom-name').html(data.name);
     }
   });
 });
