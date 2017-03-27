@@ -15,9 +15,4 @@ class QuestionnaireAnswerTest < ActiveSupport::TestCase
     test_answer = QuestionnaireAnswer.new(questionnaire_item: questionnaire_items(:one), answer: "an answer")
     assert_not test_answer.valid?
   end
-
-  test "question answers are not valid without an answer" do
-    test_answer = QuestionnaireAnswer.new(questionnaire_item: questionnaire_items(:one), character: characters(:one))
-    assert_not test_answer.valid?
-  end
 end
