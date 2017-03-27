@@ -14,29 +14,21 @@ module Storytellers
         if section[:id]
           qs = QuestionnaireSection.find(section[:id])
           section_list << section[:id]
-          qs.update_attributes!(title: section[:title], instructions: section[:instructions], order: section[:order], questionnaire_items: section[:questionnaire_items])
+          qs.update_attributes!(title: section[:title], instructions: section[:instructions], order: section[:order], questionnaire_items_attributes: section[:questionnaire_items])
         else
-          qs = QuestionnaireSection.new(title: section[:title], instructions: section[:instructions], order: section[:order], questionnaire_items: section[:questionnaire_items])
+          qs = QuestionnaireSection.new(title: section[:title], instructions: section[:instructions], order: section[:order], questionnaire_items_attributes: section[:questionnaire_items])
           qs.save!
           section_list << qs.id
         end
-        QuestionnaireSection.all do |section|
-          unless section_list.include?(section.id)
-            section.delete
-          end
+      end
+      @sections = QuestionnaireSection.all
+      @sections.each do |section|
+        unless section_list.include?(section.id)
+          section.delete
         end
       end
 
   		redirect_to '/storytellers/questionnaire'
     end
-
-    private
-
-    def questionnaire_item_params
-      params.require(:questionnaire_item).permit(:question, :order)
-    end
-
-    def questionnaire_section_params
-      params.require(:questionnaire_section).permit(:title, :order, :instructions, :questionnaire_item => [:question, :questionnaire_section_id, :order])
   end
 end

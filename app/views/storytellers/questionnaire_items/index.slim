@@ -22,17 +22,20 @@
                     li
                       .container
                         = label_tag :question, "Question Text", class: 'handle'
-                        = text_field_tag "questionnaire_section[][questionnaire_items][question]", question.question
-                        = hidden_field_tag "questionnaire_section[][questionnaire_items][id]", question.id
-                        = hidden_field_tag "questionnaire_section[][questionnaire_items][order]", question.order, class: 'order-field'
-                        = hidden_field_tag "questionnaire_section[][questionnaire_items][questionnaire_section_id]", question.questionnaire_section_id, class: 'section-id-field'
+                        = text_field_tag "questionnaire_section[][questionnaire_items][][question]", question.question
+                        = hidden_field_tag "questionnaire_section[][questionnaire_items][][id]", question.id
+                        = hidden_field_tag "questionnaire_section[][questionnaire_items][][order]", question.order, class: 'order-field'
+                        = hidden_field_tag "questionnaire_section[][questionnaire_items][][questionnaire_section_id]", question.questionnaire_section_id, class: 'section-id-field'
                         i.fa.fa-minus-circle.delete
 
               .button-row.center
                 = link_to "Add Question", "#", class: 'button add-question'
 
-  .button-row.center
-    = link_to "Add Section", '#', class: 'button add-section'
+    .button-row.center
+      = link_to "Add Section", '#', class: 'button add-section'
+
+    .button-row.center
+      = submit_tag "Save Questionnaire"
 
   .section-template
     li
@@ -55,10 +58,10 @@
     li
       .container
         = label_tag :question, "Question Text", class: 'handle'
-        = text_field_tag "questionnaire_section[][questionnaire_items][question]", ""
-        = hidden_field_tag "questionnaire_section[][questionnaire_items][id]", ""
-        = hidden_field_tag "questionnaire_section[][questionnaire_items][order]", "", class: 'order-field'
-        = hidden_field_tag "questionnaire_section[][questionnaire_items][questionnaire_section_id]", "", class: 'section-id-field'
+        = text_field_tag "questionnaire_section[][questionnaire_items][][question]", ""
+        = hidden_field_tag "questionnaire_section[][questionnaire_items][][id]", ""
+        = hidden_field_tag "questionnaire_section[][questionnaire_items][][order]", "", class: 'order-field'
+        = hidden_field_tag "questionnaire_section[][questionnaire_items][][questionnaire_section_id]", "", class: 'section-id-field'
         i.fa.fa-minus-circle.delete
 
 = javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true
