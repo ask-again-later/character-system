@@ -110,11 +110,11 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
-    t.integer  "questionnaire_item_id", null: false
-    t.integer  "character_id",          null: false
-    t.text     "answer",                null: false
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.integer  "questionnaire_item_id",              null: false
+    t.integer  "character_id",                       null: false
+    t.text     "answer",                default: ""
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.index ["character_id"], name: "index_questionnaire_answers_on_character_id", using: :btree
     t.index ["questionnaire_item_id"], name: "index_questionnaire_answers_on_questionnaire_item_id", using: :btree
   end

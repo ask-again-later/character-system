@@ -90,7 +90,8 @@
       - @challenges.each do |challenge|
         option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
     = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
-    = button_tag 'New Challenge', type: 'button', class: 'button', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
+    - if @custom_challenge.present?
+      = button_tag 'New Challenge', type: 'button', class: 'button', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
