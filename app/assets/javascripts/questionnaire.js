@@ -24,17 +24,18 @@ $(document).ready(function() {
   });
 
   $('#questionnaire > li .delete').click(function() {
-    var conf = confirm('Are you sure you want to delete this section?');
+    var conf = confirm('Are you sure you want to delete this section? This will also delete all questions within the section.');
     if (conf === true) {
       $(this).parents('li').remove();
     }
     return;
   });
 
-  $('#questionnaire > li ul li .delete').click(function() {
+  $('#questionnaire > li > ul > li .delete').click(function() {
     var conf = confirm('Are you sure you want to delete this question?');
     if (conf === true) {
       $(this).parents('li').remove();
     }
+    return;
   });
 });

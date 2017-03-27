@@ -15,8 +15,7 @@
               = hidden_field_tag "questionnaire_section[][order]", section.order, class: 'order-field'
               i.fa.fa-minus-circle.delete
 
-              div
-                strong Questions:
+              .subsection-title Questions
               ul
                 - if section.questionnaire_items.present?
                   - section.questionnaire_items.order(:order).each do |question|
