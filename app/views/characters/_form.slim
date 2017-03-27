@@ -65,7 +65,7 @@
     select name="advantages" id="advantages"
       - @advantages.each do |advantage|
         option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
-    = button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
+    = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
 
   ul#advantages-list
     - @character.character_has_advantages.each do |advantage|
@@ -89,13 +89,13 @@
     select name="challenges" id="challenges"
       - @challenges.each do |challenge|
         option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
-    = button_tag 'Add Creature Challenge', type: 'button', class: 'button', id: "challenge-add"
+    = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
     - if @custom_challenge.present?
-      = button_tag 'New Challenge', type: 'button', class: 'button', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
+      = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
-      li
+      li data-creature="#{challenge.is_creature_challenge}"
         - if challenge.challenge.is_custom
           - if challenge.custom_name.present?
             = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
@@ -116,6 +116,7 @@
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
         = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
+        = hidden_field_tag "character[character_has_challenges][][is_creature_challenge]", challenge.is_creature_challenge
 
   - if current_user.is_storyteller || @character.status == 3
     h3.section Derived Stats
@@ -199,6 +200,10 @@
         .form-row.description
           = label_tag :custom_description, "Description"
           = text_area_tag :custom_description, "", id: 'modal-custom-description'
+
+        .form-row.creature
+          = check_box_tag :is_creature_challenge, true, false, id: 'modal-creature-challenge'
+          = label_tag :is_creature_challenge, "Is this a creature challenge?"
 
         = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
 

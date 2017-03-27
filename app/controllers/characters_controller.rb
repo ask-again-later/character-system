@@ -89,12 +89,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						chc_ids << challenge[:id].to_i
 					end
 				end
@@ -175,12 +175,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						chc_ids << challenge[:id].to_i
 					end
 				end
