@@ -83,6 +83,18 @@
       ul {
         li {
           margin-bottom: 1em;
+
+          .container {
+            .controls {
+              text-align: right;
+              font-size: 14px;
+              margin: 5px 0;
+
+              span {
+                margin-left: 10px;
+              }
+            }
+          }
         }
       }
     }
