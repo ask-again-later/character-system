@@ -56,6 +56,9 @@ class CharactersController < ApplicationController
 
 	def edit
 		@character = Character.find(params[:id])
+		if (@character.user.id != current_user.id && !current_user.is_storyteller)
+			redirect_to root_path
+		end
 		if @character.status > 0 and !current_user.is_storyteller
 			redirect_to character_path(@character)
 		end
@@ -72,9 +75,6 @@ class CharactersController < ApplicationController
 		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_answers = @character.questionnaire_answers
-		if (@character.user.id != current_user.id && !current_user.is_storyteller)
-			redirect_to root_path
-		end
 	end
 
 	def update
