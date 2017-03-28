@@ -1,0 +1,24 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+.data-entry-form.data-entry-questionnaire
+  h2 New Questionnaire Section
+
+  = form_for @questionnaire_section, url: {action: 'create'} do |f|
+    = render partial: 'form', locals: {f: f}
+
+  .question-template
+    li
+      .container
+        = label_tag :question, "Question Text", class: 'handle'
+        = text_field_tag "questionnaire_section[questionnaire_items_attributes][][question]", ""
+        .controls
+          span.required
+            = check_box_tag "questionnaire_section[questionnaire_items_attributes][][required]", true, true
+            = label_tag :required, "Is Required?"
+          span.extended
+            = check_box_tag "questionnaire_section[questionnaire_items_attributes][][extended]", true, false
+            = label_tag :required, "Extended Questionnaire"
+        = hidden_field_tag "questionnaire_section[questionnaire_items_attributes][][id]", "", class: 'question-id'
+        = hidden_field_tag "questionnaire_section[questionnaire_items_attributes][][order]", "", class: 'order-field'
+        i.fa.fa-minus-circle.delete
