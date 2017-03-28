@@ -6,6 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 advantages_list = [
+  ["Area of Expertise", "Effect: Your character is uncommonly specialized in one area. Specify a word or short phrase that represents this specific knowledge and experience your character has. Whenever the Specification applies, you gain a +1 on any Skill or Special Training with at least one dot. For example, a doctor with an Area of Expertise in Anatomy may be able to use it when targeting a specific body part with Fight, but could not with a general strike.", "1", "", true],
+  ["Common Sense", "Effect: Your character has an exceptionally sound and rational mind. With a moment’s thought, she can weigh potential courses of action and outcomes. Once per season as an instant action, you may ask the Storyteller one of the following questions about a task at hand or course of action.\n\n* What is the worst choice?\n* What do I stand to lose here?\n* What’s the safest choice?\n* Am I chasing a worthless lead?", "3", "", false],
+  ["Danger Sense", "Effect: Your character’s reflexes are honed to the point where nothing’s shocking. You gain a +3 modifier on reflexive Wits + Composure draws for your character to detect an impending ambush.", "2", "", false],
+  ["Direction Sense", "Effect: Your character has an innate sense of direction, and is always aware of her location in space. She always knows which direction she faces, and never suffers penalties to navigate or find her way.", "1", "", false],
+  ["Fun Facts", "Effect: Specify a Skill. Due to an immersion in the internet, game shows, or just a run of the mill obsession, your character has collected limitless factoids about the topic, even if she has no dots in the Skill. You can make an Intelligence + Wits draw at any time your character is dealing with her area of interest. On a successful draw, the Storyteller must give a relevant fact or detail about the issue at hand. Your character knows this fact, but you must explain within the scope of your character’s background why she knows it.", "2", "", true],
+  ["Eye for the Odd", "Effect: While your character does not necessarily possess a breadth of knowledge about the supernatural, she knows the unnatural when she sees it. By perusing evidence, she can determine whether something comes from natural origins. Draw Intelligence + Composure. With a success, the Storyteller must tell you if the scene has an unnatural cause, and provide one piece of found information that confirms the answer. With an exceptional success, she must give you a bit of supernatural folklore that suggests what type of creature caused the problem. If the problem was mundane, an exceptional success gives an ongoing +3 to all draws to investigate the event, due to her redoubled certainty in its natural causation.", "2", "Resolve 2, Local Lore 2", false]
   ["Dread Attack", "This is a description of Dread Attacks", "1,2,3", "Strength 3", false],
   ["Drain", "This is a description of Drain", "3", "", true],
   ["Resources", "How much money, yo", "1,2,3,4,5", "", false],
@@ -60,17 +66,42 @@ questionnaire_items_list = [
 ]
 
 true_selves_list = [
-  "Arrogant",
-  "Child",
-  "Drifter",
-  "Coward",
-  "Tyrant"
+  ["Arrogant", "The Arrogant is someone who is unafraid to flaunt their own knowledge or achievements, whether by boasting, by insisting they always know best...or by putting down anyone who threatens their sense of self-importance. However, their high personal standards also mean that they value self-improvement, and know that one’s actions are worthy of recognition. Taking a stand requires confidence, and that’s one thing the Arrogant surely doesn’t lack.
+"],
+  ["Betrayer", "The Betrayer understands that sometimes a situation changes, and needs to be re-evaluated for a new reality. They are not always a liar; rather, they are someone who violates trust that others have placed in them. Putting yourself first is not a fast track to keeping friends, but someone has got to look out for Number One. The Betrayer is, ultimately, eminently practical: others may be too soft to acknowledge that it’s a dog-eat-dog world, but the Betrayer will do what they must to get by."],
+  ["Child", "The Child has not yet taken their place in the world, relying on others for support. Whether or not they are a literal child, their innocent outlook and trusting tendency to assume the best of those around them can be a bright spot in hard times. However, this is paired with a refusal (or inability) to shoulder responsibility. Naivety often necessitates leaning on others, regardless of their ability to hold the Child up—or their interest in doing so.
+"],
+  ["Clown", "The Clown wants to help people see the absurdity and levity in any situation. They don’t hesitate to point out the contradictions that others might prefer to ignore. While they may view themselves as the insightful court jester, many people will just see them as rude. Jokes have their place, and making them at the wrong time can create enemies, or worse, undermine people truly in need of aid."],
+  ["Coward", "The world is a dangerous and unforgiving place, and none is more acutely aware of this than the Coward. It is sometimes said that it is in times of darkness that we find the truest measure of our souls, but the Coward is the one who instead remembers exactly what’s at risk by facing down trouble. Valuing personal security above all does not necessarily make the Coward selfish, though—fear can be an equally powerful motivator when it comes to keeping those around you safe, even if that safety is stifling."],
+  ["Cruel", "Where others strive for some level of gentleness and empathy for those around them, for those who are truly Cruel, these concessions are at best exactly that—concessions, if they are not entirely a façade. The Cruel sees hurting others as both a means to their ends—a way to ensure that none stand between them and their goals—and, sometimes, an end in and of itself. While Cruelty makes few friends, it is sure to cow enemies, and isn’t it better to have someone who can do the things that the Cruel does on *your* side?"],
+  ["Cynic", "The Cynic questions—traditions, authority, a hand extended in aid; nothing is above their doubt and scrutiny. They consistently take the least charitable view of the world and people around them. This is not, at its core, a bad impulse: ultimately, the Cynic recognizes that things always have the potential to be better than they are, and never accepts anything \"just because.\" However, this comes with the risk of self-isolation and inaction, when no person, or no choice, seems worthy of trust."],
+  ["Deceiver", "The Deceiver is a liar and a con artist. There’s nothing personal about it, really—the Deceiver isn’t out to betray any particular person, and indeed may be a truly loyal friend and ally. Rather, for the Deceiver, dishonesty is a way of life. This is because they understand, perhaps better than anyone, that truth is the most valuable currency there is, and that there is no reason to spend it freely, especially not when lies are so versatile—and let the Deceiver be so much less vulnerable. Of course, should others discover the lies, the Deceiver is likely to be cast out, regardless of whether or not they acted with malice."],
+  ["Dreamer", "The Dreamer is an optimist, willing and able to imagine a better, kinder world. And, regardless of the doubts and slights of others, the Dreamer welcomes the changes it will take to make their vision a reality. Unfortunately, big ideas and a gentle soul do not necessarily translate to the practical know-how to actually improve the lives of those around them, and others may find the Dreamer to be woefully out of touch with reality."],
+  ["Drifter", ""],
+  ["Easy", ""],
+  ["Fussy", ""],
+  ["Gossip", ""],
+  ["Hedonist", ""],
+  ["Hoodlum", ""],
+  ["Layabout", ""],
+  ["Martyr", ""],
+  ["Misanthrope", ""],
+  ["Monster", ""],
+  ["Narcissist", ""],
+  ["Obsessed", ""],
+  ["Scrooge", ""],
+  ["Tyrant", ""],
+  ["Upstart", ""],
+  ["Violent", ""],
+  ["Weirdo", ""]
 ]
 
 users_list = [
-  ["test_user@test.test", "welcome", "test user please ignore"],
-  ["clarkkent@superman.super", "welcome", "Clark Kent"],
-  ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom"],
+  ["test_user@test.test", "welcome", "test user please ignore", false, false],
+  ["clarkkent@superman.super", "welcome", "Clark Kent", false, false],
+  ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false],
+  ["sts@askagainlater.com", "welcome", "Storyteller", true, false],
+  ["admin@whatever.com", "welcome", "Admin", true, true]
 ]
 
 characters_list =  [
@@ -134,14 +165,14 @@ questionnaire_items_list.each do |question, order, section, required, extended|
   QuestionnaireItem.create(question: question, order: order, questionnaire_section_id: section, required: required, extended: extended)
 end
 
-true_selves_list.each do |name|
+true_selves_list.each do |name, description|
   puts "Creating seed True Selves"
-  TrueSelf.create(name: name)
+  TrueSelf.create(name: name, description: description)
 end
 
-users_list.each do |email, password, name|
+users_list.each do |email, password, name, is_storyteller, is_admin|
   puts "Creating seed Users"
-  User.create(email: email, password: password, password_confirmation: password, name: name)
+  User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin)
 end
 
 characters_list.each do |name, user_id, stability, handy, religion, bureaucracy,
