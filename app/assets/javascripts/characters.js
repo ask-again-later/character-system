@@ -19,7 +19,7 @@ $('input[name="character[wits]"], input[name="character[dexterity]"]').on('chang
 });
 
 $('input[name="character[stamina]"]').on('change', function () {
-  $('input#health').val(5+parseInt($('input[name="character[stamina]"]:checked').val()));
+  $('input#character_health').val(5+parseInt($('input[name="character[stamina]"]:checked').val()));
 });
 
 $('#advantage-add').on('click', function(e) {
