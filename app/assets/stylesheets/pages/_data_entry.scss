@@ -18,6 +18,15 @@
   }
 }
 
+.data-entry-show-questionnaire {
+  .instructions {
+    max-width: 50em;
+    border-bottom: 1px $green solid;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+}
+
 .data-entry-form {
   label {
     font-weight: bold;

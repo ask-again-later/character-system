@@ -8,7 +8,7 @@
 
 p.subsection-title Questions
 
-ul
+ul#questionnaire
   - @questionnaire_section.questionnaire_items.each do |question|
     li
       .container
@@ -43,3 +43,5 @@ ul
       = hidden_field_tag "questionnaire_section[][questionnaire_items][][id]", ""
       = hidden_field_tag "questionnaire_section[][questionnaire_items][][order]", "", class: 'order-field'
       i.fa.fa-minus-circle.delete
+
+= javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true

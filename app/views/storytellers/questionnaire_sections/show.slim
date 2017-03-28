@@ -1,16 +1,19 @@
 .breadcrumbs
   = render_breadcrumbs
 
-h2
-  = "Questionnaire Section: #{@section.title}"
+.data-entry-show-questionnaire
+  h2
+    = "Questionnaire Section: #{@section.title}"
 
-.instructions
-  = raw @markdown.render(@section.instructions)
+  .instructions
+    p
+      strong Instructions:
+    = raw @markdown.render(@section.instructions)
 
-ol.questions
-  - @section.questionnaire_items.order(order: :asc).each do |question|
-    li
-      = question.question
+  ol.questions
+    - @section.questionnaire_items.order(order: :asc).each do |question|
+      li
+        = question.question
 
-.button-row
-  = link_to "Edit Section", edit_storytellers_questionnaire_section_path(@section), class: 'button'
+  .button-row
+    = link_to "Edit Section", edit_storytellers_questionnaire_section_path(@section), class: 'button'
