@@ -50,7 +50,8 @@ $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
     url: '/api/advantages/'+advantageId,
     method: 'GET',
     success: function(data) {
-      $modal.find('#modal-description').html(data.description);
+      var converter = new showdown.Converter();
+      $modal.find('#modal-description').html(converter.makeHtml(data.description));
       $modal.find('.header span').text(data.name);
       // hide all the stuff that's irrelevant
       if (!data.requires_specification) {
@@ -120,7 +121,8 @@ $('#challenge-add').on('click', function(e) {
     url: '/api/challenges/'+challengeId,
     method: 'GET',
     success: function(data) {
-      $('#challenges-list li').last().find('.description').html(data.description);
+      var converter = new showdown.Converter();
+      $('#challenges-list li').last().find('.description').html(converter.makeHtml(data.description));
       $('#challenges-list li').data('is-creature', data.is_creature_challenge)
     }
   });
@@ -136,7 +138,9 @@ $('#challenge-add-custom').on('click', function(e) {
     url: '/api/challenges/'+id,
     method: 'GET',
     success: function(data) {
+      var converter = new showdown.Converter();
       $('#challenges-list li').last().find('.custom-name').html(data.name);
+      $('#challenges-list li').last().find('.custom-description').html(converter.makeHtml(data.description));
     }
   });
 });
@@ -172,10 +176,11 @@ $('#save-challenge').on('click', function(e) {
   var creature = $modal.find('#modal-creature-challenge').is(':checked');
   var $challenge = $('#challenges-list li:nth-child('+(parseInt(challengeToUpdate)+1)+')');
   // update both display and hidden field values
+  var converter = new showdown.Converter();
 
   $challenge.find('.custom-name').text(name);
   $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val(name);
-  $challenge.find('.description').html(description);
+  $challenge.find('.description').html(converter.makeHtml(description));
   $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val(description);
   $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val(creature);
   $('.overlay').fadeOut();

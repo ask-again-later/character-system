@@ -108,10 +108,10 @@
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
         - if challenge.custom_description.present?
           .description
-            = challenge.custom_description.html_safe
+            = raw @markdown.render(challenge.custom_description)
         - elsif challenge.challenge.description.present?
           .description
-            = challenge.challenge.description.html_safe
+            = raw @markdown.render(challenge.challenge.description)
         = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
