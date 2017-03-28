@@ -15,4 +15,5 @@
 //= require jquery-ui
 //= require turbolinks
 //= require dataTables/jquery.dataTables
+//= require nestedSortable
 //= require common

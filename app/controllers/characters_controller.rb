@@ -57,10 +57,10 @@ class CharactersController < ApplicationController
 	def edit
 		@character = Character.find(params[:id])
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
-			redirect_to root_path
+			redirect_to root_path and return
 		end
 		if @character.status > 0 and !current_user.is_storyteller
-			redirect_to character_path(@character)
+			redirect_to character_path(@character) and return
 		end
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING

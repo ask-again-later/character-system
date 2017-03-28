@@ -1,0 +1,35 @@
+.section
+  = f.label :title, "Section Title"
+  = f.text_field :title
+  = f.label :instructions
+  = f.text_area :instructions
+  = f.hidden_field :id
+  = f.hidden_field :order, class: 'order-field'
+
+p.subsection-title Questions
+
+ul#questionnaire
+  = f.fields_for :questionnaire_items do |ff|
+    li
+      .container
+        = ff.label :question, "Question Text", class: 'handle'
+        = ff.text_field :question
+        .controls
+          span.required
+            = ff.check_box :required
+            = ff.label :required, "Is Required?"
+          span.extended
+            = ff.check_box :extended
+            = ff.label :extended, "Extended Questionnaire"
+        = ff.hidden_field :id, class: 'question-id'
+        = ff.hidden_field :order, class: 'order-field'
+        = ff.hidden_field :_destroy, class: 'destroy'
+        i.fa.fa-minus-circle.delete
+
+.button-row.center
+  = link_to "Add Question", "#", class: 'button-secondary', id: 'add-question'
+
+.button-row
+  = f.submit "Save"
+
+= javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true
