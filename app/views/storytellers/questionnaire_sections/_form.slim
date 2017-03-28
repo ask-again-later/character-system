@@ -21,8 +21,9 @@ ul#questionnaire
           span.extended
             = ff.check_box :extended
             = ff.label :extended, "Extended Questionnaire"
-        = ff.hidden_field :id
+        = ff.hidden_field :id, class: 'question-id'
         = ff.hidden_field :order, class: 'order-field'
+        = ff.hidden_field :_destroy, class: 'destroy'
         i.fa.fa-minus-circle.delete
 
 .button-row.center

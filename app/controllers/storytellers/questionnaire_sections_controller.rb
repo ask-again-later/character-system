@@ -1,6 +1,6 @@
 module Storytellers
   class QuestionnaireSectionsController < ApplicationController
-    before_action :authenticate_user!, :requires_storyteller
+    before_action :authenticate_user!, :requires_storyteller, :except => :reorder_sections
 
     add_breadcrumb "Storytellers", :storytellers_path
     add_breadcrumb "Questionnaire Sections", :storytellers_questionnaire_sections_path
@@ -46,14 +46,18 @@ module Storytellers
       redirect_to edit_storytellers_questionnaire_section_path(@section) and return
     end
 
-    def update_section_order
-
+    def reorder_sections
+      @sections = params[:questionnaire_sections]
+      @sections.each do |section|
+        @qs = QuestionnaireSection.find(section[:id])
+        @qs.update_attributes!(order: section[:order])
+      end
     end
 
     private
 
     def questionnaire_section_params
-      params.require(:questionnaire_section).permit(:id, :title, :instructions, :order, questionnaire_items_attributes: [:id, :question, :order, :required, :extended])
+      params.require(:questionnaire_section).permit(:id, :title, :instructions, :order, questionnaire_items_attributes: [:id, :question, :order, :required, :extended, :_destroy])
     end
   end
 end

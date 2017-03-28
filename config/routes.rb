@@ -38,8 +38,8 @@ Rails.application.routes.draw do
     resources :advantages
     resources :challenges
     resources :true_selves
-    resources :questionnaire_sections
     post 'questionnaire_sections/reorder', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
+    resources :questionnaire_sections
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

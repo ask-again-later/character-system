@@ -19,6 +19,6 @@
           span.extended
             = check_box_tag "questionnaire_section[questionnaire_items_attributes][][extended]", true, false
             = label_tag :required, "Extended Questionnaire"
-        = hidden_field_tag "questionnaire_section[questionnaire_items_attributes][][id]", ""
+        = hidden_field_tag "questionnaire_section[questionnaire_items_attributes][][id]", "", class: 'question-id'
         = hidden_field_tag "questionnaire_section[questionnaire_items_attributes][][order]", "", class: 'order-field'
         i.fa.fa-minus-circle.delete
