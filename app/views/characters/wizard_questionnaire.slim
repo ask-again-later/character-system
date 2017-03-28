@@ -11,7 +11,7 @@
 
     - if @page.instructions.present?
       .instructions
-        = @page.instructions.html_safe
+        = raw @markdown.render(@page.instructions)
 
     - if @page.questionnaire_items.present?
       - @page.questionnaire_items.each do |question|
