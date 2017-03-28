@@ -26,7 +26,10 @@ ul#questionnaire
         i.fa.fa-minus-circle.delete
 
 .button-row.center
-  = link_to "Add Question", "#", class: 'button', id: 'add-question'
+  = link_to "Add Question", "#", class: 'button-secondary', id: 'add-question'
+
+.button-row
+  = f.submit "Save"
 
 .question-template
   li

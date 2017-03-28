@@ -26,29 +26,28 @@ module Storytellers
       add_breadcrumb "Edit", edit_storytellers_questionnaire_section_path(@questionnaire_section)
     end
 
-    def update
-  		sections = params[:questionnaire_section]
-      section_list = []
-      sections.each do |section|
-        if section[:id].present?
-          qs = QuestionnaireSection.find(section[:id])
-          section_list << section[:id].to_i
-          puts questionnaire_section_params.inspect
-          qs.update_attributes!(questionnaire_section_params)
-        else
-          qs = QuestionnaireSection.new(title: section[:title], instructions: section[:instructions], order: section[:order], questionnaire_items_attributes: questionnaire_item_params)
-          puts questionnaire_section_params.inspect
-          section_list << qs.id.to_i
-        end
+    def create
+      @section = QuestionnaireSection.new(questionnaire_section_params)
+      if @section.save!
+        flash[:success] = "The questionnaire section was added."
+        redirect_to storytellers_questionnaire_section_path(@section) and return
       end
-      @sections = QuestionnaireSection.all
-      @sections.each do |section|
-        unless section_list.include?(section.id)
-          section.destroy
-        end
-      end
+      flash[:error] = "There was an error creating a new questionnaire section."
+      redirect_to new_storytellers_questionnaire_section_path
+    end
 
-  		redirect_to '/storytellers/questionnaire'
+    def update
+      @section = QuestionnaireSection.find(params[:id])
+      if @section.update_attributes!(questionnaire_section_params)
+        flash[:success] = "The questionnaire section was updated."
+  		  redirect_to storytellers_questionnaire_section_path(@section) and return
+      end
+      flash[:error] = "There was an error updating this section."
+      redirect_to edit_storytellers_questionnaire_section_path(@section) and return
+    end
+
+    def update_section_order
+
     end
 
     private
