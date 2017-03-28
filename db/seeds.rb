@@ -103,8 +103,19 @@ users_list = [
   ["test_user@test.test", "welcome", "test user please ignore", false, false],
   ["clarkkent@superman.super", "welcome", "Clark Kent", false, false],
   ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false],
-  ["sts@askagainlater.com", "welcome", "Storyteller", true, false],
-  ["admin@whatever.com", "welcome", "Admin", true, true]
+  ["st1@askagainlater.com", "welcome", "Storyteller 1", true, false],
+  ["st2@askagainlater.com", "welcome", "Storyteller 2", true, false],
+  ["st3@askagainlater.com", "welcome", "Storyteller 3", true, false],
+  ["admin1@askagainlater.com", "welcome", "Admin", true, true],
+  ["admin2@askagainlater.com", "welcome", "Admin", true, true],
+  ["player1@askagainlater.com", "welcome", "Player 1", false, false],
+  ["player2@askagainlater.com", "welcome", "Player 2", false, false],
+  ["player3@askagainlater.com", "welcome", "Player 3", false, false],
+  ["player4@askagainlater.com", "welcome", "Player 4", false, false],
+  ["player5@askagainlater.com", "welcome", "Player 5", false, false],
+  ["player6@askagainlater.com", "welcome", "Player 6", false, false],
+  ["player7@askagainlater.com", "welcome", "Player 7", false, false],
+  ["player8@askagainlater.com", "welcome", "Player 8", false, false]
 ]
 
 characters_list =  [
