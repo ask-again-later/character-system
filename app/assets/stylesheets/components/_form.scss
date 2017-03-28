@@ -36,7 +36,8 @@ textarea {
 }
 
 .textarea-wrapper {
-  width: 50em;
+  width: 100%;
+  max-width: 50em;
   position: relative;
 
   .notice {

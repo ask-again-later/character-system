@@ -1,5 +1,15 @@
 $(document).ready(function() {
 
+  $('table.table#questionnaire tbody').sortable({
+    stop: function() {
+      var sectionId;
+      $('#questionnaire tbody tr').each(function (index) {
+        $(this).find('.order-field').val(index);
+        $(this).find('span.order').text(index);
+      });
+    }
+  });
+
   $('#questionnaire').nestedSortable({
     handle: 'label.handle',
     listType: 'ul',

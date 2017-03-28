@@ -1,0 +1,45 @@
+.section
+  = f.label :title, "Section Title"
+  = f.text_field :title
+  = f.label :instructions
+  = f.text_area :instructions
+  = f.hidden_field :id
+  = f.hidden_field :order, class: 'order-field'
+
+p.subsection-title Questions
+
+ul
+  - @questionnaire_section.questionnaire_items.each do |question|
+    li
+      .container
+        = label_tag :question, "Question Text", class: 'handle'
+        = text_field_tag "questionnaire_section[questionnaire_items][][question]", question.question
+        .controls
+          span.required
+            = check_box_tag "questionnaire_section[questionnaire_items][][required]", true, question.required
+            = label_tag :required, "Is Required?"
+          span.extended
+            = check_box_tag "questionnaire_section[questionnaire_items][][extended]", true, question.extended
+            = label_tag :required, "Extended Questionnaire"
+        = hidden_field_tag "questionnaire_section[questionnaire_items][][id]", question.id
+        = hidden_field_tag "questionnaire_section[questionnaire_items][][order]", question.order, class: 'order-field'
+        i.fa.fa-minus-circle.delete
+
+.button-row.center
+  = link_to "Add Question", "#", class: 'button', id: 'add-question'
+
+.question-template
+  li
+    .container
+      = label_tag :question, "Question Text", class: 'handle'
+      = text_field_tag "questionnaire_section[][questionnaire_items][][question]", ""
+      .controls
+        span.required
+          = check_box_tag "questionnaire_section[][questionnaire_items][][required]", true, true
+          = label_tag :required, "Is Required?"
+        span.extended
+          = check_box_tag "questionnaire_section[][questionnaire_items][][extended]", true, false
+          = label_tag :required, "Extended Questionnaire"
+      = hidden_field_tag "questionnaire_section[][questionnaire_items][][id]", ""
+      = hidden_field_tag "questionnaire_section[][questionnaire_items][][order]", "", class: 'order-field'
+      i.fa.fa-minus-circle.delete

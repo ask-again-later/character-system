@@ -38,8 +38,7 @@ Rails.application.routes.draw do
     resources :advantages
     resources :challenges
     resources :true_selves
-    get '/questionnaire', to: 'questionnaire_items#index'
-    post '/questionnaire', to: 'questionnaire_items#update'
+    resources :questionnaire_sections
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,0 +1,8 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+.data-entry-form.data-entry-questionnaire
+  h2 New Questionnaire Section
+
+  = form_for @questionnaire_section, url: {action: 'create'} do |f|
+    = render partial: 'form', locals: {f: f}
