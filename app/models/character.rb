@@ -11,6 +11,8 @@ class Character < ApplicationRecord
 
 	validates :user, presence: true
 
+  after_create :calculate_derived_stats
+
 	def get_status
 		return STATUS[self.status]
 	end
@@ -18,4 +20,16 @@ class Character < ApplicationRecord
 	private
 
 	STATUS = ["In Progress", "Submitted", "Active", "Inactive"]
+
+  def calculate_derived_stats
+    unless user.is_storyteller?
+      initiative = dexterity + composure
+      health = 5 + stamina
+      willpower = 5 + resolve
+      speed = 5 + strength
+      defense = wits + athletics
+      self.update(initiative: initiative, health: health, willpower: willpower,
+                  speed: speed, defense: defense)
+    end
+  end
 end

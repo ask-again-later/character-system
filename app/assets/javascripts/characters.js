@@ -3,7 +3,7 @@ $('input[name="character[strength]"]').on('change', function() {
 });
 
 $('input[name="character[resolve]"]').on('change', function() {
-  $('input#willpower').val(5+parseInt($('input[name="character[resolve]"]:checked').val()));
+  $('input#character_willpower').val(5+parseInt($('input[name="character[resolve]"]:checked').val()));
 });
 
 $('input[name="character[composure]"], input[name="character[dexterity]"]').on('change', function() {
@@ -16,6 +16,10 @@ $('input[name="character[wits]"], input[name="character[dexterity]"]').on('chang
   var wits = parseInt($('input[name="character[wits]"]:checked').val());
   var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
   $('input#character_defense').val(wits+dexterity);
+});
+
+$('input[name="character[stamina]"]').on('change', function () {
+  $('input#health').val(5+parseInt($('input[name="character[stamina]"]:checked').val()));
 });
 
 $('#advantage-add').on('click', function(e) {
