@@ -38,7 +38,8 @@ class CharactersController < ApplicationController
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
-		@challenges = Challenge.all
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = current_user
 		@statuses = STATUS_ENUM
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
@@ -55,13 +56,17 @@ class CharactersController < ApplicationController
 
 	def edit
 		@character = Character.find(params[:id])
+		if (@character.user.id != current_user.id && !current_user.is_storyteller)
+			redirect_to root_path
+		end
 		if @character.status > 0 and !current_user.is_storyteller
 			redirect_to character_path(@character)
 		end
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@advantages = Advantage.all
-		@challenges = Challenge.all
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@statuses = STATUS_ENUM
@@ -70,9 +75,6 @@ class CharactersController < ApplicationController
 		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_answers = @character.questionnaire_answers
-		if (@character.user.id != current_user.id && !current_user.is_storyteller)
-			redirect_to root_path
-		end
 	end
 
 	def update
@@ -87,12 +89,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						chc_ids << challenge[:id].to_i
 					end
 				end
@@ -173,12 +175,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
 						chc_ids << challenge[:id].to_i
 					end
 				end

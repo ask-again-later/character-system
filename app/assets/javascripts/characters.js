@@ -114,16 +114,29 @@ $('#challenge-add').on('click', function(e) {
   var name = $selected.text();
   var challengeId = $selected.val();
 
-  $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /></li>');
+  $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="true" /></li>');
 
   $.ajax({
     url: '/api/challenges/'+challengeId,
     method: 'GET',
     success: function(data) {
       $('#challenges-list li').last().find('.description').html(data.description);
-      if (data.is_custom) {
-        $('#challenges-list li').last().find('.challenge-delete').before('<a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a>');
-      }
+      $('#challenges-list li').data('is-creature', data.is_creature_challenge)
+    }
+  });
+});
+
+$('#challenge-add-custom').on('click', function(e) {
+  e.preventDefault();
+  var id = $(this).data('challenge-id');
+
+  $('ul#challenges-list').append('<li data-challenge-id="'+id+'"><span class="custom-name"></span> <a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+id+'" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="false" /></li>');
+
+  $.ajax({
+    url: '/api/challenges/'+id,
+    method: 'GET',
+    success: function(data) {
+      $('#challenges-list li').last().find('.custom-name').html(data.name);
     }
   });
 });
@@ -136,9 +149,15 @@ $('#challenges-list').delegate('.challenge-edit', 'click', function(e) {
   var challengeId = $challenge.find('input[name="character[character_has_challenges][][challenge_id]"]').val();
   var name = $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val();
   var description = $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val();
+  var creature = $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val();
 
   $modal.find('#modal-custom-name').val(name);
   $modal.find('#modal-custom-description').text(description);
+  if (creature == "true") {
+    $modal.find('#modal-creature-challenge').prop("checked", "checked");
+  } else {
+    $modal.find('#modal-creature-challenge').removeProp("checked");
+  }
 
   $modal.find('#modal-chc-id').val(index);
 
@@ -150,6 +169,7 @@ $('#save-challenge').on('click', function(e) {
   var name = $modal.find('#modal-custom-name').val();
   var description = $modal.find('#modal-custom-description').val();
   var challengeToUpdate = $modal.find('#modal-chc-id').val();
+  var creature = $modal.find('#modal-creature-challenge').is(':checked');
   var $challenge = $('#challenges-list li:nth-child('+(parseInt(challengeToUpdate)+1)+')');
   // update both display and hidden field values
 
@@ -157,6 +177,7 @@ $('#save-challenge').on('click', function(e) {
   $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val(name);
   $challenge.find('.description').html(description);
   $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val(description);
+  $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val(creature);
   $('.overlay').fadeOut();
 });
 
