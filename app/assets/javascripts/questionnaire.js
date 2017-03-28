@@ -1,23 +1,25 @@
 $(document).ready(function() {
   $('table.table#questionnaire tbody').sortable({
-    stop: function() {
+    update: function() {
       var sectionId;
       $('#questionnaire tbody tr').each(function (index) {
         $(this).find('.order-field').val(index);
         $(this).find('span.order').text(index);
-
-        $.ajax({
-          method: 'POST',
-          url: '/storytellers/questionnaire_sections/reorder',
-          data: $('form').serialize()
-        });
       });
     }
   });
 
+  $('table#questionnaire tbody').trigger('update');
+
+  $('#save-order').on('click', function(e) {
+    e.preventDefault();
+    $('input[name="_method"][value="delete"]').remove();
+    $('.reorder-form').submit();
+  });
+
   $('ul#questionnaire').sortable({
     handle: 'label.handle',
-    stop: function() {
+    update: function() {
       $('#questionnaire li').each(function (index) {
         $(this).find('.order-field').val(index);
       });
@@ -33,7 +35,7 @@ $(document).ready(function() {
       $(this).attr('name', $(this).attr('name').replace("[]", "["+newindex+"]"));
     });
     $list.append($newItem);
-    $('ul#questionnaire').trigger('stop');
+    $('ul#questionnaire').trigger('update');
   });
 
   $('ul#questionnaire').delegate('.delete', 'click', function() {

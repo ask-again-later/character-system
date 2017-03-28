@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     resources :advantages
     resources :challenges
     resources :true_selves
-    post 'questionnaire_sections/reorder', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
+    post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
   end
 

@@ -1,8 +1,14 @@
 .data-entry-index
   h2 Questionnaire
 
-  = form_tag('/', method: 'PUT') do
-    table.table#questionnaire data-order="[[1, 'asc']]"
+  .button-row.right
+    = link_to "New Section", new_storytellers_questionnaire_section_path, class: 'button'
+
+  p
+    em You can drag and drop rows to re-order sections.
+
+  = form_tag(storytellers_reorder_questionnaire_sections_path, method: 'POST', class: 'reorder-form') do
+    table.table#questionnaire data-order="[[ 1, &quot;asc&quot; ]]"
       thead
         tr
           th Title
@@ -25,5 +31,8 @@
               td
                 = form_tag(storytellers_questionnaire_section_path(section), method: 'DELETE') do
                   = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this questionnaire section? This will also delete all the questions in this section.");', class: 'button'
+
+    .button-row
+      = submit_tag "Save Ordering", id: 'save-order'
 
 = javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true
