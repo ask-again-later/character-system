@@ -211,10 +211,19 @@ ul#challenges-list, ul#advantages-list {
 .questionnaire {
   h4 {
     cursor: pointer;
+    margin-bottom: 16px;
 
     &.open {
 
     }
+  }
+
+  .question-text {
+    margin-bottom: 6px;
+  }
+
+  .textarea-wrapper {
+    margin-bottom: 36px;
   }
 
   .section-content {
