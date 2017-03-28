@@ -19,15 +19,15 @@ $(document).ready(function() {
     }
   });
 
-  $('ul#questionnaire').delegate('.add-question', 'click', function(e) {
+  $('#add-question').on('click', function(e) {
     e.preventDefault();
     var $newItem = $('.question-template').children().clone();
-    var $list = $(this).closest('li').find('ul');
+    var $list = $('ul#questionnaire');
     $list.append($newItem);
-    $('#questionnaire').trigger('stop');
+    $('ul#questionnaire').trigger('stop');
   });
 
-  $('#questionnaire').delegate('.delete', 'click', function() {
+  $('ul#questionnaire').delegate('.delete', 'click', function() {
     var conf = confirm('Are you sure you want to delete this question?');
     if (conf === true) {
       $(this).closest('li').remove();

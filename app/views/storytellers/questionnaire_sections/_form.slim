@@ -9,20 +9,20 @@
 p.subsection-title Questions
 
 ul#questionnaire
-  - @questionnaire_section.questionnaire_items.each do |question|
+  = f.fields_for :questionnaire_items do |ff|
     li
       .container
-        = label_tag :question, "Question Text", class: 'handle'
-        = text_field_tag "questionnaire_section[questionnaire_items][][question]", question.question
+        = ff.label :question, "Question Text", class: 'handle'
+        = ff.text_field :question
         .controls
           span.required
-            = check_box_tag "questionnaire_section[questionnaire_items][][required]", true, question.required
-            = label_tag :required, "Is Required?"
+            = ff.check_box :required
+            = ff.label :required, "Is Required?"
           span.extended
-            = check_box_tag "questionnaire_section[questionnaire_items][][extended]", true, question.extended
-            = label_tag :required, "Extended Questionnaire"
-        = hidden_field_tag "questionnaire_section[questionnaire_items][][id]", question.id
-        = hidden_field_tag "questionnaire_section[questionnaire_items][][order]", question.order, class: 'order-field'
+            = ff.check_box :extended
+            = ff.label :extended, "Extended Questionnaire"
+        = ff.hidden_field :id
+        = ff.hidden_field :order, class: 'order-field'
         i.fa.fa-minus-circle.delete
 
 .button-row.center

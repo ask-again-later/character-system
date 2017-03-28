@@ -37,6 +37,7 @@ module Storytellers
     end
 
     def update
+      puts params.inspect
       @section = QuestionnaireSection.find(params[:id])
       if @section.update_attributes!(questionnaire_section_params)
         flash[:success] = "The questionnaire section was updated."
