@@ -31,20 +31,4 @@ ul#questionnaire
 .button-row
   = f.submit "Save"
 
-.question-template
-  li
-    .container
-      = label_tag :question, "Question Text", class: 'handle'
-      = text_field_tag "questionnaire_section[][questionnaire_items][][question]", ""
-      .controls
-        span.required
-          = check_box_tag "questionnaire_section[][questionnaire_items][][required]", true, true
-          = label_tag :required, "Is Required?"
-        span.extended
-          = check_box_tag "questionnaire_section[][questionnaire_items][][extended]", true, false
-          = label_tag :required, "Extended Questionnaire"
-      = hidden_field_tag "questionnaire_section[][questionnaire_items][][id]", ""
-      = hidden_field_tag "questionnaire_section[][questionnaire_items][][order]", "", class: 'order-field'
-      i.fa.fa-minus-circle.delete
-
 = javascript_include_tag 'questionnaire', 'data-turbolinks-track' => true
