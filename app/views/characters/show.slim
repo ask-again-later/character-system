@@ -1,132 +1,128 @@
-h2
-  = "Character: #{@character.name}"
+.character
+  h2
+    = "Character: #{@character.name}"
 
-.form-row
-  strong Name
-  = @character.name
-.form-row
-  strong Status
-  = @character.get_status
-.form-row
-  strong Character Pronouns
-  = @character.pronouns
-.form-row
-  strong Player
-  = @character.user.name
-.form-row
-  strong True Self
-  - if @character.true_self
-    = @character.true_self.name
+  .form-row.basic-stats
+    .stat
+      strong Name:
+      = @character.name
+    .stat
+      strong Status:
+      = @character.get_status
+    .stat
+      strong Character Pronouns:
+      = @character.pronouns
+    .stat
+      strong Player:
+      = @character.user.name
+    .stat
+      strong True Self:
+      - if @character.true_self
+        = @character.true_self.name
 
-h3 Attributes
+  h3.section Attributes
 
-.flex-container
-  - @attributes.each do |cat, vals|
-    .column
-      strong
-        = cat
-      - vals.each do |val|
-        .row
-          span.label
-            = val
-          .dots
-            - eval("@character.#{val.parameterize("_")}").times do
-              = icon 'circle'
+  .flex-container.attributes
+    - @attributes.each do |cat, vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            span.label
+              = val
+            .dots
+              - eval("@character.#{val.parameterize("_")}").times do
+                = icon 'circle'
 
-            - (5-eval("@character.#{val.parameterize("_")}")).times do
-              = icon 'circle-o'
+              - (5-eval("@character.#{val.parameterize("_")}")).times do
+                = icon 'circle-o'
 
-          .numeric
-            = eval "@character.#{val.parameterize("_")}"
+  h3.section Skills and Special Training
 
-h3 Skills and Special Training
+  .flex-container.skills-training
+    - @skills_training.each do |cat, vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            span.label
+              = val
+            .dots
+              - eval("@character.#{val.parameterize("_")}").times do
+                = icon 'circle'
 
-.flex-container
-  - @skills_training.each do |cat, vals|
-    .column
-      strong
-        = cat
-      - vals.each do |val|
-        .row
-          span.label
-            = val
-          .dots
-            - eval("@character.#{val.parameterize("_")}").times do
-              = icon 'circle'
+              - (5-eval("@character.#{val.parameterize("_")}")).times do
+                = icon 'circle-o'
 
-            - (5-eval("@character.#{val.parameterize("_")}")).times do
-              = icon 'circle-o'
+  h3.section Advantages
 
-          .numeric
-            = eval "@character.#{val.parameterize("_")}"
+  ul#advantages
+    - @character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+      - group.each_with_index do |cha, i|
+        li
+          p.name
+            = cha.advantage.name
+            - if cha.advantage.requires_specification?
+              = " (#{cha.specification})"
+            - if cha.advantage.allowed_ratings.length > 1
+              = " #{cha.rating}"
+          - if i == group.length-1
+            p.desc
+              = raw @markdown.render(cha.advantage.description)
 
-h3 Advantages
+  h3.section Challenges
 
-ul#advantages
-  - @character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
-    - group.each_with_index do |cha, i|
+  ul#challenges
+    - @character.character_has_challenges.each do |chc|
       li
         p.name
-          = cha.advantage.name
-          - if cha.advantage.requires_specification?
-            = " (#{cha.specification})"
-          - if cha.advantage.allowed_ratings.length > 1
-            = " #{cha.rating}"
-        - if i == group.length-1
-          p.desc
-            = raw @markdown.render(cha.advantage.description)
+          - if chc.challenge.is_custom and chc.custom_name.present?
+            = chc.custom_name
+          - else
+            = chc.challenge.name
+        p.desc
+          - if chc.challenge.is_custom and chc.custom_description.present?
+            = raw @markdown.render(chc.custom_description)
+          - else
+            = raw @markdown.render(chc.challenge.description)
 
-h3 Challenges
+  h3.section Derived Stats
+  .derived-stats
+    .stat.willpower
+      strong Willpower:
+      = @character.willpower
 
-ul#challenges
-  - @character.character_has_challenges.each do |chc|
-    li
-      p.name
-        - if chc.challenge.is_custom and chc.custom_name.present?
-          = chc.custom_name
-        - else
-          = chc.challenge.name
-      p.desc
-        - if chc.challenge.is_custom and chc.custom_description.present?
-          = raw @markdown.render(chc.custom_description)
-        - else
-          = raw @markdown.render(chc.challenge.description)
+    .stat.health
+      strong Health:
+      = @character.health
 
-h3 Derived Stats
+    .stat.initiative
+      strong Initiative:
+      = @character.initiative
 
-p.willpower
-  strong Willpower:
-  = @character.willpower
+    .stat.defense
+      strong Defense:
+      = @character.defense
 
-p.health
-  strong Health:
-  = @character.health
+    .stat.speed
+      strong Speed:
+      = @character.speed
 
-p.initiative
-  strong Initiative:
-  = @character.initiative
+  h3.section Questionnaire
 
-p.defense
-  strong Defense:
-  = @character.defense
+  .questionnaire
+    - @questionnaire_sections.each do |qs|
+      .questionnaire-section
+        h4 #{qs.title}
+        .section-content
+          - qs.questionnaire_items.each do |qi|
+            .question
+              .question-text
+                = qi.question
+              .question-answer
+                - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
+                  = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
 
-p.speed
-  strong Speed:
-  = @character.speed
-
-h3 Questionnaire
-
-.questionnaire
-  - @questionnaire_sections.each do |qs|
-    .questionnaire-section
-      h4 #{qs.title}
-      .section-content
-        - qs.questionnaire_items.each do |qi|
-          .question
-            .question-text
-              = qi.question
-            .question-answer
-              - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
-                = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
-
-= javascript_include_tag 'characters', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters', 'data-turbolinks-track' => true

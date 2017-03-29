@@ -1,4 +1,4 @@
-.character-form {
+.character {
   h3.section {
     border-bottom: 3px solid $green;
     display: inline-block;
@@ -54,7 +54,7 @@
 }
 
 @media (max-width:$small-media-query-size) {
-  .character-form .basic-stats {
+  .character .basic-stats {
     .stat {
       margin-bottom: 12px;
     }
@@ -229,4 +229,22 @@ ul#challenges-list, ul#advantages-list {
   .section-content {
     display: none;
   }
+
+  .questionnaire-section h4 {
+    margin-bottom: 12px;
+    text-decoration: underline;
+  }
+
+  .question-text {
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
+
+  .question-answer {
+    margin-bottom: 36px;
+  }
+}
+
+.character-show {
+
 }
