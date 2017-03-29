@@ -31,10 +31,11 @@ advantages_list = [
 ]
 
 challenges_list = [
-  ["Alcoholic", "You have a problem :(", false],
-  ["Vampire", "I vant to suck your blud", true],
-  ["Witch", "Spells and stuff", true],
-  ["Single Parent", "You are a single parent", false]
+  ["Werewolf", "You're a werewoof", true, false],
+  ["Vampire", "I vant to suck your blud", true, false],
+  ["Witch", "Spells and stuff", true, false],
+  ["Demon-Blooded", "You are a demon-blooded", true, false],
+  ["New Challenge", "A challenging circumstance that affects your character's life.", false, true]
 ]
 
 questionnaire_sections_list = [

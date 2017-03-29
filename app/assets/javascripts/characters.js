@@ -36,7 +36,6 @@ $(document).ready(function() {
     } else {
       lowestRating = ratings;
     }
-
     $('ul#advantages-list').append('<li>'+name+((specification) ? ' (<span class="specification"></span>)' : '')+((ratings.length > 1) ? ' <span class="rating">'+lowestRating+'</span>' : '')+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a><input type="hidden" name="character[character_has_advantages][][id]" value="" /><input type="hidden" name="character[character_has_advantages][][advantage_id]" value="'+advantageId+'" /><input type="hidden" name="character[character_has_advantages][][rating]" value="'+lowestRating+'" /><input type="hidden" name="character[character_has_advantages][][specification]" value="" /></li>');
   });
 
@@ -55,7 +54,8 @@ $(document).ready(function() {
       url: '/api/advantages/'+advantageId,
       method: 'GET',
       success: function(data) {
-        $modal.find('#modal-description').html(data.description);
+        var converter = new showdown.Converter();
+        $modal.find('#modal-description').html(converter.makeHtml(data.description));
         $modal.find('.header span').text(data.name);
         // hide all the stuff that's irrelevant
         if (!data.requires_specification) {
@@ -125,7 +125,8 @@ $(document).ready(function() {
       url: '/api/challenges/'+challengeId,
       method: 'GET',
       success: function(data) {
-        $('#challenges-list li').last().find('.description').html(data.description);
+        var converter = new showdown.Converter();
+        $('#challenges-list li').last().find('.description').html(converter.makeHtml(data.description));
         $('#challenges-list li').data('is-creature', data.is_creature_challenge)
       }
     });
@@ -141,7 +142,9 @@ $(document).ready(function() {
       url: '/api/challenges/'+id,
       method: 'GET',
       success: function(data) {
+        var converter = new showdown.Converter();
         $('#challenges-list li').last().find('.custom-name').html(data.name);
+        $('#challenges-list li').last().find('.custom-description').html(converter.makeHtml(data.description));
       }
     });
   });
@@ -163,7 +166,6 @@ $(document).ready(function() {
     } else {
       $modal.find('#modal-creature-challenge').removeProp("checked");
     }
-
     $modal.find('#modal-chc-id').val(index);
 
     $('#challenges-overlay').fadeIn().css("display", "flex");
@@ -177,10 +179,11 @@ $(document).ready(function() {
     var creature = $modal.find('#modal-creature-challenge').is(':checked');
     var $challenge = $('#challenges-list li:nth-child('+(parseInt(challengeToUpdate)+1)+')');
     // update both display and hidden field values
+    var converter = new showdown.Converter();
 
     $challenge.find('.custom-name').text(name);
     $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val(name);
-    $challenge.find('.description').html(description);
+    $challenge.find('.description').html(converter.makeHtml(description));
     $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val(description);
     $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val(creature);
     $('.overlay').fadeOut();

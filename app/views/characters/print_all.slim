@@ -77,7 +77,7 @@
                   = " #{cha.rating}"
               - if i == group.length-1
                 p.desc
-                  = cha.advantage.description.html_safe
+                  = raw @markdown.render(cha.advantage.description)
 
       h3 Challenges
 
@@ -85,9 +85,15 @@
         - character.character_has_challenges.each do |chc|
           li
             p.name
-              = chc.challenge.name
+              - if chc.challenge.is_custom? and chc.custom_name.present?
+                = chc.custom_name
+              - else
+                = chc.challenge.name
             p.desc
-              = chc.challenge.description
+              - if chc.challenge.is_custom? and chc.custom_description.present?
+                = raw @markdown.render(chc.challenge.custom_description)
+              - else
+                = raw @markdown.render(chc.challenge.description)
 
       h3 Derived Stats
 
@@ -125,4 +131,4 @@
                     = qi.question
                   .question-answer
                     - if character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
-                      = character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
+                      = raw @markdown.render(character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)

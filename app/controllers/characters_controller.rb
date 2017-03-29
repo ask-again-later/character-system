@@ -270,6 +270,8 @@ class CharactersController < ApplicationController
 		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		@page = @questionnaire[params[:page].to_i-1]
 		@questionnaire_answers = @character.questionnaire_answers
 	end
@@ -302,7 +304,11 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@advantages = Advantage.all.order(:name)
-		@challenges = Challenge.all.order(:name)
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -319,6 +325,9 @@ class CharactersController < ApplicationController
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 
 		render layout: 'print'
 	end

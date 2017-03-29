@@ -28,10 +28,15 @@
 
   h3 Challenges
 
+  div
+    = label_tag "Creature Challenges"
   select name="challenges" id="challenges"
     - @challenges.each do |challenge|
       option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
-  = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
+  = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
+  - if @custom_challenge.present?
+    = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
+
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
@@ -48,10 +53,10 @@
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
         - if challenge.custom_description.present?
           .description
-            = challenge.custom_description.html_safe
+            = raw @markdown.render(challenge.custom_description)
         - elsif challenge.challenge.description.present?
           .description
-            = challenge.challenge.description.html_safe
+            = raw @markdown.render(challenge.challenge.description)
         = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name

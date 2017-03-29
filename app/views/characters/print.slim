@@ -99,7 +99,7 @@
                     = " #{cha.rating}"
                 - if i == group.length-1
                   p.desc
-                    = cha.advantage.description.html_safe
+                    = raw @markdown.render(cha.advantage.description)
       .column
         h3 Challenges
 
@@ -109,7 +109,7 @@
               p.name
                 = chc.challenge.name
               p.desc
-                = chc.challenge.description
+                = raw @markdown.render(chc.challenge.description)
 
   .qualitative
     h2 #{@character.name}: Questionnaire
@@ -125,4 +125,4 @@
                   = qi.question
                 .question-answer
                   - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
-                    = @character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer.html_safe
+                    = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
