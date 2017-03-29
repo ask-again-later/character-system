@@ -1,1 +1,3 @@
-$('.table').dataTable();
+$(document).ready(function() {
+  $('.table').dataTable();
+});
