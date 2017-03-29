@@ -10,6 +10,21 @@
     margin-bottom: 30px;
     flex-shrink: 1;
   }
+
+  table.table#questionnaire {
+    tbody tr {
+      cursor: move;
+    }
+  }
+}
+
+.data-entry-show-questionnaire {
+  .instructions {
+    max-width: 50em;
+    border-bottom: 1px $green solid;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
 }
 
 .data-entry-form {
@@ -31,5 +46,60 @@
 
   label + input {
     margin-left: 0;
+  }
+
+  form {
+    max-width: 50em;
+    width: 100%;
+  }
+
+  label.handle {
+    cursor: move;
+  }
+
+  .section-template, .question-template {
+    display: none;
+  }
+
+  .section {
+    input[type="text"] {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    textarea {
+      margin-bottom: 16px;
+    }
+  }
+
+  .subsection-title {
+    margin-top: 1em;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: .5em;
+  }
+
+  ul {
+    li {
+      margin-bottom: 1em;
+      position: relative;
+
+      .delete {
+        position: absolute;
+        top: 2px;
+        right: 0;
+      }
+
+      .container {
+        .controls {
+          text-align: right;
+          font-size: 14px;
+          margin: 5px 0;
+
+          span {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
   }
 }
