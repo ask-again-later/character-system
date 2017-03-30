@@ -142,14 +142,14 @@ class CharactersController < ApplicationController
 			end
 			# send mailers if necessary
 			if oldstatus != @character.status
-				if @character.status == 1 && !current_user.is_storyteller
+				if @character.status == 1 and !current_user.is_storyteller
 					# send submission notification to storytellers
 					@storytellers = User.where(is_storyteller: true)
 					@storytellers.each do |storyteller|
-						CharacterMailer.character_submission(@character, storyteller)
+						CharacterMailer.character_submission(@character, storyteller).deliver_now
 					end
-				elsif @character.status == 2
-					CharacterMailer.character_approval(@character)
+				elsif @character.status == 2 and !@character.user.is_storyteller
+					CharacterMailer.character_approval(@character).deliver_now
 				end
 			end
 			if params[:wizard].present?
@@ -231,6 +231,14 @@ class CharactersController < ApplicationController
 				params[:character][:questionnaire_answers].each do |qa|
 					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 					@qa.save!
+				end
+			end
+			# send mailers if necessary
+			if @character.status == 1 && !current_user.is_storyteller
+				# send submission notification to storytellers
+				@storytellers = User.where(is_storyteller: true)
+				@storytellers.each do |storyteller|
+					CharacterMailer.character_submission(@character, storyteller).deliver_now
 				end
 			end
 			if params[:wizard].present?
