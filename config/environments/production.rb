@@ -81,7 +81,6 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address:              'mail.askagainlater.com',
     port:                 143,
-    domain:               'askagainlater.com',
     user_name:            ENV['mail_username'],
     password:             ENV['mail_password'],
     authentication:       'plain',
