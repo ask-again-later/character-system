@@ -78,12 +78,14 @@ class CharactersController < ApplicationController
 	end
 
 	def update
+		puts "starting character update"
 		@character = Character.find(params[:id])
 		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
 		if @character.update_attributes!(characters_params)
+			puts "character updated, starting challenges"
 			flash[:success] = "Changes to your character were saved."
 			if params[:character][:character_has_challenges].present?
 				chc_ids = []
@@ -107,6 +109,7 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
+			puts "challenges complete, starting advantages"
 			if params[:character][:character_has_advantages].present?
 				cha_ids = []
 				# add new advantages, and update older ones
@@ -129,6 +132,7 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
+			puts "advantages complete, starting questionnaire"
 			if params[:character][:questionnaire_answers].present?
 				params[:character][:questionnaire_answers].each do |qa|
 					if qa[:id].present?
