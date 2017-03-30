@@ -12,3 +12,6 @@
 !/log/.keep
 /tmp
 .DS_Store
+
+/config/application.yml
+/config/local_env.yml
