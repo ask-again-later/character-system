@@ -140,18 +140,23 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
+			puts "reached mailers"
 			# send mailers if necessary
 			if oldstatus != @character.status
+				puts "status changed"
 				if @character.status == 1 and !current_user.is_storyteller
+					puts "sending submission mailer"
 					# send submission notification to storytellers
 					@storytellers = User.where(is_storyteller: true)
 					@storytellers.each do |storyteller|
 						CharacterMailer.character_submission(@character, storyteller).deliver_now
 					end
 				elsif @character.status == 2 and !@character.user.is_storyteller
+					puts "sending approval mailer"
 					CharacterMailer.character_approval(@character).deliver_now
 				end
 			end
+			puts "passed mailers"
 			if params[:wizard].present?
 				if params[:formaction] == "save"
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
