@@ -79,6 +79,7 @@ class CharactersController < ApplicationController
 
 	def update
 		@character = Character.find(params[:id])
+		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
@@ -137,6 +138,18 @@ class CharactersController < ApplicationController
 						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 						@qa.save!
 					end
+				end
+			end
+			# send mailers if necessary
+			if oldstatus != @character.status
+				if @character.status == 1 && !current_user.is_storyteller
+					# send submission notification to storytellers
+					@storytellers = User.where(is_storyteller: true)
+					@storytellers.each do |storyteller|
+						CharacterMailer.character_submission(@character, storyteller)
+					end
+				elsif @character.status == 2
+					CharacterMailer.character_approval(@character)
 				end
 			end
 			if params[:wizard].present?

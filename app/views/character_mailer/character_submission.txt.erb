@@ -1,0 +1,5 @@
+New Character Submission from <%= @character.user.name %>
+
+Hi, <%= @st_name %>!
+
+You've received a new character submission, "#{@character.name}" from <%= @user.name %>. To review this submission, go here: <%= base_url %><%= character_path(@character) %>
