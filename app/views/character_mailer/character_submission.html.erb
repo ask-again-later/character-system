@@ -12,8 +12,18 @@
       font-family: "Lucida Grande", Arial, sans-serif;
     }
 
+    a {
+      color: #5C7A6A;
+    }
+
+    table {
+      margin: 0 auto;
+    }
+
     .content-header {
       height: 60px;
+      text-align: left;
+      padding: 0 30px;
     }
 
     h1 {
@@ -27,6 +37,7 @@
     h1 a {
       color: #FFFFFF;
       text-decoration: none;
+      font-weight: normal;
     }
 
     h2 {
@@ -36,20 +47,21 @@
 
     .content-body {
       padding: 30px;
+      text-align: left;
     }
   </style>
   <body>
     <table cellpadding="0" cellspacing="0" border="0" width="600">
       <tr>
         <td bgcolor="#333333" color="#FFFFFF" class="content-header" height="60" valign="middle">
-          <h1><a href="<%= base_url %>">AAL Character System</a></h1>
+          <h1><a href="<%= root_url %>">AAL Character System</a></h1>
         </td>
       </tr>
       <tr>
         <td bgcolor="#FFFFFF" color="#333333" class="content-body">
           <h2>New Character Submission from <%= @character.user.name %></h2>
           <p>Hi, <%= @st_name %>!</p>
-          <p>You've received a new character submission, "#{@character.name}" from <%= @user %>. To review this submission, <a href="<%= base_url %><%= character_path(@character) %>">click here.</a>.</p>
+          <p>You've received a new character submission, "<%= @character.name %>," from <%= @user %>. To review this submission, <a href="<%= root_url %>characters/<%= @character.id %>">click here</a>.</p>
         </td>
       </tr>
     </table>

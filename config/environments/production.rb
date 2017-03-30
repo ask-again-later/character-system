@@ -86,4 +86,5 @@ Rails.application.configure do
     password:             ENV['mail_password'],
     authentication:       'plain',
     enable_starttls_auto: true  }
+  config.action_mailer.default_url_options = { :host => "characters.askagainlater.com" }
 end
