@@ -1,2 +1,5 @@
 = form_for @character, url: {action: 'create'} do |f|
+  h2 Character Creation Wizard
+  
+  = hidden_field_tag "character[user_id]", current_user.id
   = render partial: 'wizard_form_initial', locals: {f: f}
