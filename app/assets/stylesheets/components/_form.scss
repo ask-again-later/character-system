@@ -124,8 +124,12 @@ select {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
-    margin: 0 10px;
     transition: .5s;
+    margin-right: 20px;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
 
     &.checked {
       border-color: $green;

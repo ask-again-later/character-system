@@ -6,6 +6,22 @@
 
   - if @page.present?
 
+    - if @page.id == @questionnaire.first.id
+      .form-row
+        = f.label :name
+        = f.text_field :name
+
+      .form-row.build-method
+        label.radio-label.checked
+          = f.radio_button :use_extended, false
+
+          p I would like to build my character's mechanics myself.
+        label.radio-label
+          = f.radio_button :use_extended, true
+
+          p I would like storyteller assistance in building my character, and am willing to answer a few extra questions about it.
+
+
     h3
       = @page.title
 
@@ -29,12 +45,13 @@
             = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
   = hidden_field_tag "wizard_current", @page.id
-  = hidden_field_tag "wizard_prev", @page.id != @questionnaire.second.id ? @page.id-1 : ''
+  = hidden_field_tag "wizard_prev", @page.id-1
   = hidden_field_tag "wizard", @questionnaire.length > @page.id ? @page.id+1 : 'basics'
 
   .button-row
     = hidden_field_tag "formaction", "", id: 'form-action'
-    = f.submit "Back", id: 'back'
+    - if @questionnaire.first.id != @page.id
+      = f.submit "Back", id: 'back'
     = f.submit "Save", id: 'save'
     = f.submit "Save and Next Page", id: 'save-continue'
     = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
