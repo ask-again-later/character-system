@@ -28,6 +28,22 @@
     }
   }
 
+  .basic-stats-short {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .stat {
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
+      label {
+        display: block;
+      }
+    }
+  }
+
   .derived-stats {
     display: flex;
     flex-direction: row;

@@ -9,7 +9,7 @@
   select name="advantages" id="advantages"
     - @advantages.each do |advantage|
       option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
-  = button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
+  = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
 
   ul#advantages-list
     - @character.character_has_advantages.each do |advantage|
@@ -65,10 +65,13 @@
   = hidden_field_tag "wizard_current", "challenges_advantages"
   = hidden_field_tag "wizard_prev", "skills_trainings"
   = hidden_field_tag "wizard", "full"
+  = f.hidden_field :id
 
-  = hidden_field_tag "formaction", "", id: 'form-action'
-  = f.submit "Back", id: 'back'
-  = f.submit "Finish", id: 'finish'
+  .button-row
+    = hidden_field_tag "form-action", "", id: 'form-action'
+    = f.submit "Back", id: 'back'
+    = f.submit "Save", id: 'save'
+    = f.submit "Finish", id: 'finish'
 
 .overlay#advantages-overlay
   .modal
