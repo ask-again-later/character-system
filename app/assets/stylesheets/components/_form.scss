@@ -72,11 +72,6 @@ select {
   }
 }
 
-label + select,
-label + input {
-  margin-left: 10px;
-}
-
 .template {
   display: none;
 }
@@ -111,4 +106,41 @@ label + input {
   overflow: hidden;
   text-indent: -99px;
   border: none;
+}
+
+.build-method {
+  display: flex;
+  align-items: stretch;
+  text-align: center;
+
+  label {
+    border: 2px $silver solid;
+    font-size: 18px;
+    padding: 15px;
+    display: block;
+    max-width: 250px;
+    width: 100%;
+    flex-shrink: 1;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin: 0 10px;
+    transition: .5s;
+
+    &.checked {
+      border-color: $green;
+      background-color: $dirty-polaroid;
+    }
+
+    p {
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    @media only screen and (max-width: $small-media-query-size) {
+      font-size: 16px;
+      padding: 10px;
+      margin: 0 5px;
+    }
+  }
 }

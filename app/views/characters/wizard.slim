@@ -10,13 +10,15 @@
     = f.label :name
     = f.text_field :name
 
-  .form-row
-    label.radio-label
+  .form-row.build-method
+    label.radio-label.checked
       = f.radio_button :use_extended, false
-      | I would like to build my character's mechanics myself
+
+      p I would like to build my character's mechanics myself.
     label.radio-label
       = f.radio_button :use_extended, true
-      | I would like storyteller assistance in building my character, and am willing to answer a few extra questions about it.
+
+      p I would like storyteller assistance in building my character, and am willing to answer a few extra questions about it.
 
 
   - if @section.present?
