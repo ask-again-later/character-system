@@ -1,29 +1,31 @@
-class DowntimeActionsController < ApplicationController
-  def index
+module Characters
+  class DowntimeActionsController < ApplicationController
+    def index
 
-  end
+    end
 
-  def show
+    def show
 
-  end
+    end
 
-  def new
+    def new
 
-  end
+    end
 
-  def create
+    def create
 
-  end
+    end
 
-  def edit
+    def edit
 
-  end
+    end
 
-  def update
+    def update
 
-  end
+    end
 
-  def destroy
+    def destroy
 
+    end
   end
 end
