@@ -128,6 +128,11 @@ h3.attributes, h3.skills-training {
     .content {
       padding: 10px 20px;
     }
+
+    label + input,
+    label + select {
+      margin-right: 10px;
+    }
   }
 }
 
