@@ -32,5 +32,5 @@ $(document).ready(function() {
     $('#character_use_extended').val('true');
     $('#form-action').val('switch-non-mechanics');
     $('form').submit();
-  });  
+  });
 });

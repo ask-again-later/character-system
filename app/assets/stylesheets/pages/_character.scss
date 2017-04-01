@@ -147,7 +147,8 @@ h3.attributes, h3.skills-training {
 
     label + input,
     label + select {
-      margin-right: 10px;
+      margin-left: 10px;
+      display: inline-block;
     }
   }
 }
@@ -221,6 +222,7 @@ h3.attributes, h3.skills-training {
 
 ul#challenges-list, ul#advantages-list {
   list-style: disc;
+  margin-top: 20px;
   margin-left: 20px;
   margin-bottom: 40px;
 
