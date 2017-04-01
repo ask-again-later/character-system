@@ -210,11 +210,16 @@ ul#challenges-list, ul#advantages-list {
 
 .questionnaire {
   h4 {
-    cursor: pointer;
     margin-bottom: 16px;
 
     &.open {
 
+    }
+  }
+
+  &.accordion {
+    h4 {
+      cursor: pointer;
     }
   }
 

@@ -29,22 +29,23 @@
     - if @section.instructions.present?
       .instructions
         = @section.instructions.html_safe
-
-    - if @section.questionnaire_items.present?
-      - @section.questionnaire_items.each do |question|
-        .question
-          .question-text
-            = question.question
-          = text_area_tag "character[questionnaire_answers][][answer]"
-          = hidden_field_tag "character[questionnaire_answers][][id]"
-          = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+    .questionnaire
+      - if @section.questionnaire_items.present?
+        - @section.questionnaire_items.each do |question|
+          .question
+            .question-text
+              = question.question
+            = text_area_tag "character[questionnaire_answers][][answer]"
+            = hidden_field_tag "character[questionnaire_answers][][id]"
+            = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
   = hidden_field_tag "wizard_current", "1"
   = hidden_field_tag "wizard", @questionnaire.length > 1 ? '2' : 'basics'
 
-  = hidden_field_tag "formaction", "", id: 'form-action'
-  = f.submit "Save", id: 'save'
-  = f.submit "Save and Continue", id: 'save-continue'
-  = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+  .button-row
+    = hidden_field_tag "formaction", "", id: 'form-action'
+    = f.submit "Save", id: 'save'
+    = f.submit "Save and Continue", id: 'save-continue'
+    = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
 
 = javascript_include_tag 'wizard', 'data-turbolinks-track' => true

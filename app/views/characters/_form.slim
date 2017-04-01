@@ -142,7 +142,7 @@
   = f.text_area :public_blurb
 
   h3.section Questionnaire
-  .questionnaire
+  .questionnaire.accordion
     - if @questionnaire_sections.present?
       - @questionnaire_sections.each do |qs|
         h4 #{qs.title}
