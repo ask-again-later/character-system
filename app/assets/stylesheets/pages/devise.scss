@@ -33,7 +33,7 @@
           font-size: .8em;
         }
 
-        input {
+        input:not([type='checkbox']) {
           width: 80%;
           min-width: 350px;
         }
