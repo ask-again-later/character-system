@@ -20,9 +20,6 @@ $(document).ready(function() {
 
   $('.questionnaire h4:first-of-type').click();
 
-  $('textarea').wrap('<div class="textarea-wrapper"></div>');
-  $('.textarea-wrapper').append('<span class="notice">You can use <a href="https://guides.github.com/features/mastering-markdown/" rel="external" target="_blank">Markdown</a> in this area.</span>');
-
   $('.messages .msg .close a').on('click', function(e) {
     e.preventDefault();
     $(this).parents('.msg').fadeOut();
