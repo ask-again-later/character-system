@@ -283,6 +283,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
+		@is_basics = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -295,6 +296,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@skills_training = SKILLS_TRAINING
+		@is_skills = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -309,6 +311,7 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
+		@is_challenges = true
 
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
