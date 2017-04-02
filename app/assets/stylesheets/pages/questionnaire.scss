@@ -17,6 +17,10 @@
   ol {
     list-style: decimal;
     padding-left: 25px;
+
+    a.current {
+      font-weight: bold;
+    }
   }
 
   @media only screen and (max-width: $medium-media-query-size) {
