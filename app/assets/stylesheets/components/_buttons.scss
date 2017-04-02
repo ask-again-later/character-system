@@ -56,3 +56,13 @@
     }
   }
 }
+
+.button-text {
+  border: none;
+  padding: 0;
+  font-size: 1em;
+  color: $green;
+  text-decoration: underline;
+  background-color: transparent;
+  cursor: pointer;
+}
