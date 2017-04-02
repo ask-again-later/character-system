@@ -95,7 +95,7 @@
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
-      li data-creature="#{challenge.is_creature_challenge}"
+      li data-creature="#{(challenge.is_creature_challenge || challenge.challenge.is_creature_challenge) ? 'true' : 'false'}"
         - if challenge.challenge.is_custom
           - if challenge.custom_name.present?
             = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
