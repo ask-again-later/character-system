@@ -3,13 +3,13 @@ div.toc
   ol
     - @questionnaire.each do |section|
       li
-        = link_to section.title, "/characters/#{@character.id}/wizard/#{section.id}"
+        = link_to section.title, "/characters/#{@character.id}/wizard/#{section.id}", class: (@page.present? and @page.id == section.id) ? 'current' : ''
     - unless @character.use_extended?
       li
-        = link_to "Basics", "/characters/#{@character.id}/wizard/basics"
+        = link_to "Basics", "/characters/#{@character.id}/wizard/basics", class: @is_basics.present? ? 'current' : ''
       li
-        = link_to "Skills & Special Trainings", "/characters/#{@character.id}/wizard/skills_trainings"
+        = link_to "Skills & Special Trainings", "/characters/#{@character.id}/wizard/skills_trainings", class: @is_skills.present? ? 'current' : ''
       li
-        = link_to "Challenges and Advantages", "/characters/#{@character.id}/wizard/challenges_advantages"
+        = link_to "Challenges and Advantages", "/characters/#{@character.id}/wizard/challenges_advantages", class: @is_challenges.present? ? 'current' : ''
     li
       = link_to "Full Character Sheet", edit_character_path(@character)

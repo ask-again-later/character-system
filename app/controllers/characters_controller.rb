@@ -37,7 +37,7 @@ class CharactersController < ApplicationController
 		@character = Character.new
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@advantages = Advantage.all
+		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = current_user
@@ -64,12 +64,15 @@ class CharactersController < ApplicationController
 		end
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@advantages = Advantage.all
+		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@statuses = STATUS_ENUM
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		if !@character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
@@ -277,7 +280,7 @@ class CharactersController < ApplicationController
 
 	def destroy
 		@character = Character.find(params[:id])
-		@character.delete
+		@character.destroy
 		redirect_to characters_path
 	end
 
@@ -310,6 +313,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
+		@is_basics = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -322,6 +326,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@skills_training = SKILLS_TRAINING
+		@is_skills = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -336,6 +341,7 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
+		@is_challenges = true
 
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
