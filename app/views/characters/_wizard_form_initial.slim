@@ -1,0 +1,47 @@
+- if params[:id].present?
+  = render partial: 'wizard_toc'
+
+.form-row
+  = f.label :name
+  = f.text_field :name
+
+.form-row.build-method
+  label.radio-label.checked
+    = f.radio_button :use_extended, false
+
+    p I would like to build my character's mechanics myself.
+  label.radio-label
+    = f.radio_button :use_extended, true
+
+    p I would like storyteller assistance in building my character, and am willing to answer a few extra questions about it.
+
+
+- if @section.present?
+
+  h3
+    = @section.title
+
+  - if @section.instructions.present?
+    .instructions
+      = @section.instructions.html_safe
+  .questionnaire
+    - if @section.questionnaire_items.present?
+      - @section.questionnaire_items.each do |question|
+        .question
+          .question-text
+            = question.question
+          .question-answer
+            = text_area_tag "character[questionnaire_answers][][answer]"
+          = hidden_field_tag "character[questionnaire_answers][][id]"
+          = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+
+= hidden_field_tag "wizard_current", "1"
+= hidden_field_tag "wizard", @questionnaire.length > 1 ? '2' : 'basics'
+
+.button-row
+  = hidden_field_tag "formaction", "", id: 'form-action'
+  = f.submit "Save", id: 'save'
+  = f.submit "Save and Next Page", id: 'save-continue'
+  = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+
+= javascript_include_tag 'wizard', 'data-turbolinks-track' => true

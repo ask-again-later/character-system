@@ -25,7 +25,26 @@
 }
 
 .button-secondary {
+  border: 2px $green solid;
+  background-color: $white;
+  color: $green;
+  font-size: 16px;
+  padding: 10px;
   transition: .5s;
+  display: inline-block;
+  box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  -moz-box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  -webkit-box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  font-weight: bold;
+  margin-left: 5px;
+
+  &:hover {
+    background-color: $green;
+    color: $white;
+  }
 }
 
 .button-row {
@@ -34,7 +53,7 @@
   margin: 20px 0;
   width: 100%;
 
-  .button {
+  .button, input[type="submit"] {
     margin-right: 20px;
     margin-left: 0;
   }
@@ -42,7 +61,7 @@
   &.right {
     justify-content: flex-end;
 
-    .button {
+    .button, input[type="submit"] {
       margin-left: 20px;
       margin-right: 0;
     }
@@ -51,7 +70,7 @@
   &.center {
     justify-content: center;
 
-    .button {
+    .button, input[type="submit"] {
       margin: 0 20px;
     }
   }
