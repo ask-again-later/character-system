@@ -3,7 +3,7 @@ class CharacterMailer < ActionMailer::Base
 		@character = character
 		@user = @character.user.name
 		@st_name = st.name
-		puts 'character submission mailer started'
+		puts "sending email to #{st.email}"
 		mail(
       :subject => "[AAL Character System] New character submission from #{@user}",
       :to  => st.email,
