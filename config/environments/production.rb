@@ -78,12 +78,15 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_options = {from: ENV['mail_username']}
   config.action_mailer.smtp_settings = {
-    address:              'mail.askagainlater.com',
-    port:                 143,
-    user_name:            ENV['mail_username'],
-    password:             ENV['mail_password'],
-    authentication:       'plain',
+    address:              'smtp.sparkpostmail.com',
+    port:                 587,
+    enable_starttls_auto: true,
+    user_name:            "SMTP_Injection",
+    password:             SPARKPOST_API_KEY,
+    domain:               'askagainlater.com',
     enable_starttls_auto: true  }
   config.action_mailer.default_url_options = { :host => "characters.askagainlater.com" }
 end

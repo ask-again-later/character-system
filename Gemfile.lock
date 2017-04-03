@@ -160,6 +160,8 @@ GEM
       temple (~> 0.7.6)
       tilt (>= 1.3.3, < 2.1)
     slop (3.6.0)
+    sparkpost_rails (1.4.0)
+      rails (>= 4.0, < 5.1)
     spring (2.0.0)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -223,6 +225,7 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   showdown-rails
   slim
+  sparkpost_rails
   spring
   thin
   turbolinks

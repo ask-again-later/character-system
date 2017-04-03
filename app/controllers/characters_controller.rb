@@ -158,9 +158,6 @@ class CharactersController < ApplicationController
 					@storytellers.each do |storyteller|
 						CharacterMailer.character_submission(@character, storyteller).deliver_now
 					end
-				elsif @character.status == 2 and !@character.user.is_storyteller
-					puts "sending approval mailer"
-					CharacterMailer.character_approval(@character).deliver_now
 				end
 			end
 			puts "passed mailers"
