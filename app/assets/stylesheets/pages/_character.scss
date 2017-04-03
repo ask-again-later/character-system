@@ -231,6 +231,14 @@ ul#challenges-list, ul#advantages-list {
   }
 }
 
+ul#advantages, ul#challenges {
+  max-width: 700px;
+
+  li {
+    margin-bottom: 18px;
+  }
+}
+
 .questionnaire {
   h4 {
     margin-bottom: 16px;
