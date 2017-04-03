@@ -76,17 +76,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  config.action_mailer.delivery_method = :sparkpost
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.default_options = {from: ENV['mail_username']}
-  config.action_mailer.smtp_settings = {
-    address:              ENV['SPARKPOST_SMTP_HOST'],
-    port:                 ENV['SPARKPOST_SMTP_PORT'],
-    enable_starttls_auto: true,
-    user_name:            "SMTP_Injection",
-    password:             ENV['SPARKPOST_API_KEY'],
-    domain:               'askagainlater.com',
-    enable_starttls_auto: true  }
-  config.action_mailer.default_url_options = { :host => "characters.askagainlater.com" }
 end
