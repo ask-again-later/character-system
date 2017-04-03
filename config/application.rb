@@ -22,6 +22,14 @@ module CharacterSystem
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.action_mailer.delivery_method = :sparkpost
+    config.action_mailer.sparkpost_settings = {
+      port: ENV['SPARKPOST_SMTP_PORT'],
+      address: ENV['SPARKPOST_SMTP_HOST'],
+      user_name: ENV['SPARKPOST_SMTP_USERNAME'],
+      password: ENV['SPARKPOST_SMTP_PASSWORD'],
+      domain: 'aal-character-system-sta-pr-94.herokuapp.com',
+      authentication: :plain
+    }
     config.action_mailer.default_url_options = { :host => "characters.askagainlater.com" }
   end
 end
