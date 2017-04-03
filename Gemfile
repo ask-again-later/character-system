@@ -43,7 +43,7 @@ gem 'angularjs-rails', '~> 1.6', '>= 1.6.1'
 
 gem 'breadcrumbs_on_rails'
 
-gem 'sparkpost_rails'
+gem 'simple_spark'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
