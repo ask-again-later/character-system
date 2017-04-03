@@ -211,6 +211,7 @@ $(document).ready(function() {
   $('#save-submit').on('click', function(e) {
     e.preventDefault();
     $('#character_status').val(1);
+    console.log($('#character_status').val());
     $('form').submit();
   });
 });

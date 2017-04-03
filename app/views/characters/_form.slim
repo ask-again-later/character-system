@@ -162,8 +162,8 @@
 
   .button-row
     = f.submit "Save"
-    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?)
-      = hidden_field_tag "status", @character.status
+    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?) and !current_user.is_storyteller
+      = f.hidden_field :status
       = f.submit "Save and Submit", id: 'save-submit'
 
   .overlay#advantages-overlay
