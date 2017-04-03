@@ -27,7 +27,8 @@ module CharacterSystem
       user_name: "SMTP_Injection",
       password: '5aecc9ef304cc8a202edf3cc08c187b752caa6e6',
       domain: 'aal-character-system-sta-pr-94.herokuapp.com',
-      authentication: :plain
+      authentication: :login,
+      enable_starttls_auto: true
     }
   end
 end
