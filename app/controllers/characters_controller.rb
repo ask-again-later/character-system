@@ -156,7 +156,7 @@ class CharactersController < ApplicationController
 					# send submission notification to storytellers
 					@storytellers = User.where(is_storyteller: true)
 					@storytellers.each do |storyteller|
-						result = CharacterMailer.character_submission(@character, storyteller).deliver!
+						result = CharacterMailer.character_submission(@character, storyteller).deliver_now
 						puts result
 					end
 				end

@@ -19,17 +19,15 @@ module CharacterSystem
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.action_mailer.delivery_method = :sparkpost
-    config.action_mailer.sparkpost_settings = {
-      port: ENV['SPARKPOST_SMTP_PORT'],
-      address: ENV['SPARKPOST_SMTP_HOST'],
-      user_name: ENV['SPARKPOST_SMTP_USERNAME'],
-      password: ENV['SPARKPOST_SMTP_PASSWORD'],
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      port: 587,
+      address: 'smtp.sparkpostmail.com',
+      user_name: "SMTP_Injection",
+      password: '5aecc9ef304cc8a202edf3cc08c187b752caa6e6',
       domain: 'aal-character-system-sta-pr-94.herokuapp.com',
       authentication: :plain
     }
-    config.action_mailer.default_url_options = { :host => "characters.askagainlater.com" }
   end
 end
