@@ -81,11 +81,11 @@ Rails.application.configure do
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default_options = {from: ENV['mail_username']}
   config.action_mailer.smtp_settings = {
-    address:              'smtp.sparkpostmail.com',
-    port:                 587,
+    address:              ENV['SPARKPOST_SMTP_HOST'],
+    port:                 ENV['SPARKPOST_SMTP_PORT'],
     enable_starttls_auto: true,
     user_name:            "SMTP_Injection",
-    password:             SPARKPOST_API_KEY,
+    password:             ENV['SPARKPOST_API_KEY'],
     domain:               'askagainlater.com',
     enable_starttls_auto: true  }
   config.action_mailer.default_url_options = { :host => "characters.askagainlater.com" }
