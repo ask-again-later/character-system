@@ -1,4 +1,7 @@
 .character
+  .button-row.right
+    = link_to "Edit in Wizard", @character.id.present? ? character_wizard_path(@character) : new_character_wizard_path, class: 'button'
+
   .form-row.basic-stats
     .stat.name
       = f.label :name
