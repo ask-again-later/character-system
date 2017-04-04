@@ -166,7 +166,7 @@ header {
             line-height: 1.2;
             display: block;
             padding: 10px 20px;
-            border-bottom: 1px rgba($black, .2);
+            border-bottom: 1px rgba($black, .5);
 
             &:after {
               bottom: 0;
@@ -183,7 +183,8 @@ header {
             box-shadow: none;
             border-bottom: 1px rgba($black, .25) solid;
             transform: translate(0);
-            display: none;
+            display: block;
+            opacity: 1;
           }
 
           &:hover {
