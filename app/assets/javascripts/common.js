@@ -8,18 +8,6 @@ $(document).ready(function() {
     }
   });
 
-  $('.questionnaire h4').on('click', function() {
-    if ($(this).hasClass('open')) {
-      $(this).removeClass('open');
-      $(this).next('.section-content').slideUp();
-    } else {
-      $(this).addClass('open');
-      $(this).next('.section-content').slideDown();
-    }
-  });
-
-  $('.questionnaire h4:first-of-type').click();
-
   $('.messages .msg .close a').on('click', function(e) {
     e.preventDefault();
     $(this).parents('.msg').fadeOut();

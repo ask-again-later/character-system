@@ -109,6 +109,12 @@ GEM
     open4 (1.3.4)
     orm_adapter (0.5.0)
     pg (0.19.0)
+    postmark (1.10.0)
+      json
+      rake
+    postmark-rails (0.15.0)
+      actionmailer (>= 3.0.0)
+      postmark (~> 1.10.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -181,9 +187,6 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.5)
     tilt (2.0.5)
-    turbolinks (5.0.1)
-      turbolinks-source (~> 5)
-    turbolinks-source (5.0.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (3.0.4)
@@ -220,6 +223,7 @@ DEPENDENCIES
   jquery-ui-rails
   mina
   pg
+  postmark-rails (~> 0.15.0)
   pry
   rails (= 5.0.1)
   redcarpet
@@ -230,7 +234,6 @@ DEPENDENCIES
   slim
   spring
   thin
-  turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
   wysiwyg-rails
@@ -239,4 +242,4 @@ RUBY VERSION
    ruby 2.4.0p-1
 
 BUNDLED WITH
-   1.14.5
+   1.14.6
