@@ -20,15 +20,5 @@ module CharacterSystem
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.smtp_settings = {
-      port: 587,
-      address: 'smtp.sparkpostmail.com',
-      user_name: "SMTP_Injection",
-      password: '5aecc9ef304cc8a202edf3cc08c187b752caa6e6',
-      domain: 'aal-character-system-sta-pr-94.herokuapp.com',
-      authentication: :login,
-      enable_starttls_auto: true
-    }
   end
 end
