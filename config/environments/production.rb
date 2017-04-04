@@ -14,7 +14,7 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  config.action_mailer.default_url_options = { :host => 'askagainlater.com' }
+  config.action_mailer.default_url_options = { :host => 'characters.askagainlater.com' }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_token }
