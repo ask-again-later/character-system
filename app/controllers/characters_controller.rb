@@ -82,6 +82,7 @@ class CharactersController < ApplicationController
 
 	def update
 		@character = Character.find(params[:id])
+		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
@@ -92,12 +93,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						chc_ids << challenge[:id].to_i
 					end
 				end
@@ -109,6 +110,7 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
+			puts "challenges complete, starting advantages"
 			if params[:character][:character_has_advantages].present?
 				cha_ids = []
 				# add new advantages, and update older ones
@@ -139,6 +141,17 @@ class CharactersController < ApplicationController
 					else
 						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 						@qa.save!
+					end
+				end
+			end
+			# send mailers if necessary
+			if oldstatus != @character.status
+				if @character.status == 1 and !current_user.is_storyteller
+					# send submission notification to storytellers
+					@storytellers = User.where(is_storyteller: true)
+					@storytellers.each do |storyteller|
+						result = CharacterMailer.character_submission(@character, storyteller).deliver_now
+						puts result
 					end
 				end
 			end
@@ -178,12 +191,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						chc_ids << challenge[:id].to_i
 					end
 				end
@@ -221,6 +234,14 @@ class CharactersController < ApplicationController
 				params[:character][:questionnaire_answers].each do |qa|
 					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 					@qa.save!
+				end
+			end
+			# send mailers if necessary
+			if @character.status == 1 && !current_user.is_storyteller
+				# send submission notification to storytellers
+				@storytellers = User.where(is_storyteller: true)
+				@storytellers.each do |storyteller|
+					CharacterMailer.character_submission(@character, storyteller).deliver_now
 				end
 			end
 			if params[:wizard].present?

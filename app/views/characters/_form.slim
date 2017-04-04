@@ -119,7 +119,6 @@
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
         = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
-        = hidden_field_tag "character[character_has_challenges][][is_creature_challenge]", challenge.is_creature_challenge
 
   - if current_user.is_storyteller || @character.status == 3
     h3.section Derived Stats
@@ -164,12 +163,10 @@
                   = hidden_field_tag "character[questionnaire_answers][][id]"
                 = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
-
-
   .button-row
     = f.submit "Save"
-    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?)
-      = hidden_field_tag "status", @character.status
+    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?) and !current_user.is_storyteller
+      = f.hidden_field :status
       = f.submit "Save and Submit", id: 'save-submit'
 
   .overlay#advantages-overlay

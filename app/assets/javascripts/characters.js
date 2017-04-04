@@ -210,7 +210,8 @@ $(document).ready(function() {
 
   $('#save-submit').on('click', function(e) {
     e.preventDefault();
-    $('#status').val(1);
+    $('#character_status').val(1);
+    console.log($('#character_status').val());
     $('form').submit();
   });
 });
