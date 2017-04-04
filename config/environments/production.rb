@@ -14,6 +14,10 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
+  config.action_mailer.default_url_options = { :host => 'characters.askagainlater.com' }
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_token }
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like
@@ -34,6 +38,11 @@ Rails.application.configure do
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
+
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_token }
 
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 

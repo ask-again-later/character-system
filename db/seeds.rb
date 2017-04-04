@@ -110,22 +110,22 @@ true_selves_list = [
 ]
 
 users_list = [
-  ["test_user@test.test", "welcome", "test user please ignore", false, false],
-  ["clarkkent@superman.super", "welcome", "Clark Kent", false, false],
-  ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false],
-  ["st1@askagainlater.com", "welcome", "Storyteller 1", true, false],
-  ["st2@askagainlater.com", "welcome", "Storyteller 2", true, false],
-  ["st3@askagainlater.com", "welcome", "Storyteller 3", true, false],
-  ["admin1@askagainlater.com", "welcome", "Admin", true, true],
-  ["admin2@askagainlater.com", "welcome", "Admin", true, true],
-  ["player1@askagainlater.com", "welcome", "Player 1", false, false],
-  ["player2@askagainlater.com", "welcome", "Player 2", false, false],
-  ["player3@askagainlater.com", "welcome", "Player 3", false, false],
-  ["player4@askagainlater.com", "welcome", "Player 4", false, false],
-  ["player5@askagainlater.com", "welcome", "Player 5", false, false],
-  ["player6@askagainlater.com", "welcome", "Player 6", false, false],
-  ["player7@askagainlater.com", "welcome", "Player 7", false, false],
-  ["player8@askagainlater.com", "welcome", "Player 8", false, false]
+  ["test_user@test.test", "welcome", "test user please ignore", false, false, DateTime.now],
+  ["clarkkent@superman.super", "welcome", "Clark Kent", false, false, DateTime.now],
+  ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false, DateTime.now],
+  ["st1@askagainlater.com", "welcome", "Storyteller 1", true, false, DateTime.now],
+  ["st2@askagainlater.com", "welcome", "Storyteller 2", true, false, DateTime.now],
+  ["st3@askagainlater.com", "welcome", "Storyteller 3", true, false, DateTime.now],
+  ["admin1@askagainlater.com", "welcome", "Admin", true, true, DateTime.now],
+  ["admin2@askagainlater.com", "welcome", "Admin", true, true, DateTime.now],
+  ["player1@askagainlater.com", "welcome", "Player 1", false, false, DateTime.now],
+  ["player2@askagainlater.com", "welcome", "Player 2", false, false, DateTime.now],
+  ["player3@askagainlater.com", "welcome", "Player 3", false, false, DateTime.now],
+  ["player4@askagainlater.com", "welcome", "Player 4", false, false, DateTime.now],
+  ["player5@askagainlater.com", "welcome", "Player 5", false, false, DateTime.now],
+  ["player6@askagainlater.com", "welcome", "Player 6", false, false, DateTime.now],
+  ["player7@askagainlater.com", "welcome", "Player 7", false, false, DateTime.now],
+  ["player8@askagainlater.com", "welcome", "Player 8", false, false, DateTime.now]
 ]
 
 characters_list =  [
@@ -194,9 +194,9 @@ true_selves_list.each do |name, description|
   TrueSelf.create(name: name, description: description)
 end
 
-users_list.each do |email, password, name, is_storyteller, is_admin|
+users_list.each do |email, password, name, is_storyteller, is_admin, confirmed_at|
   puts "Creating seed Users"
-  User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin)
+  User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin, confirmed_at: confirmed_at)
 end
 
 characters_list.each do |name, user_id, stability, handy, religion, bureaucracy,
