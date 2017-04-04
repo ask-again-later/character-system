@@ -3,7 +3,7 @@ require 'json'
 module Api
   class CharactersController < ApplicationController
     def index
-      @characters = Character.all.order(:name)
+      @characters = Character.where(status: 2).order(:name)
       @characters_formatted = []
       @characters.each do |character|
         @characters_formatted << {"name": character.name, "player": character.user.name, "public_blurb": character.public_blurb}
