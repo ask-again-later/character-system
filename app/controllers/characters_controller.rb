@@ -81,14 +81,12 @@ class CharactersController < ApplicationController
 	end
 
 	def update
-		puts "starting character update"
 		@character = Character.find(params[:id])
 		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
 		if @character.update_attributes!(characters_params)
-			puts "character updated, starting challenges"
 			flash[:success] = "Changes to your character were saved."
 			if params[:character][:character_has_challenges].present?
 				chc_ids = []
@@ -135,7 +133,6 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			puts "advantages complete, starting questionnaire"
 			if params[:character][:questionnaire_answers].present?
 				params[:character][:questionnaire_answers].each do |qa|
 					if qa[:id].present?
@@ -147,12 +144,9 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			puts "reached mailers"
 			# send mailers if necessary
 			if oldstatus != @character.status
-				puts "status changed"
 				if @character.status == 1 and !current_user.is_storyteller
-					puts "sending submission mailer"
 					# send submission notification to storytellers
 					@storytellers = User.where(is_storyteller: true)
 					@storytellers.each do |storyteller|
@@ -161,7 +155,6 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			puts "passed mailers"
 			if params[:wizard].present?
 				if params[:formaction] == "save"
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
