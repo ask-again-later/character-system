@@ -8,7 +8,8 @@
   .instructions
     p
       strong Instructions:
-    = raw @markdown.render(@section.instructions)
+    - if @section.instructions.present?
+      = raw @markdown.render(@section.instructions)
 
   ol.questions
     - @section.questionnaire_items.order(order: :asc).each do |question|
