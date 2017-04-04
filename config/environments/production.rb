@@ -17,7 +17,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :postmark
-  config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_token }
+  config.action_mailer.postmark_settings = { :api_token => ENV["POSTMARK_API_KEY"] }
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
   # For large-scale production use, consider using a caching reverse proxy like
