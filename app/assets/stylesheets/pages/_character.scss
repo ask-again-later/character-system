@@ -28,6 +28,22 @@
     }
   }
 
+  .basic-stats-short {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .stat {
+      margin-right: 20px;
+      &:last-child {
+        margin-right: 0;
+      }
+      label {
+        display: block;
+      }
+    }
+  }
+
   .derived-stats {
     display: flex;
     flex-direction: row;
@@ -128,6 +144,12 @@ h3.attributes, h3.skills-training {
     .content {
       padding: 10px 20px;
     }
+
+    label + input,
+    label + select {
+      margin-left: 10px;
+      display: inline-block;
+    }
   }
 }
 
@@ -200,6 +222,7 @@ h3.attributes, h3.skills-training {
 
 ul#challenges-list, ul#advantages-list {
   list-style: disc;
+  margin-top: 20px;
   margin-left: 20px;
   margin-bottom: 40px;
 
@@ -208,13 +231,36 @@ ul#challenges-list, ul#advantages-list {
   }
 }
 
+ul#advantages, ul#challenges {
+  max-width: 700px;
+
+  li {
+    margin-bottom: 18px;
+  }
+}
+
 .questionnaire {
   h4 {
-    cursor: pointer;
     margin-bottom: 16px;
+
+    &:after {
+      content: "+";
+      margin-left: 12px;
+      font-size: 18px;
+    }
 
     &.open {
 
+      &:after {
+        content: "-";
+      }
+
+    }
+  }
+
+  &.accordion {
+    h4 {
+      cursor: pointer;
     }
   }
 

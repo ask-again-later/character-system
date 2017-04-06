@@ -1,7 +1,7 @@
 .data-entry-index
   .breadcrumbs
     = render_breadcrumbs
-    
+
   h2 True Selves
 
   .button-row.right
@@ -23,4 +23,4 @@
               = link_to "Edit", edit_storytellers_true_self_path(true_self)
             td
               = form_tag(storytellers_true_self_path(true_self), method: 'DELETE') do
-                = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this true self?");', class: 'button'
+                = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this true self?");', class: 'button-text'

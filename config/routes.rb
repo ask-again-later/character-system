@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :characters do
     resources :downtime_actions
   end
-  get 'characters/:id/wizard', to: 'characters#wizard'
+  get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'
   get 'characters/:id/wizard/skills_trainings', to: 'characters#wizard_skills_trainings'
   get 'characters/:id/wizard/challenges_advantages', to: 'characters#wizard_challenges_advantages'

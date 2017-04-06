@@ -119,7 +119,7 @@ $(document).ready(function() {
     var name = $selected.text();
     var challengeId = $selected.val();
 
-    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="true" /></li>');
+    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /><input type="hidden" name="character[character_has_challenges][][custom_description]" value="" /><input type="hidden" name="character[character_has_challenges][][custom_name]" value="" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="true" /></li>');
 
     $.ajax({
       url: '/api/challenges/'+challengeId,
@@ -136,7 +136,7 @@ $(document).ready(function() {
     e.preventDefault();
     var id = $(this).data('challenge-id');
 
-    $('ul#challenges-list').append('<li data-challenge-id="'+id+'"><span class="custom-name"></span> <a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+id+'" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="false" /></li>');
+    $('ul#challenges-list').append('<li data-challenge-id="'+id+'"><span class="custom-name"></span> <a href="#" class="challenge-edit"><i class="fa fa-edit"></i></a> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+id+'" /><input type="hidden" name="character[character_has_challenges][][custom_name]" value="" /><input type="hidden" name="character[character_has_challenges][][custom_description]" value="" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="false" /></li>');
 
     $.ajax({
       url: '/api/challenges/'+id,
@@ -210,7 +210,8 @@ $(document).ready(function() {
 
   $('#save-submit').on('click', function(e) {
     e.preventDefault();
-    $('#status').val(1);
+    $('#character_status').val(1);
+    console.log($('#character_status').val());
     $('form').submit();
   });
 });

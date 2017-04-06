@@ -37,7 +37,7 @@ class CharactersController < ApplicationController
 		@character = Character.new
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@advantages = Advantage.all
+		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = current_user
@@ -64,12 +64,15 @@ class CharactersController < ApplicationController
 		end
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@advantages = Advantage.all
+		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@statuses = STATUS_ENUM
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		if !@character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
@@ -79,6 +82,7 @@ class CharactersController < ApplicationController
 
 	def update
 		@character = Character.find(params[:id])
+		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
@@ -89,12 +93,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						chc_ids << challenge[:id].to_i
 					end
 				end
@@ -106,6 +110,7 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
+			puts "challenges complete, starting advantages"
 			if params[:character][:character_has_advantages].present?
 				cha_ids = []
 				# add new advantages, and update older ones
@@ -136,6 +141,17 @@ class CharactersController < ApplicationController
 					else
 						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 						@qa.save!
+					end
+				end
+			end
+			# send mailers if necessary
+			if oldstatus != @character.status
+				if @character.status == 1 and !current_user.is_storyteller
+					# send submission notification to storytellers
+					@storytellers = User.where(is_storyteller: true)
+					@storytellers.each do |storyteller|
+						result = CharacterMailer.character_submission(@character, storyteller).deliver_now
+						puts result
 					end
 				end
 			end
@@ -175,12 +191,12 @@ class CharactersController < ApplicationController
 				# add new challenges, and catalog all the challenges that should be on the sheet
 				params[:character][:character_has_challenges].each do |challenge|
 					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						@challenge.save!
 						chc_ids << @challenge.id.to_i
 					else
 						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description], is_creature_challenge: challenge[:is_creature_challenge])
+						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
 						chc_ids << challenge[:id].to_i
 					end
 				end
@@ -220,6 +236,14 @@ class CharactersController < ApplicationController
 					@qa.save!
 				end
 			end
+			# send mailers if necessary
+			if @character.status == 1 && !current_user.is_storyteller
+				# send submission notification to storytellers
+				@storytellers = User.where(is_storyteller: true)
+				@storytellers.each do |storyteller|
+					CharacterMailer.character_submission(@character, storyteller).deliver_now
+				end
+			end
 			if params[:wizard].present?
 				if params[:formaction] == "save"
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
@@ -247,7 +271,7 @@ class CharactersController < ApplicationController
 
 	def destroy
 		@character = Character.find(params[:id])
-		@character.delete
+		@character.destroy
 		redirect_to characters_path
 	end
 
@@ -280,6 +304,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
+		@is_basics = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -292,6 +317,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@skills_training = SKILLS_TRAINING
+		@is_skills = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -306,6 +332,7 @@ class CharactersController < ApplicationController
 		@advantages = Advantage.all.order(:name)
 		@challenges = Challenge.where(is_custom: false).order(:name)
 		@custom_challenge = Challenge.where(is_custom: true).first
+		@is_challenges = true
 
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
