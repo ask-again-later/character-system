@@ -1,6 +1,6 @@
 .character
   .button-row.right
-    = link_to "Edit in Wizard", @character.id.present? ? character_wizard_path(@character) : new_character_wizard_path, class: 'button'
+    = link_to "Edit in Wizard", @character.id.present? ? character_wizard_page_path(@character, 1) : new_character_wizard_path, class: 'button'
 
   .form-row.basic-stats
     .stat.name
@@ -28,6 +28,7 @@
       .column
         strong
           = cat
+          span.counter.hidden id="#{cat.to_s.parameterize}-count"
         - vals.each do |val|
           .row
             label
@@ -41,13 +42,17 @@
                   span.dot
                     = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-  h3.section Skills and Special Training
+  h3.section
+    | Skills and Special Training
+    span.counter#skills-total 22 Remaining
 
   .flex-container.skills-training
     - @skills_training.each do |cat,vals|
-      .column
+      div class="column #{cat.to_s.parameterize}"
         strong
           = cat
+          - if cat.to_s == "Special Training"
+            span.counter#special-training 8 Remaining
         - vals.each do |val|
           .row
             label
@@ -63,7 +68,9 @@
                   span.dot
                     = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-  h3.section Advantages
+  h3.section
+    | Advantages
+    span.counter#advantage-count 17 Remaining
   .form-row
     select name="advantages" id="advantages"
       - @advantages.each do |advantage|
@@ -85,7 +92,11 @@
         = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
 
-  h3.section Challenges
+  h3.section
+    | Challenges
+    .counters
+      span.counter#challenge-count 2 Remaining
+      span.counter#creature-challenge-count 1 Creature Challenge Remaining
   .form-row
     div
       = label_tag "Creature Challenges"
@@ -95,6 +106,7 @@
     = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
     - if @custom_challenge.present?
       = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
+
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
@@ -119,6 +131,7 @@
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
         = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
+        = hidden_field_tag "character[character_has_challenges][][is_creature_challenge]", challenge.is_creature_challenge
 
   - if current_user.is_storyteller || @character.status == 3
     h3.section Derived Stats
@@ -215,4 +228,4 @@
           = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
           = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
 
-  = javascript_include_tag 'characters', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters'
