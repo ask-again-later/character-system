@@ -96,7 +96,7 @@
     | Challenges
     .counters
       span.counter#challenge-count 2 Remaining
-      span.counter#creature-challenge-count 1 Remaining
+      span.counter#creature-challenge-count 1 Creature Challenge Remaining
   .form-row
     div
       = label_tag "Creature Challenges"
@@ -228,4 +228,4 @@
           = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
           = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
 
-  = javascript_include_tag 'characters', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters'
