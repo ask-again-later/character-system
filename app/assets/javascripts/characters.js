@@ -159,7 +159,6 @@ $(document).ready(function() {
   }
 
   $('.skills-training input').on('change', function() {
-    console.log('skills & trainings updated');
     var count = totalSkillsTrainingCount();
     var $indicator = $('#skills-total');
     $indicator.text(count+" Remaining");
