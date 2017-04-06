@@ -110,6 +110,13 @@
       strong Speed:
       = @character.speed
 
+
+  h3.section Public Blurb
+
+  .public-blurb
+    - if @character.public_blurb.present?
+      = @character.public_blurb
+
   h3.section Questionnaire
 
   .questionnaire.accordion

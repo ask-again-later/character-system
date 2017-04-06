@@ -67,6 +67,11 @@
       }
     }
   }
+
+  .public-blurb {
+    max-width: 50em;
+    margin-bottom: 24px;
+  }
 }
 
 @media (max-width:$small-media-query-size) {
