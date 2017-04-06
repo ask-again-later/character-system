@@ -20,7 +20,12 @@
     color: white;
     font-weight: bold;
     letter-spacing: 0;
+    opacity: 1;
     transition: .5s;
+
+    &.hidden {
+      opacity: 0;
+    }
 
     &.warn {
       background-color: $red;

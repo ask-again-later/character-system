@@ -26,24 +26,27 @@ $(document).ready(function() {
   // VALIDATION
 
   $('.attributes input').on('change', function () {
+    console.log('attributes changed');
     var mentals = parseInt($('input[name="character[intelligence]"]:checked').val()) + parseInt($('input[name="character[wits]"]:checked').val()) + parseInt($('input[name="character[resolve]"]:checked').val()) - 3;
     var physicals = parseInt($('input[name="character[strength]"]:checked').val()) + parseInt($('input[name="character[dexterity]"]:checked').val()) + parseInt($('input[name="character[stamina]"]:checked').val()) - 3;
     var socials = parseInt($('input[name="character[presence]"]:checked').val()) + parseInt($('input[name="character[manipulation]"]:checked').val()) + parseInt($('input[name="character[composure]"]:checked').val()) - 3;
     var errors = [];
 
-    console.log(mentals);
-    console.log(physicals);
-    console.log(socials);
-
     // general error validation
     if (mentals > 6) {
-      errors.push("You'll need to remove at least "+(mentals - 6)+" dots from mental attributes.");
+      $('#mental-count').text((6-mentals)+" Remaining").addClass('warn').removeClass('hidden');
+    } else {
+      $('#mental-count').addClass('hidden');
     }
     if (physicals > 6) {
-      errors.push("You'll need to remove at least "+(physicals - 6)+" dots from physical attributes.");
+      $('#physical-count').text((6-physicals)+" Remaining").addClass('warn').removeClass('hidden');
+    } else {
+      $('#physical-count').addClass('hidden');
     }
     if (socials > 6) {
-      errors.push("You'll need to remove at least "+(socials - 6)+" dots from social attributes.");
+      $('#social-count').text((6-socials)+" Remaining").addClass('warn').removeClass('hidden');
+    } else {
+      $('#social-count').addClass('hidden');
     }
 
     var primary_name = "";
@@ -52,6 +55,8 @@ $(document).ready(function() {
     var primary_val = 0;
     var secondary_val = 0;
     var tertiary_val = 0;
+
+    console.log(mentals + physicals + socials);
 
     // if user has allocated all dots (or has too many)
     if (mentals + physicals + socials >= 13) {
@@ -107,42 +112,57 @@ $(document).ready(function() {
           tertiary_val = mentals;
         }
       }
-      if (primary_val === 6) {
+      if (primary_val >= 6) {
         // configuration should be 6/4/3
+        if (primary_val > 6) {
+          $('#'+primary_name+"-count").removeClass('hidden').addClass('warn').text((6 - primary_val)+" Remaining");
+        } else {
+          $('#'+primary_name+"-count").addClass('hidden');
+        }
         if (secondary_val > 4) {
-          errors.push("You'll need to remove at least "+(secondary_val - 4)+" dot"+ (((secondary_val - 4) > 1) ? 's' : '')+" from "+secondary_name+" attributes.");
+          $('#'+secondary_name+"-count").removeClass('hidden').addClass('warn').text((4 - secondary_val)+" Remaining");
         } else if (secondary_val < 4) {
-          errors.push("You'll need to add at least "+(4 - secondary_val)+" dot"+ (((4 - secondary_val) > 1) ? 's' : '')+" to "+secondary_name+" attributes.");
+          $('#'+secondary_name+"-count").removeClass('hidden').removeClass('warn').text((4 - secondary_val)+ "Remaining");
+        } else {
+          $('#'+secondary_name).addClass('hidden');
         }
         if (tertiary_val > 3) {
-          errors.push("You'll need to remove at least "+(tertiary_val - 3)+" dot"+ (((tertiary_val - 3) > 1) ? 's' : '')+" from "+tertiary_name+" attributes.");
+          $('#'+tertiary_name+"-count").removeClass('hidden').addClass('warn').text((3-tertiary_val)+" Remaining");
         } else if (tertiary_val < 3) {
-          errors.push("You'll need to add at least"+(3 - tertiary_val)+" dot"+ (((3 - tertiary_val) > 1) ? 's' : '')+" to "+tertiary_name+" attributes.");
+          $('#'+tertiary_name+"-count").removeClass('hidden').removeClass('warn').text((3-tertiary_val)+" Remaining");
+        } else {
+          $('#'+tertiary_name+"-count").addClass('hidden');
         }
       } else {
         if (secondary_val === 5) {
           // configuration should be 5/5/3
           if (secondary_val > 5) {
-            errors.push("You'll need to remove at least "+(secondary_val - 5)+" dot"+ (((secondary_val - 4) > 1) ? 's' : '')+" from "+secondary_name+" attributes.");
+            $('#'+secondary_name+"-count").removeClass('hidden').addClass('warn').text((5 - secondary_val)+" Remaining");
           } else if (secondary_val < 5) {
-            errors.push("You'll need to add at least "+(5- secondary_val)+" dot"+ (((5 - secondary_val) > 1) ? 's' : '')+" to "+secondary_name+" attributes.");
+            $('#'+secondary_name+"-count").removeClass('hidden').removeClass('warn').text((5 - secondary_val)+" Remaining");
+          } else {
+            $('#'+secondary_name+"-count").addClass('hidden');
           }
           if (tertiary_val > 3) {
-            errors.push("You'll need to remove at least "+(tertiary_val - 3)+" dot"+ (((tertiary_val - 3) > 1) ? 's' : '')+" from "+tertiary_name+" attributes.");
+            $('#'+tertiary_name+"-count").removeClass('hidden').addClass('warn').text((3-tertiary_val)+" Remaining");
           } else if (tertiary_val < 3) {
-            errors.push("You'll need to add at least "+(3 - tertiary_val)+" dot"+ (((tertiary_val - 3) > 1) ? 's' : '')+" to "+tertiary_name+" attributes.");
+            $('#'+tertiary_name+"-count").removeClass('hidden').removeClass('warn').text((3-tertiary_val)+" Remaining");
+          } else {
+            $('#'+tertiary_name+"-count").addClass('hidden');
           }
         } else {
           // configuration should be 5/4/4
           if (secondary_val > 4) {
-            errors.push("You'll need to remove at least "+(secondary_val - 4)+" dot"+ (((secondary_val - 4) > 1) ? 's' : '')+" from "+secondary_name+" attributes.");
+            $('#'+secondary_name+"-count").removeClass('hidden').addClass('warn').text((4 - secondary_val)+" Remaining");
           } else if (secondary_val < 4) {
-            errors.push("You'll need to add at least "+(4- secondary_val)+" dot"+ (((4 - secondary_val) > 1) ? 's' : '')+" to "+secondary_name+" attributes.");
+            $('#'+secondary_name+"-count").removeClass('hidden').removeClass('warn').text((4 - secondary_val)+" Remaining");
           }
           if (tertiary_val > 4) {
-            errors.push("You'll need to remove at least "+(tertiary_val - 4)+" dot"+ (((tertiary_val - 4) > 1) ? 's' : '')+" from "+tertiary_name+" attributes.");
+            $('#'+tertiary_name+"-count").removeClass('hidden').addClass('warn').text((4 - tertiary_val)+" Remaining");
           } else if (tertiary_val < 4) {
-            errors.push("You'll need to add at least"+(4 - tertiary_val)+" dot"+ (((4 - tertiary_val) > 1) ? 's' : '')+" to "+tertiary_name+" attributes.");
+            $('#'+tertiary_name+"-count").removeClass('hidden').removeClass('warn').text((4 - tertiary_val)+" Remaining");
+          } else {
+            $('#'+tertiary_name+"-count").addClass('hidden');
           }
         }
       }
