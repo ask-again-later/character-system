@@ -1,41 +1,46 @@
-= form_for @character, method: 'PATCH' do |f|
+.character
+  = form_for @character, method: 'PATCH' do |f|
 
-  h2 Character Creation Wizard: #{@character.name}
+    h2 Character Creation Wizard: #{@character.name}
 
-  = render partial: 'wizard_toc'
+    = render partial: 'wizard_toc'
 
-  h3 Skills & Special Trainings
+    h3.section
+      | Skills and Special Training
+      span.counter#skills-total 22 Remaining
 
-  .flex-container
-    - @skills_training.each do |cat,vals|
-      .column
-        strong
-          = cat
-        - vals.each do |val|
-          .row
-            label
-              = val
-            .dots
-              span.dot.reset
-                = f.radio_button val.parameterize("_").to_sym, 0, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(0) ? 'checked' : ''
-              - (1..5).each do |i|
-                - if @character.send(val.parameterize("_").to_sym) >= i
-                  span.dot.selected
-                    = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
-                - else
-                  span.dot
-                    = f.radio_button val.parameterize("_").to_sym, i, label: false
+    .flex-container.skills-training
+      - @skills_training.each do |cat,vals|
+        div class="column #{cat.to_s.parameterize}"
+          strong
+            = cat
+            - if cat.to_s == "Special Training"
+              span.counter#special-training 8 Remaining
+          - vals.each do |val|
+            .row
+              label
+                = val
+              .dots
+                span.dot.reset
+                  = f.radio_button val.parameterize("_").to_sym, 0, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(0) ? 'checked' : ''
+                - (1..5).each do |i|
+                  - if @character.send(val.parameterize("_").to_sym) >= i
+                    span.dot.selected
+                      = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                  - else
+                    span.dot
+                      = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-  = hidden_field_tag "wizard_current", "skills_trainings"
-  = hidden_field_tag "wizard_prev", "basics"
-  = hidden_field_tag "wizard", "challenges_advantages"
+    = hidden_field_tag "wizard_current", "skills_trainings"
+    = hidden_field_tag "wizard_prev", "basics"
+    = hidden_field_tag "wizard", "challenges_advantages"
 
-  .button-row
-    = hidden_field_tag "formaction", "", id: 'form-action'
-    = f.submit "Back", id: 'back'
-    = f.submit "Save", id: 'save'
-    = f.submit "Save and Next Page", id: 'save-continue'
-    = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+    .button-row
+      = hidden_field_tag "formaction", "", id: 'form-action'
+      = f.submit "Back", id: 'back'
+      = f.submit "Save", id: 'save'
+      = f.submit "Save and Next Page", id: 'save-continue'
+      = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
 
-= javascript_include_tag 'wizard', 'data-turbolinks-track' => true
-= javascript_include_tag 'characters', 'data-turbolinks-track' => true
+  = javascript_include_tag 'wizard'
+  = javascript_include_tag 'characters'

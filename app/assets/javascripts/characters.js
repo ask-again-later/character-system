@@ -151,35 +151,75 @@ $(document).ready(function() {
 
   function totalSkillsTrainingCount() {
     var total = 0;
-    $('.skills-training input').each(function() {
-      total += $(this).val();
+    $('.skills-training input:checked').each(function() {
+      total += parseInt($(this).val());
     });
 
-    return total;
+    return 22-total;
   }
+
+  $('.skills-training input').on('change', function() {
+    console.log('skills & trainings updated');
+    var count = totalSkillsTrainingCount();
+    var $indicator = $('#skills-total');
+    $indicator.text(count+" Remaining");
+    if (count < 0) {
+      $indicator.addClass('warn');
+    } else {
+      $indicator.removeClass('warn');
+    }
+  });
+  $('.skills-training input').first().trigger('change');
 
   function specialTrainingCount() {
     var trainings = 0;
-    $('.special-training input').each(function() {
-      trainings += $(this).val();
+    $('.special-training input:checked').each(function() {
+      trainings += parseInt($(this).val());
     });
 
-    return trainings;
+    return 8-trainings;
   }
 
-  function advantageCount() {
+  $('.special-training input').on('change', function() {
+    var count = specialTrainingCount();
+    var $indicator = $('#special-training');
+    $indicator.text(count+" Remaining");
+    if (count < 0) {
+      $indicator.addClass('warn');
+    } else {
+      $indicator.removeClass('warn');
+    }
+  });
+  $('.special-training input').first().trigger('change');
+
+  function updateAdvantageCount() {
     var count = 0;
+    var $indicator = $('#advantage-count');
     var $advantages = $('#advantages-list input[name="character[character_has_advantages][][rating]"]');
     $advantages.each(function() {
-      count += $(this).val();
+      count += parseInt($(this).val());
     });
-    return 17 - count;
+    $indicator.text((17-count)+" Remaining");
+    if (17-count < 0) {
+      $indicator.addClass('warn');
+    } else {
+      $indicator.removeClass('warn');
+    }
+  }
+  updateAdvantageCount();
+
+  function updateChallengeCount() {
+    var count = $('#challenges-list li').length;
+    var $indicator = $('#challenge-count');
+    $indicator.text((2-count)+" Remaining");
+    if (2-count < 0) {
+      $indicator.addClass('warn');
+    } else {
+      $indicator.removeClass('warn');
+    }
   }
 
-  function challengeCount() {
-    var count = $('#challenges-list li').length;
-    return 2 - count;
-  }
+  updateChallengeCount();
 
   $('#advantage-add').on('click', function(e) {
     e.preventDefault();
@@ -195,6 +235,7 @@ $(document).ready(function() {
       lowestRating = ratings;
     }
     $('ul#advantages-list').append('<li>'+name+((specification) ? ' (<span class="specification"></span>)' : '')+((ratings.length > 1) ? ' <span class="rating">'+lowestRating+'</span>' : '')+' <a href="#" class="advantage-edit"><i class="fa fa-edit"></i></a> <a href="#" class="advantage-delete"><i class="fa fa-minus-circle"></i></a><input type="hidden" name="character[character_has_advantages][][id]" value="" /><input type="hidden" name="character[character_has_advantages][][advantage_id]" value="'+advantageId+'" /><input type="hidden" name="character[character_has_advantages][][rating]" value="'+lowestRating+'" /><input type="hidden" name="character[character_has_advantages][][specification]" value="" /></li>');
+    updateAdvantageCount();
   });
 
   $("#advantages-list").delegate('.advantage-edit', 'click', function(e) {
@@ -260,6 +301,7 @@ $(document).ready(function() {
     $advantage.find('.specification').text(specification);
     $advantage.find('input[name="character[character_has_advantages][][specification]"]').val(specification);
     $('.overlay').fadeOut();
+    updateAdvantageCount();
   });
 
   $('#cancel-advantage').on('click', function(e) {
@@ -269,6 +311,7 @@ $(document).ready(function() {
   $('#advantages-list').delegate(".advantage-delete", 'click', function(e) {
     e.preventDefault();
     $(this).parent('li').detach();
+    updateAdvantageCount();
   });
 
   $('#challenge-add').on('click', function(e) {
@@ -288,6 +331,7 @@ $(document).ready(function() {
         $('#challenges-list li').data('is-creature', data.is_creature_challenge)
       }
     });
+    updateChallengeCount();
   });
 
   $('#challenge-add-custom').on('click', function(e) {
@@ -305,6 +349,7 @@ $(document).ready(function() {
         $('#challenges-list li').last().find('.custom-description').html(converter.makeHtml(data.description));
       }
     });
+    updateChallengeCount();
   });
 
   $('#challenges-list').delegate('.challenge-edit', 'click', function(e) {
@@ -345,6 +390,7 @@ $(document).ready(function() {
     $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val(description);
     $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val(creature);
     $('.overlay').fadeOut();
+    updateChallengeCount();
   });
 
   $('#cancel-challenge').on('click', function(e) {
@@ -354,6 +400,7 @@ $(document).ready(function() {
   $('#challenges-list').delegate('.challenge-delete', 'click', function(e) {
     e.preventDefault();
     $(this).parent('li').detach();
+    updateChallengeCount();
   });
 
   $('.dot').on('click', function(e) {

@@ -3,6 +3,28 @@
     border-bottom: 3px solid $green;
     display: inline-block;
     padding-right: 24px;
+    position: relative;
+  }
+
+  span.counter {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 7px;
+    line-height: 12px;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+    white-space: nowrap;
+    background-color: $green;
+    padding: 5px;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0;
+    transition: .5s;
+
+    &.warn {
+      background-color: $red;
+    }
   }
 
   .basic-stats, .derived-stats {
@@ -170,6 +192,12 @@ h3.attributes, h3.skills-training {
       text-align: center;
       display: block;
       font-weight: bold;
+      display: flex;
+
+      span.counter {
+        position: static;
+        margin-left: 5px;
+      }
     }
 
     .row {
