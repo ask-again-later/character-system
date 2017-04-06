@@ -1,7 +1,73 @@
-<p>Hello <%= @resource.email %>!</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <style type="text/css">
+    body {
+      text-align: center;
+      margin: 50px auto;
+      background-color: #aebfaf;
+      font-size: 16px;
+      font-family: "Lucida Grande", Arial, sans-serif;
+    }
 
-<p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
+    a {
+      color: #5C7A6A;
+    }
 
-<p>Click the link below to unlock your account:</p>
+    table {
+      margin: 0 auto;
+    }
 
-<p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>
+    .content-header {
+      height: 60px;
+      text-align: left;
+      padding: 0 30px;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 36px;
+      color: #FFFFFF;
+      font-family: "Palatino", "Georgia", "Times New Roman", serif;
+      margin: 0;
+    }
+
+    h1 a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: normal;
+    }
+
+    h2 {
+      font-family: "Palatino", "Georgia", "Times New Roman", serif;
+      margin-top: 0;
+    }
+
+    .content-body {
+      padding: 30px;
+      text-align: left;
+    }
+  </style>
+  <body>
+    <table cellpadding="0" cellspacing="0" border="0" width="600">
+      <tr>
+        <td bgcolor="#333333" color="#FFFFFF" class="content-header" height="60" valign="middle">
+          <h1><a href="<%= root_url %>">AAL Character System</a></h1>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#FFFFFF" color="#333333" class="content-body">
+          <p>Hello <%= @resource.email %>!</p>
+
+          <p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
+
+          <p>Click the link below to unlock your account:</p>
+
+          <p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
