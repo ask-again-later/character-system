@@ -110,6 +110,7 @@ true_selves_list = [
 ]
 
 users_list = [
+<<<<<<< Updated upstream
   ["test_user@test.test", "welcome", "test user please ignore", false, false, DateTime.now],
   ["clarkkent@superman.super", "welcome", "Clark Kent", false, false, DateTime.now],
   ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false, DateTime.now],
@@ -126,6 +127,13 @@ users_list = [
   ["player6@askagainlater.com", "welcome", "Player 6", false, false, DateTime.now],
   ["player7@askagainlater.com", "welcome", "Player 7", false, false, DateTime.now],
   ["player8@askagainlater.com", "welcome", "Player 8", false, false, DateTime.now]
+=======
+  ["test_user@test.test", "welcome", "test user please ignore", false, false],
+  ["clarkkent@superman.super", "welcome", "Clark Kent", false, false],
+  ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false],
+  ["sts@askagainlater.com", "welcome", "Storyteller", true, false],
+  ["admin@whatever.com", "welcome", "Admin", true, true]
+>>>>>>> Stashed changes
 ]
 
 characters_list =  [
@@ -194,9 +202,15 @@ true_selves_list.each do |name, description|
   TrueSelf.create(name: name, description: description)
 end
 
+<<<<<<< Updated upstream
 users_list.each do |email, password, name, is_storyteller, is_admin, confirmed_at|
   puts "Creating seed Users"
   User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin, confirmed_at: confirmed_at)
+=======
+users_list.each do |email, password, name, is_storyteller, is_admin|
+  puts "Creating seed Users"
+  User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin)
+>>>>>>> Stashed changes
 end
 
 characters_list.each do |name, user_id, stability, handy, religion, bureaucracy,
