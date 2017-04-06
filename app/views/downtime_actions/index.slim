@@ -1,0 +1,27 @@
+h2 #{@character.name}: Downtime Actions
+
+- if @games.present?
+  - @games.each do |game|
+
+    h3 #{game.title}
+
+    - if @character.downtime_actions.where(game_id: game.id)
+      table.table
+        thead
+          th Title
+          th Size
+          - if game.downtimes_open or current_user.is_storyteller
+            th
+            th
+        tbody
+          - @character.downtime_actions.where(game_id: game.id).each do |action|
+            td
+              = link_to action.title, character_downtime_action_path(@character, action)
+            td
+              = action.size == 1 ? 'Large' : 'Regular'
+            - if game.downtimes_open or current_user.is_storyteller
+              td
+                = link_to "Edit", edit_character_downtime_action_path(@character, action)
+              td
+                = form_tag(character_downtime_action_path(@character, action), method: 'DELETE') do
+                  = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this downtime action?");', class: 'button-text'
