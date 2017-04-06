@@ -26,7 +26,6 @@ $(document).ready(function() {
   // VALIDATION
 
   $('.attributes input').on('change', function () {
-    console.log('attributes changed');
     var mentals = parseInt($('input[name="character[intelligence]"]:checked').val()) + parseInt($('input[name="character[wits]"]:checked').val()) + parseInt($('input[name="character[resolve]"]:checked').val()) - 3;
     var physicals = parseInt($('input[name="character[strength]"]:checked').val()) + parseInt($('input[name="character[dexterity]"]:checked').val()) + parseInt($('input[name="character[stamina]"]:checked').val()) - 3;
     var socials = parseInt($('input[name="character[presence]"]:checked').val()) + parseInt($('input[name="character[manipulation]"]:checked').val()) + parseInt($('input[name="character[composure]"]:checked').val()) - 3;
@@ -55,8 +54,6 @@ $(document).ready(function() {
     var primary_val = 0;
     var secondary_val = 0;
     var tertiary_val = 0;
-
-    console.log(mentals + physicals + socials);
 
     // if user has allocated all dots (or has too many)
     if (mentals + physicals + socials >= 13) {
@@ -168,6 +165,7 @@ $(document).ready(function() {
       }
     }
   });
+  $('.attributes input').trigger('change');
 
   function totalSkillsTrainingCount() {
     var total = 0;
@@ -231,7 +229,7 @@ $(document).ready(function() {
     var count = $('#challenges-list li').length;
     var $indicator = $('#challenge-count');
     $indicator.text((2-count)+" Remaining");
-    if (2-count < 0) {
+    if (count > 2) {
       $indicator.addClass('warn');
     } else {
       $indicator.removeClass('warn');
@@ -239,6 +237,19 @@ $(document).ready(function() {
   }
 
   updateChallengeCount();
+
+  function updateCreatureChallengeCount() {
+    var count = $('#challenges-list li[data-creature="true"]').length;
+    var $indicator = $('#creature-challenge-count');
+    $indicator.text((1-count)+" Creature Challenges Remaining");
+    if (count > 1) {
+      $indicator.addClass('warn');
+    } else {
+      $indicator.removeClass('warn');
+    }
+  }
+
+  updateCreatureChallengeCount();
 
   $('#advantage-add').on('click', function(e) {
     e.preventDefault();
@@ -339,7 +350,7 @@ $(document).ready(function() {
     var name = $selected.text();
     var challengeId = $selected.val();
 
-    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /><input type="hidden" name="character[character_has_challenges][][custom_description]" value="" /><input type="hidden" name="character[character_has_challenges][][custom_name]" value="" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="true" /></li>');
+    $('ul#challenges-list').append('<li data-challenge-id="'+challengeId+'" data-creature="true"><span class="custom-name">'+name+'</span> <a href="#" class="challenge-delete"><i class="fa fa-minus-circle"></i></a><div class="description"></div><input type="hidden" name="character[character_has_challenges][][id]" value="" /><input type="hidden" name="character[character_has_challenges][][challenge_id]" value="'+challengeId+'" /><input type="hidden" name="character[character_has_challenges][][custom_description]" value="" /><input type="hidden" name="character[character_has_challenges][][custom_name]" value="" /><input type="hidden" name="character[character_has_challenges][][is_creature_challenge]" value="true" /></li>');
 
     $.ajax({
       url: '/api/challenges/'+challengeId,
@@ -351,6 +362,7 @@ $(document).ready(function() {
       }
     });
     updateChallengeCount();
+    updateCreatureChallengeCount();
   });
 
   $('#challenge-add-custom').on('click', function(e) {
@@ -369,6 +381,7 @@ $(document).ready(function() {
       }
     });
     updateChallengeCount();
+    updateCreatureChallengeCount();
   });
 
   $('#challenges-list').delegate('.challenge-edit', 'click', function(e) {
@@ -408,8 +421,10 @@ $(document).ready(function() {
     $challenge.find('.description').html(converter.makeHtml(description));
     $challenge.find('input[name="character[character_has_challenges][][custom_description]"]').val(description);
     $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val(creature);
+    $challenge.attr('data-creature', creature);
     $('.overlay').fadeOut();
     updateChallengeCount();
+    updateCreatureChallengeCount();
   });
 
   $('#cancel-challenge').on('click', function(e) {

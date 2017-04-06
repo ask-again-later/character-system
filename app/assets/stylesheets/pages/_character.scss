@@ -6,6 +6,18 @@
     position: relative;
   }
 
+  .counters {
+    position: absolute;
+    left: calc(100% + 5px);
+    top: 7px;
+    line-height: 12px;
+
+    span.counter {
+      position: static;
+      margin-left: 5px;
+    }
+  }
+
   span.counter {
     position: absolute;
     left: calc(100% + 10px);
