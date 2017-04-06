@@ -50,12 +50,14 @@
 .button-row {
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   margin: 20px 0;
   width: 100%;
 
   .button, input[type="submit"] {
     margin-right: 20px;
     margin-left: 0;
+    flex-shrink: 0;
   }
 
   &.right {
