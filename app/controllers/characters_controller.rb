@@ -110,7 +110,6 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
-			puts "challenges complete, starting advantages"
 			if params[:character][:character_has_advantages].present?
 				cha_ids = []
 				# add new advantages, and update older ones
@@ -150,8 +149,7 @@ class CharactersController < ApplicationController
 					# send submission notification to storytellers
 					@storytellers = User.where(is_storyteller: true)
 					@storytellers.each do |storyteller|
-						result = CharacterMailer.character_submission(@character, storyteller).deliver_now
-						puts result
+						CharacterMailer.character_submission(@character, storyteller).deliver_now
 					end
 				end
 			end
