@@ -12,6 +12,7 @@
       thead
         tr
           th Name
+          th Unnatural?
           th
           th
       tbody
@@ -19,6 +20,8 @@
           tr
             td
               = link_to advantage.name, storytellers_advantage_path(advantage)
+            td
+              = advantage.is_unnatural ? 'Yes' : 'No'
             td
               = link_to "Edit", edit_storytellers_advantage_path(advantage)
             td

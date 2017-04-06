@@ -125,7 +125,12 @@ users_list = [
   ["player5@askagainlater.com", "welcome", "Player 5", false, false, DateTime.now],
   ["player6@askagainlater.com", "welcome", "Player 6", false, false, DateTime.now],
   ["player7@askagainlater.com", "welcome", "Player 7", false, false, DateTime.now],
-  ["player8@askagainlater.com", "welcome", "Player 8", false, false, DateTime.now]
+  ["player8@askagainlater.com", "welcome", "Player 8", false, false, DateTime.now],
+  ["test_user@test.test", "welcome", "test user please ignore", false, false],
+  ["clarkkent@superman.super", "welcome", "Clark Kent", false, false],
+  ["athena@greekgods.god", "welcome", "Athena Goddess of Wisdom", false, false],
+  ["sts@askagainlater.com", "welcome", "Storyteller", true, false],
+  ["admin@whatever.com", "welcome", "Admin", true, true]
 ]
 
 characters_list =  [

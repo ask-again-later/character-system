@@ -2,7 +2,7 @@
   = render_breadcrumbs
 
 h2
-  = "Advantage: #{@advantage.name}"
+  = "Advantage: #{@advantage.name}#{@advantage.is_unnatural ? " (UNNATURAL)" : ""}"
 
 p
   strong Allowed Ratings:

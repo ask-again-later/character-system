@@ -54,7 +54,7 @@
     <table cellpadding="0" cellspacing="0" border="0" width="600">
       <tr>
         <td bgcolor="#333333" color="#FFFFFF" class="content-header" height="60" valign="middle">
-          <h1><a href="<%= root_url %>">AAL Character System</a></h1>
+          <h1><a href="http://characters.askagainlater.com/">AAL Character System</a></h1>
         </td>
       </tr>
       <tr>
@@ -65,7 +65,7 @@
 
           <p>Click the link below to unlock your account:</p>
 
-          <p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>
+          <p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token, :host => 'characters.askagainlater.com') %></p>
         </td>
       </tr>
     </table>
