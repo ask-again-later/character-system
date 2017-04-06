@@ -199,15 +199,9 @@ true_selves_list.each do |name, description|
   TrueSelf.create(name: name, description: description)
 end
 
-<<<<<<< Updated upstream
 users_list.each do |email, password, name, is_storyteller, is_admin, confirmed_at|
   puts "Creating seed Users"
   User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin, confirmed_at: confirmed_at)
-=======
-users_list.each do |email, password, name, is_storyteller, is_admin|
-  puts "Creating seed Users"
-  User.create(email: email, password: password, password_confirmation: password, name: name, is_storyteller: is_storyteller, is_admin: is_admin)
->>>>>>> Stashed changes
 end
 
 characters_list.each do |name, user_id, stability, handy, religion, bureaucracy,
