@@ -74,7 +74,7 @@
   .form-row
     select name="advantages" id="advantages"
       - @advantages.each do |advantage|
-        option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
+        option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name}#{advantage.is_unnatural ? ' (Unnatural)' : ''} [#{advantage.allowed_ratings}]
     = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
 
   ul#advantages-list
