@@ -13,8 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require turbolinks
-//= require plugins/lists.min.js
-//= require plugins/char_counter.min.js
 //= require dataTables/jquery.dataTables
+//= require showdown
+//= require nestedSortable
 //= require common

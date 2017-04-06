@@ -1,7 +1,11 @@
-.devise-page {
-  flex: 1;
+.main.devise {
+  max-width: none;
   background-image: url('/assets/misty-woods.jpg');
   background-size: cover;
+}
+
+.devise-page {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,7 +33,7 @@
           font-size: .8em;
         }
 
-        input {
+        input:not([type='checkbox']) {
           width: 80%;
           min-width: 350px;
         }

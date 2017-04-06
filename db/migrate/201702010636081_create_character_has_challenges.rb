@@ -5,6 +5,7 @@ class CreateCharacterHasChallenges < ActiveRecord::Migration[5.0]
       t.references :challenge, index: true, foreign_key: true, null: false
       t.string :custom_name
       t.text :custom_description
+      t.boolean :is_creature_challenge, default: false
 
       t.timestamps
     end

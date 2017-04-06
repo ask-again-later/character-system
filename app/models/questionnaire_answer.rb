@@ -4,5 +4,4 @@ class QuestionnaireAnswer < ApplicationRecord
 
 	validates :questionnaire_item, presence: true
 	validates :character, 				 presence: true
-	validates :answer, 						 presence: true
 end

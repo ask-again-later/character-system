@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
   resources :characters
-  get 'characters/:id/wizard', to: 'characters#wizard'
+  get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'
   get 'characters/:id/wizard/skills_trainings', to: 'characters#wizard_skills_trainings'
   get 'characters/:id/wizard/challenges_advantages', to: 'characters#wizard_challenges_advantages'
@@ -38,8 +38,8 @@ Rails.application.routes.draw do
     resources :advantages
     resources :challenges
     resources :true_selves
-    get '/questionnaire', to: 'questionnaire_items#index'
-    post '/questionnaire', to: 'questionnaire_items#update'
+    post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
+    resources :questionnaire_sections
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

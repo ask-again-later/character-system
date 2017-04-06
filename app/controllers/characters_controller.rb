@@ -37,8 +37,9 @@ class CharactersController < ApplicationController
 		@character = Character.new
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@advantages = Advantage.all
-		@challenges = Challenge.all
+		@advantages = Advantage.all.order(:name)
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = current_user
 		@statuses = STATUS_ENUM
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
@@ -55,28 +56,33 @@ class CharactersController < ApplicationController
 
 	def edit
 		@character = Character.find(params[:id])
+		if (@character.user.id != current_user.id && !current_user.is_storyteller)
+			redirect_to root_path and return
+		end
 		if @character.status > 0 and !current_user.is_storyteller
-			redirect_to character_path(@character)
+			redirect_to character_path(@character) and return
 		end
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
-		@advantages = Advantage.all
-		@challenges = Challenge.all
+		@advantages = Advantage.all.order(:name)
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
 		@statuses = STATUS_ENUM
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		if !@character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
 		@questionnaire_answers = @character.questionnaire_answers
-		if (@character.user.id != current_user.id && !current_user.is_storyteller)
-			redirect_to root_path
-		end
 	end
 
 	def update
 		@character = Character.find(params[:id])
+		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
@@ -104,6 +110,7 @@ class CharactersController < ApplicationController
 					end
 				end
 			end
+			puts "challenges complete, starting advantages"
 			if params[:character][:character_has_advantages].present?
 				cha_ids = []
 				# add new advantages, and update older ones
@@ -134,6 +141,17 @@ class CharactersController < ApplicationController
 					else
 						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
 						@qa.save!
+					end
+				end
+			end
+			# send mailers if necessary
+			if oldstatus != @character.status
+				if @character.status == 1 and !current_user.is_storyteller
+					# send submission notification to storytellers
+					@storytellers = User.where(is_storyteller: true)
+					@storytellers.each do |storyteller|
+						result = CharacterMailer.character_submission(@character, storyteller).deliver_now
+						puts result
 					end
 				end
 			end
@@ -218,6 +236,14 @@ class CharactersController < ApplicationController
 					@qa.save!
 				end
 			end
+			# send mailers if necessary
+			if @character.status == 1 && !current_user.is_storyteller
+				# send submission notification to storytellers
+				@storytellers = User.where(is_storyteller: true)
+				@storytellers.each do |storyteller|
+					CharacterMailer.character_submission(@character, storyteller).deliver_now
+				end
+			end
 			if params[:wizard].present?
 				if params[:formaction] == "save"
 					redirect_to "/characters/#{@character.id}/wizard/#{params[:wizard_current]}" and return
@@ -245,7 +271,7 @@ class CharactersController < ApplicationController
 
 	def destroy
 		@character = Character.find(params[:id])
-		@character.delete
+		@character.destroy
 		redirect_to characters_path
 	end
 
@@ -268,6 +294,8 @@ class CharactersController < ApplicationController
 		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		@page = @questionnaire[params[:page].to_i-1]
 		@questionnaire_answers = @character.questionnaire_answers
 	end
@@ -276,6 +304,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@attributes = ATTRIBUTES
+		@is_basics = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -288,6 +317,7 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@skills_training = SKILLS_TRAINING
+		@is_skills = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -300,7 +330,12 @@ class CharactersController < ApplicationController
 		@questionnaire = QuestionnaireSection.all.order(:order)
 		@character = Character.find(params[:id])
 		@advantages = Advantage.all.order(:name)
-		@challenges = Challenge.all.order(:name)
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@custom_challenge = Challenge.where(is_custom: true).first
+		@is_challenges = true
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
@@ -317,6 +352,9 @@ class CharactersController < ApplicationController
 		@attributes = ATTRIBUTES
 		@skills_training = SKILLS_TRAINING
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 
 		render layout: 'print'
 	end

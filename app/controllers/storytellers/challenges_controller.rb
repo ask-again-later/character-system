@@ -2,6 +2,9 @@ module Storytellers
   class ChallengesController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
+    add_breadcrumb "Storytellers", :storytellers_path
+    add_breadcrumb "Challenges", :storytellers_challenges_path
+
     def index
       @challenges = Challenge.all
     end
@@ -10,10 +13,12 @@ module Storytellers
       @challenge = Challenge.find(params[:id])
       renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 			@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+      add_breadcrumb @challenge.name, storytellers_challenge_path(@challenge)
     end
 
     def new
       @challenge = Challenge.new
+      add_breadcrumb "New", new_storytellers_challenge_path
     end
 
     def create
@@ -29,6 +34,8 @@ module Storytellers
 
     def edit
       @challenge = Challenge.find(params[:id])
+      add_breadcrumb @challenge.name, storytellers_challenge_path(@challenge)
+      add_breadcrumb "Edit", edit_storytellers_challenge_path(@challenge)
     end
 
     def update

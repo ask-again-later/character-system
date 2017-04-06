@@ -1,0 +1,55 @@
+.messages {
+  margin-top: 5px;
+  .msg {
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: $black;
+    padding: 3px 30px 3px 10px;
+    margin-bottom: 5px;
+    position: relative;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .close {
+      position: absolute;
+      right: 10px;
+      top: 3px;
+
+      a {
+        text-decoration: none;
+      }
+    }
+
+    &.success {
+      background-color: #e8f5e9;
+      border-color: #81c784;
+
+      .close a {
+        color: #81c784;
+      }
+    }
+
+    &.error {
+      background-color: #ffebee;
+      border-color: #e57373;
+
+      .close a {
+        color: #e57373;
+      }
+    }
+
+    &.notice {
+      background-color: #f9fbe7;
+      border-color: #dce775;
+
+      .close a {
+        color: #dce775;
+      }
+    }
+  }
+}

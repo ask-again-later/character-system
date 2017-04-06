@@ -1,4 +1,7 @@
-.character-form
+.character
+  .button-row.right
+    = link_to "Edit in Wizard", @character.id.present? ? character_wizard_path(@character) : new_character_wizard_path, class: 'button'
+
   .form-row.basic-stats
     .stat.name
       = f.label :name
@@ -65,7 +68,7 @@
     select name="advantages" id="advantages"
       - @advantages.each do |advantage|
         option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
-    = button_tag 'Add', type: 'button', class: 'button', id: "advantage-add"
+    = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
 
   ul#advantages-list
     - @character.character_has_advantages.each do |advantage|
@@ -84,15 +87,19 @@
 
   h3.section Challenges
   .form-row
+    div
+      = label_tag "Creature Challenges"
     select name="challenges" id="challenges"
       - @challenges.each do |challenge|
         option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
-    = button_tag 'Add', type: 'button', class: 'button', id: "challenge-add"
+    = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
+    - if @custom_challenge.present?
+      = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
 
 
   ul#challenges-list
     - @character.character_has_challenges.each do |challenge|
-      li
+      li data-creature="#{(challenge.is_creature_challenge || challenge.challenge.is_creature_challenge) ? 'true' : 'false'}"
         - if challenge.challenge.is_custom
           - if challenge.custom_name.present?
             = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
@@ -105,10 +112,10 @@
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
         - if challenge.custom_description.present?
           .description
-            = challenge.custom_description.html_safe
+            = raw @markdown.render(challenge.custom_description)
         - elsif challenge.challenge.description.present?
           .description
-            = challenge.challenge.description.html_safe
+            = raw @markdown.render(challenge.challenge.description)
         = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
         = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
         = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
@@ -117,6 +124,9 @@
   - if current_user.is_storyteller || @character.status == 3
     h3.section Derived Stats
     .derived-stats
+      .stat
+        = f.label :health
+        = f.number_field :health
       .stat
         = f.label :willpower
         = f.number_field :willpower
@@ -135,7 +145,7 @@
   = f.text_area :public_blurb
 
   h3.section Questionnaire
-  .questionnaire
+  .questionnaire.accordion
     - if @questionnaire_sections.present?
       - @questionnaire_sections.each do |qs|
         h4 #{qs.title}
@@ -154,12 +164,11 @@
                   = hidden_field_tag "character[questionnaire_answers][][id]"
                 = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
 
-
-
-  = f.submit "Save"
-  - if @character.status == 0 and (current_user == @character.user or @character.user.nil?)
-    = hidden_field_tag "status", @character.status
-    = f.submit "Save and Submit", id: 'save-submit'
+  .button-row
+    = f.submit "Save"
+    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?) and !current_user.is_storyteller
+      = f.hidden_field :status
+      = f.submit "Save and Submit", id: 'save-submit'
 
   .overlay#advantages-overlay
     .modal
@@ -196,6 +205,10 @@
         .form-row.description
           = label_tag :custom_description, "Description"
           = text_area_tag :custom_description, "", id: 'modal-custom-description'
+
+        .form-row.creature
+          = check_box_tag :is_creature_challenge, true, false, id: 'modal-creature-challenge'
+          = label_tag :is_creature_challenge, "Is this a creature challenge?"
 
         = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
 

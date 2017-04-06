@@ -1,4 +1,5 @@
-h2 New Advantage
+.data-entry-form
+  h2 New Advantage
 
-= form_for @advantage, url: {action: 'create'} do |f|
-  = render partial: 'form', locals: {f: f}
+  = form_for @advantage, url: {action: 'create'} do |f|
+    = render partial: 'form', locals: {f: f}

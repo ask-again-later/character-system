@@ -4,47 +4,49 @@
 
   = render partial: 'wizard_toc'
 
-  h3 Basics
+  .character
+    h3 Basics
+    .basic-stats-short
+      .stat
+        = f.label :pronouns
+        = f.text_field :pronouns
 
-  .form-row
-    = f.label :pronouns
-    = f.text_field :pronouns
+      .stat
+        = f.label :true_self_id, "True Self"
+        = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
 
-  .form-row
-    = f.label :true_self_id, "True Self"
-    = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
+    h3 Attributes
 
-  h3 Attributes
+    .flex-container
+      - @attributes.each do |cat,vals|
+        .column
+          strong
+            = cat
+          - vals.each do |val|
+            .row
+              label
+                = val
+              .dots
+                - (1..5).each do |i|
+                  - if @character.send(val.parameterize("_").to_sym) >= i
+                    span.dot.selected
+                      = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                  - else
+                    span.dot
+                      = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-  .flex-container
-    - @attributes.each do |cat,vals|
-      .column
-        strong
-          = cat
-        - vals.each do |val|
-          .row
-            label
-              = val
-            .dots
-              - (1..5).each do |i|
-                - if @character.send(val.parameterize("_").to_sym) >= i
-                  span.dot.selected
-                    = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
-                - else
-                  span.dot
-                    = f.radio_button val.parameterize("_").to_sym, i, label: false
+    = hidden_field_tag "wizard_current", "basics"
+    = hidden_field_tag "wizard_prev", @questionnaire.last.id
+    = hidden_field_tag "wizard", "skills_trainings"
+    = f.hidden_field :use_extended
 
-  = hidden_field_tag "wizard_current", "basics"
-  = hidden_field_tag "wizard_prev", @questionnaire.last.id
-  = hidden_field_tag "wizard", "skills_trainings"
-  = f.hidden_field :use_extended
-
-  = hidden_field_tag "formaction", "", id: 'form-action'
-  = f.submit "Back", id: 'back'
-  = f.submit "Save", id: 'save'
-  = f.submit "Save and Next Page", id: 'save-continue'
-  = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
-  = f.submit "Switch to Non-Mechanical Build", id: 'switch-non-mechanics'
+    .button-row
+      = hidden_field_tag "formaction", "", id: 'form-action'
+      = f.submit "Back", id: 'back'
+      = f.submit "Save", id: 'save'
+      = f.submit "Save and Next Page", id: 'save-continue'
+      = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+      = f.submit "Switch to Non-Mechanical Build", id: 'switch-non-mechanics'
 
 = javascript_include_tag 'wizard', 'data-turbolinks-track' => true
 = javascript_include_tag 'characters', 'data-turbolinks-track' => true

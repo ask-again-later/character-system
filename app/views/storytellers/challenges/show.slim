@@ -1,5 +1,11 @@
+.breadcrumbs
+  = render_breadcrumbs
+
 h2
   = "Challenge: #{@challenge.name}"
 
 .description
   = raw @markdown.render(@challenge.description)
+
+.button-row
+  = link_to "Edit Challenge", edit_storytellers_challenge_path(@challenge), class: 'button'

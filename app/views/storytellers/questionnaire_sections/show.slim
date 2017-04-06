@@ -1,0 +1,20 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+.data-entry-show-questionnaire
+  h2
+    = "Questionnaire Section: #{@section.title}"
+
+  .instructions
+    p
+      strong Instructions:
+    - if @section.instructions.present?
+      = raw @markdown.render(@section.instructions)
+
+  ol.questions
+    - @section.questionnaire_items.order(order: :asc).each do |question|
+      li
+        = question.question
+
+  .button-row
+    = link_to "Edit Section", edit_storytellers_questionnaire_section_path(@section), class: 'button'

@@ -4,7 +4,7 @@
     <nav>
       <ul>
         <% if current_user %>
-          <li class="parent"><span>My Characters</span>
+          <li class="parent"><%= link_to "My Characters", root_path %>
             <ul class="sub-menu">
                 <% current_user.characters.each do |character| %>
                   <li><%= link_to character.name, character_path(character) %></li>
@@ -12,6 +12,9 @@
               <li><%= link_to "Create New", new_character_path %></li>
             </ul>
           </li>
+          <% if current_user.is_storyteller %>
+            <li><%= link_to "Tools", storytellers_path %></li>
+          <% end %>
           <li><%= link_to "Settings", edit_user_registration_path %></li>
         <% end %>
         <li><a href="http://askagainlater.com/" rel="external" target="_blank">Info Site</a></li>
