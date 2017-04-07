@@ -1,53 +1,63 @@
-= form_for @character, method: 'PATCH' do |f|
+.character
+  = form_for @character, method: 'PATCH' do |f|
 
-  h2 Character Creation Wizard: #{@character.name}
+    h2 Character Creation Wizard: #{@character.name}
 
-  = render partial: 'wizard_toc', locals: {questionnaire: @questionnaire, page: @page, is_basics: @is_basics, is_skills: @is_skills, is_challenges: @is_challenges, character: @character}
+    = render partial: 'wizard_toc', locals: {questionnaire: @questionnaire, page: @page, is_basics: @is_basics, is_skills: @is_skills, is_challenges: @is_challenges, character: @character}
 
-  .character
-    h3 Basics
-    .basic-stats-short
-      .stat
-        = f.label :pronouns
-        = f.text_field :pronouns
+    .character
+      h3 Basics
 
-      .stat
-        = f.label :true_self_id, "True Self"
-        = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
+      .basic-stats-short
+        .stat
+          = f.label :pronouns
+          = f.text_field :pronouns
 
-    h3 Attributes
+        .stat
+          = f.label :true_self_id, "True Self"
+          = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
 
-    .flex-container.attributes
-      - @attributes.each do |cat,vals|
-        .column
-          strong
-            = cat
-            span.counter.hidden id="#{cat.to_s.parameterize}-count"
-          - vals.each do |val|
-            .row
-              label
-                = val
-              .dots
-                - (1..5).each do |i|
-                  - if @character.send(val.parameterize("_").to_sym) >= i
-                    span.dot.selected
-                      = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
-                  - else
-                    span.dot
-                      = f.radio_button val.parameterize("_").to_sym, i, label: false
 
-    = hidden_field_tag "wizard_current", "basics"
-    = hidden_field_tag "wizard_prev", @questionnaire.last.id
-    = hidden_field_tag "wizard", "skills_trainings"
-    = f.hidden_field :use_extended
+      p.instructions Each Character has 1 True Self, chosen from the list of 26 different True Selves. A character's True Self represents who they are their core when violating and interacting with the town's Norms. For a description of each of the True Selves, please #{link_to("click here", "http://askagainlater.com/rules/willpower/true-selves/", rel: 'external', target: '_blank')}. For a description of their mechanics and interaction with Willpower and Norms, please #{link_to("click here", "http://askagainlater.com/rules/willpower/", rel: 'external', target: '_blank')}.
 
-    .button-row
-      = hidden_field_tag "formaction", "", id: 'form-action'
-      = f.submit "Back", id: 'back'
-      = f.submit "Save", id: 'save'
-      = f.submit "Save and Next Page", id: 'save-continue'
-      = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
-      = f.submit "Switch to Non-Mechanical Build", id: 'switch-non-mechanics'
+      h3 Attributes
 
-= javascript_include_tag 'wizard', 'data-turbolinks-track' => true
-= javascript_include_tag 'characters', 'data-turbolinks-track' => true
+      .flex-container.attributes
+        - @attributes.each do |cat,vals|
+          .column
+            strong
+              = cat
+              span.counter.hidden id="#{cat.to_s.parameterize}-count"
+            - vals.each do |val|
+              .row
+                label
+                  = val
+                .dots
+                  - (1..5).each do |i|
+                    - if @character.send(val.parameterize("_").to_sym) >= i
+                      span.dot.selected
+                        = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                    - else
+                      span.dot
+                        = f.radio_button val.parameterize("_").to_sym, i, label: false
+
+
+
+      p.instructions Every character has #{link_to("Attributes", "http://askagainlater.com/rules/attributes/", rel: 'external', target: '_blank')}, which are divided into the 3 categories of Mental, Physical, and Social Attributes. Prioritize the three categories (Mental, Physical, and Social) into the most important (Primary), second most important (Secondary), and least important (Tertiary) categories. Every attribute start with 1 rank for free.
+      p.instructions Your Primary category gains an additional 5 points to spend between the three Attributes, your Secondary gains an additional 4, and your Tertiary gains an additional 3 points. Each rank in an Attribute costs 1 point, and Attributes may not go above 5 ranks. The total among each category (including the free point in each attribute) will be 8/7/6. After you have done this, you have one more floating point to put into any Attribute you choose.
+
+      = hidden_field_tag "wizard_current", "basics"
+      = hidden_field_tag "wizard_prev", @questionnaire.last.id
+      = hidden_field_tag "wizard", "skills_trainings"
+      = f.hidden_field :use_extended
+
+      .button-row
+        = hidden_field_tag "formaction", "", id: 'form-action'
+        = f.submit "Back", id: 'back'
+        = f.submit "Save", id: 'save'
+        = f.submit "Save and Next Page", id: 'save-continue'
+        = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+        = f.submit "Switch to Non-Mechanical Build", id: 'switch-non-mechanics'
+
+  = javascript_include_tag 'wizard', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters', 'data-turbolinks-track' => true

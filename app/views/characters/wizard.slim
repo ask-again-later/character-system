@@ -11,10 +11,14 @@
 
   .form-row.build-method
     label.radio-label.checked
+      p
+        strong Mechanical Proposal
       = f.radio_button :use_extended, false
 
       p I would like to build my character's mechanics myself.
     label.radio-label
+      p
+        strong Written Proposal
       = f.radio_button :use_extended, true
 
       p I would like storyteller assistance in building my character, and am willing to answer a few extra questions about it.
