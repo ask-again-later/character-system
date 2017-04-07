@@ -338,6 +338,15 @@ ul#advantages, ul#challenges {
 
   .question-answer {
     margin-bottom: 36px;
+
+    p {
+      margin: 1em 0;
+    }
+
+    ul {
+      list-style: disc;
+      margin-left: 24px;
+    }
   }
 }
 
