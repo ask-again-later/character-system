@@ -3,7 +3,7 @@
 
     h2 Character Creation Wizard: #{@character.name}
 
-    = render partial: 'wizard_toc'
+    = render partial: 'wizard_toc', locals: {questionnaire: @questionnaire, page: @page, is_basics: @is_basics, is_skills: @is_skills, is_challenges: @is_challenges, character: @character}
 
     h3.section
       | Advantages
