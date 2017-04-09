@@ -10,6 +10,7 @@ class AddDowntimeActions < ActiveRecord::Migration[5.0]
       t.text :response
       t.integer :game_id, null: false
       t.integer :character_id, null: false
+      t.integer :status, default: 0
       t.timestamps
     end
   end

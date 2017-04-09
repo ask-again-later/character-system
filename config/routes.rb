@@ -45,8 +45,8 @@ Rails.application.routes.draw do
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
     resources :downtime_actions, only: [:index, :show, :edit, :update]
-    resources :games
-    post 'downtime_actions/reorder_games', to: 'downtime_actions#reorder_games', as: 'reorder_games'
+    resources :downtime_periods
+    post 'downtime_actions/reorder_downtime_periods', to: 'downtime_actions#reorder_downtime_periods', as: 'reorder_downtime_periods'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

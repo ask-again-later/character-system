@@ -1,25 +1,25 @@
 h2 #{@character.name}: Downtime Actions
 
-- if @games.present?
-  - @games.each do |game|
+- if @downtime_periods.present?
+  - @downtime_periods.each do |downtime_period|
 
-    h3 #{game.title}
+    h3 #{downtime_period.title}
 
-    - if @character.downtime_actions.where(game_id: game.id)
+    - if @character.downtime_actions.where(downtime_period_id: downtime_period.id)
       table.table
         thead
           th Title
           th Size
-          - if game.downtimes_open or current_user.is_storyteller
+          - if downtime_period.downtimes_open or current_user.is_storyteller
             th
             th
         tbody
-          - @character.downtime_actions.where(game_id: game.id).each do |action|
+          - @character.downtime_actions.where(downtime_period_id: downtime_period.id).each do |action|
             td
               = link_to action.title, character_downtime_action_path(@character, action)
             td
               = action.size == 1 ? 'Large' : 'Regular'
-            - if game.downtimes_open or current_user.is_storyteller
+            - if downtime_period.downtimes_open or current_user.is_storyteller
               td
                 = link_to "Edit", edit_character_downtime_action_path(@character, action)
               td

@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.string   "prerequisites",          default: ""
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.boolean  "is_unnatural",           default: false
   end
 
   create_table "challenges", force: :cascade do |t|
@@ -121,9 +122,10 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "size",         default: 0
+    t.integer  "status",       default: 0
   end
 
-  create_table "games", force: :cascade do |t|
+  create_table "downtime_periods", force: :cascade do |t|
     t.string   "title"
     t.boolean  "downtimes_visible"
     t.datetime "created_at",                        null: false

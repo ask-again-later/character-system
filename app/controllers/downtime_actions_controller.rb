@@ -1,7 +1,7 @@
 class DowntimeActionsController < ApplicationController
   def index
     @character = Character.find(params[:character_id])
-    @games = Game.all
+    @downtime_periods = DowntimePeriod.all.order(id: :desc)
   end
 
   def show

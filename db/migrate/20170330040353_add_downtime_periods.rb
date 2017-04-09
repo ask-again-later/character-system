@@ -1,6 +1,6 @@
 class AddGames < ActiveRecord::Migration[5.0]
   def change
-    create_table :games do |t|
+    create_table :downtime_periods do |t|
       t.string :title
       t.boolean :downtimes_open, default: false
       t.boolean :downtimes_visible, default: false
