@@ -132,4 +132,4 @@
                 - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
                   = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
 
-  = javascript_include_tag 'characters', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters'

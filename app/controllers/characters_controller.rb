@@ -43,7 +43,7 @@ class CharactersController < ApplicationController
 		@player = current_user
 		@statuses = STATUS_ENUM
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
-		if !@character.use_extended
+		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
@@ -73,7 +73,7 @@ class CharactersController < ApplicationController
 
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
-		if !@character.use_extended
+		unless @character.use_extended
 			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 		@questionnaire_items = QuestionnaireItem.all.order(order: :asc)
