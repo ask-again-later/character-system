@@ -110,6 +110,28 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
+  create_table "downtime_actions", force: :cascade do |t|
+    t.string   "title",                        null: false
+    t.string   "assets"
+    t.boolean  "burn",         default: false
+    t.text     "description",                  null: false
+    t.boolean  "is_submitted", default: false
+    t.text     "response"
+    t.integer  "game_id",                      null: false
+    t.integer  "character_id",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "size",         default: 0
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.string   "title"
+    t.boolean  "downtimes_visible"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "downtimes_open",    default: false
+  end
+
   create_table "questionnaire_answers", force: :cascade do |t|
     t.integer  "questionnaire_item_id",              null: false
     t.integer  "character_id",                       null: false
