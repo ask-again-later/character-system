@@ -54,7 +54,7 @@
       - if @questionnaire.first.id != @page.id
         = f.submit "Back", id: 'back'
       = f.submit "Save", id: 'save'
-      - if @page.id < @questionnaire.length or !@character.is_extended
+      - if @page.id < @questionnaire.length or !@character.use_extended
         = f.submit "Save and Next Page", id: 'save-continue'
         = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
       - else
