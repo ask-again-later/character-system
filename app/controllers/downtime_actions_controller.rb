@@ -42,6 +42,12 @@ class DowntimeActionsController < ApplicationController
 
   def submit
     @downtime_actions = DowntimeAction.where(character_id: params[:character_id], downtime_period_id: params[:downtime_period_id])
+    @storytellers = User.where(is_storyteller: true)
+    @downtime_period = DowntimePeriod.find(params[:downtime_period_id])
+    @character = Character.find(params[:character_id])
+    @storytellers.each do |storyteller|
+      DowntimeActionMailer.submit(@character, @downtime_period, storyteller).deliver_now
+    end
     @downtime_actions.each do |action|
       action.update_attributes!(status: 1)
     end

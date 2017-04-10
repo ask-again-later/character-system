@@ -20,7 +20,7 @@ h2 #{@character.name}: Downtime Actions
         thead
           th Title
           th Size
-          - if downtime_period.downtimes_open or current_user.is_storyteller
+          - if (downtime_period.downtimes_open and @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 0).present?) or current_user.is_storyteller
             th
             th
         tbody
@@ -29,7 +29,7 @@ h2 #{@character.name}: Downtime Actions
               = link_to action.title, character_downtime_period_downtime_action_path(@character, downtime_period, action)
             td
               = action.size == 1 ? 'Large' : 'Regular'
-            - if downtime_period.downtimes_open or current_user.is_storyteller
+            - if (downtime_period.downtimes_open and action.status == 0) or current_user.is_storyteller
               td
                 = link_to "Edit", edit_character_downtime_period_downtime_action_path(@character, downtime_period, action)
               td
