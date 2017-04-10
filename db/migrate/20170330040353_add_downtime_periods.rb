@@ -1,4 +1,4 @@
-class AddGames < ActiveRecord::Migration[5.0]
+class AddDowntimePeriods < ActiveRecord::Migration[5.0]
   def change
     create_table :downtime_periods do |t|
       t.string :title
