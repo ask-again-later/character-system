@@ -1,4 +1,7 @@
 .data-entry-form
+  .breadcrumbs
+    = render_breadcrumbs
+    
   h2 New Advantage
 
   = form_for @advantage, url: {action: 'create'} do |f|

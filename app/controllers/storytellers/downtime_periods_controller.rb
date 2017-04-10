@@ -42,7 +42,7 @@ module Storytellers
     private
 
     def downtime_period_params
-      params.require(:downtime_period).permit(:title, :downtimes_visible)
+      params.require(:downtime_period).permit(:title, :downtimes_visible, :downtimes_open)
     end
   end
 end

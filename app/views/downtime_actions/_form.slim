@@ -1,0 +1,23 @@
+.data-entry-form
+  .form-row
+    = f.label :title
+    = f.text_field :title, class: 'text-long'
+
+  .form-row
+    = f.label :assets
+    = f.text_field :assets, class: 'text-long'
+
+  .form-row
+    = f.label :size
+    = f.select :size, options_for_select([["Regular", 0], ["Large", 1]])
+
+  .form-row
+    = f.label :description
+    = f.text_area :description
+
+  .form-row
+    = f.label :burn, "Burn down your life for this action?"
+    = f.check_box :burn
+
+  .button-row
+    = f.submit "Save", class: 'button'

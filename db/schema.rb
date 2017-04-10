@@ -111,18 +111,18 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "downtime_actions", force: :cascade do |t|
-    t.string   "title",                        null: false
+    t.string   "title",                              null: false
     t.string   "assets"
-    t.boolean  "burn",         default: false
-    t.text     "description",                  null: false
-    t.boolean  "is_submitted", default: false
+    t.boolean  "burn",               default: false
+    t.text     "description",                        null: false
+    t.boolean  "is_submitted",       default: false
     t.text     "response"
-    t.integer  "game_id",                      null: false
-    t.integer  "character_id",                 null: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "size",         default: 0
-    t.integer  "status",       default: 0
+    t.integer  "downtime_period_id",                 null: false
+    t.integer  "character_id",                       null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "size",               default: 0
+    t.integer  "status",             default: 0
   end
 
   create_table "downtime_periods", force: :cascade do |t|

@@ -5,6 +5,12 @@ h2 #{@character.name}: Downtime Actions
 
     h3 #{downtime_period.title}
 
+    - if downtime_period.downtimes_open
+      .button-row.right
+        = link_to "New Downtime Action", new_character_downtime_action_path, class: 'button'
+        = form_tag(submit_character_downtime_actions_path(@character))
+          = button_tag "Submit Downtime Actions", type: 'submit', class: 'button'
+
     - if @character.downtime_actions.where(downtime_period_id: downtime_period.id)
       table.table
         thead
