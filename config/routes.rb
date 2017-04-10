@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'
   get 'characters/:id/wizard/skills_trainings', to: 'characters#wizard_skills_trainings'
   get 'characters/:id/wizard/challenges_advantages', to: 'characters#wizard_challenges_advantages'
-  get 'characters/:id/wizard/:page', to: 'characters#wizard_questionnaire'
+  get 'characters/:id/wizard/:page', to: 'characters#wizard_questionnaire', as: 'character_wizard_page'
   get 'characters/:id/print', to: 'characters#print', as: 'character_print'
   post 'characters/wizard', to: 'characters#wizard_router', as: 'wizard_update'
   get 'characters/:id/downtimes', to: 'characters#downtimes', as: 'character_downtime'

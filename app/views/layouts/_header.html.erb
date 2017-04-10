@@ -9,7 +9,7 @@
                 <% current_user.characters.each do |character| %>
                   <li><%= link_to character.name, character_path(character) %></li>
                 <% end %>
-              <li><%= link_to "Create New", new_character_path %></li>
+              <li><%= link_to "Create New", new_character_wizard_path %></li>
             </ul>
           </li>
           <% if current_user.is_storyteller %>

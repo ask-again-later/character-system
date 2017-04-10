@@ -1,119 +1,132 @@
-= form_for @character, method: 'PATCH' do |f|
+.character
+  = form_for @character, method: 'PATCH' do |f|
 
-  h2 Character Creation Wizard: #{@character.name}
+    h2 Character Creation Wizard: #{@character.name}
 
-  = render partial: 'wizard_toc'
+    = render partial: 'wizard_toc', locals: {questionnaire: @questionnaire, page: @page, is_basics: @is_basics, is_skills: @is_skills, is_challenges: @is_challenges, character: @character}
 
-  h3 Advantages
+    h3.section
+      | Advantages
+      span.counter#advantage-count 17 Remaining
 
-  select name="advantages" id="advantages"
-    - @advantages.each do |advantage|
-      option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name} [#{advantage.allowed_ratings}]
-  = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
+    div
+      select name="advantages" id="advantages"
+        - @advantages.each do |advantage|
+          option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name}#{advantage.is_unnatural ? ' (Unnatural)' : ''} [#{advantage.allowed_ratings}]
+      = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
 
-  ul#advantages-list
-    - @character.character_has_advantages.each do |advantage|
-      li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
-        = "#{advantage.advantage.name} "
-        - if advantage.advantage.requires_specification
-          = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
-        - if advantage.advantage.allowed_ratings.split(",").length > 1
-          = " <span class='rating'>#{advantage.rating}</span>".html_safe
-        = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
-        = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
-        = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
-        = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
-        = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
-        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
+    ul#advantages-list
+      - @character.character_has_advantages.each do |advantage|
+        li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
+          = "#{advantage.advantage.name} "
+          - if advantage.advantage.requires_specification
+            = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
+          - if advantage.advantage.allowed_ratings.split(",").length > 1
+            = " <span class='rating'>#{advantage.rating}</span>".html_safe
+          = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
+          = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
+          = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
+          = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
+          = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
+          = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
 
-  h3 Challenges
+    p.instructions Characters begin game with 17 ranks worth of total #{link_to("Advantages", "http://askagainlater.com/rules/advantages/", rel: "external", target: "_blank")}, split among any number of individual Advantages. Many Advantages have specific prerequisites which need to be fulfilled before they can be purchased by a character. Some Advantages are labeled as "Unnatural," this is to show that the Advantage in question gives your character a weird or supernatural ability.
 
-  div
-    = label_tag "Creature Challenges"
-  select name="challenges" id="challenges"
-    - @challenges.each do |challenge|
-      option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
-  = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
-  - if @custom_challenge.present?
-    = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
+    h3.section
+      | Challenges
+      .counters
+        span.counter#challenge-count 2 Remaining
+        span.counter#creature-challenge-count 1 Creature Challenge Remaining
+
+    div
+      = label_tag "Creature Challenges"
+    select name="challenges" id="challenges"
+      - @challenges.each do |challenge|
+        option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
+    = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
+    - if @custom_challenge.present?
+      = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
 
 
-  ul#challenges-list
-    - @character.character_has_challenges.each do |challenge|
-      li
-        - if challenge.challenge.is_custom
-          - if challenge.custom_name.present?
-            = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
+    ul#challenges-list
+      - @character.character_has_challenges.each do |challenge|
+        li
+          - if challenge.challenge.is_custom
+            - if challenge.custom_name.present?
+              = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
+            - else
+              = "<span class='custom-name'>#{challenge.challenge.name}</span> ".html_safe
           - else
-            = "<span class='custom-name'>#{challenge.challenge.name}</span> ".html_safe
-        - else
-          = "#{challenge.challenge.name} "
-        - if challenge.challenge.is_custom
-          = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'challenge-edit'
-        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
-        - if challenge.custom_description.present?
-          .description
-            = raw @markdown.render(challenge.custom_description)
-        - elsif challenge.challenge.description.present?
-          .description
-            = raw @markdown.render(challenge.challenge.description)
-        = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
-        = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
-        = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
-        = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
+            = "#{challenge.challenge.name} "
+          - if challenge.challenge.is_custom
+            = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'challenge-edit'
+          = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+          - if challenge.custom_description.present?
+            .description
+              = raw @markdown.render(challenge.custom_description)
+          - elsif challenge.challenge.description.present?
+            .description
+              = raw @markdown.render(challenge.challenge.description)
+          = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
+          = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
+          = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
+          = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
 
-  = hidden_field_tag "wizard_current", "challenges_advantages"
-  = hidden_field_tag "wizard_prev", "skills_trainings"
-  = hidden_field_tag "wizard", "full"
-  = f.hidden_field :id
+    p.instructions Characters can have zero, one, or two #{link_to("Challenges", "http://askagainlater.com/rules/challenges/", rel: "external", target: "_blank")} at character creation. Additionally, you do not select from a list of prewritten Challenges. Instead, you will submit a description of the Challenge in no more than 4 sentences and the Storytellers will build a personalized Challenge for the character in cooperation with you (mechanics and all).
+    p.instructions Note that Challenges should be tailored to fit your character’s personal situation, that is, they should represent some aspect of your character not covered by other mechanics. The one exception to this are the Creature Challenges, which have prewritten mechanics. Please see the Challenges page for more information.
 
-  .button-row
-    = hidden_field_tag "formaction", "", id: 'form-action'
-    = f.submit "Back", id: 'back'
-    = f.submit "Save", id: 'save'
-    = f.submit "Finish", id: 'finish'
+    = hidden_field_tag "wizard_current", "challenges_advantages"
+    = hidden_field_tag "wizard_prev", "skills_trainings"
+    = hidden_field_tag "wizard", "full"
+    = f.hidden_field :id
 
-.overlay#advantages-overlay
-  .modal
-    .header
-      | Edit Advantage:
-      span
-    .content
-      .form-row.specification
-        = label_tag :specification
-        = text_field_tag :specification, "", id: 'modal-specification'
+    .button-row
+      = hidden_field_tag "formaction", "", id: 'form-action'
+      = f.submit "Back", id: 'back'
+      = f.submit "Save", id: 'save'
+      = f.submit "Finish", id: 'finish'
 
-      .form-row.rating
-        = label_tag :rating
-        = select_tag :rating, "", id: 'modal-rating'
+  .overlay#advantages-overlay
+    .modal
+      .header
+        | Edit Advantage:
+        span
+      .content
+        .form-row.specification
+          = label_tag :specification
+          = text_field_tag :specification, "", id: 'modal-specification'
 
-      .form-row#modal-description
+        .form-row.rating
+          = label_tag :rating
+          = select_tag :rating, "", id: 'modal-rating'
 
-      = hidden_field_tag :cha_id, "", id: 'modal-id'
+        .form-row#modal-description
 
-      .form-row
-        = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
-        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
+        = hidden_field_tag :cha_id, "", id: 'modal-id'
 
-.overlay#challenges-overlay
-  .modal
-    .header
-      | Edit Challenge:
-      span
-    .content
-      .form-row.name
-        = label_tag :custom_name, "Name"
-        = text_field_tag :custom_name, "", id: 'modal-custom-name'
+        .form-row
+          = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
+          = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
 
-      .form-row.description
-        = label_tag :custom_description, "Description"
-        = text_area_tag :custom_description, "", id: 'modal-custom-description'
+  .overlay#challenges-overlay
+    .modal
+      .header
+        | Edit Challenge:
+        span
+      .content
+        .form-row.name
+          = label_tag :custom_name, "Name"
+          = text_field_tag :custom_name, "", id: 'modal-custom-name'
 
-      = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
+        .form-row.description
+          = label_tag :custom_description, "Description"
+          = text_area_tag :custom_description, "", id: 'modal-custom-description'
 
-      .form-row
-        = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
-        = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
+        = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
 
-= javascript_include_tag 'wizard', 'data-turbolinks-track' => true
-= javascript_include_tag 'characters', 'data-turbolinks-track' => true
+        .form-row
+          = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
+          = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
+
+  = javascript_include_tag 'wizard', 'data-turbolinks-track' => true
+  = javascript_include_tag 'characters', 'data-turbolinks-track' => true
