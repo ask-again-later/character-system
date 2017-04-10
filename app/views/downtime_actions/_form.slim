@@ -19,5 +19,8 @@
     = f.label :burn, "Burn down your life for this action?"
     = f.check_box :burn
 
+  = hidden_field_tag "downtime_action[character_id]", params[:character_id]
+  = hidden_field_tag "downtime_action[downtime_period_id]", params[:downtime_period_id]
+
   .button-row
     = f.submit "Save", class: 'button'

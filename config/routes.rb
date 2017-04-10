@@ -6,7 +6,12 @@ Rails.application.routes.draw do
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
   resources :characters do
-    resources :downtime_actions
+    get 'downtime_actions', to: 'downtime_actions#index', as: 'downtime_actions'
+    post 'downtime_actions/:downtime_period_id/submit', to: 'downtime_actions#submit', as: 'submit_downtime_actions'
+    post 'downtime_actions/:downtime_period_id/reopen', to: 'downtime_actions#reopen', as: 'reopen_downtime_actions'
+    resources :downtime_periods do
+      resources :downtime_actions
+    end
   end
   get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'

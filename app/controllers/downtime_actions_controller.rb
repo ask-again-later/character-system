@@ -16,10 +16,10 @@ class DowntimeActionsController < ApplicationController
     @downtime_action = DowntimeAction.new(downtime_action_params)
     if @downtime_action.save!
       flash[:success] = "Your downtime action was saved."
-      redirect_to character_downtime_actions_path and return
+      redirect_to character_downtime_actions_path(@downtime_action.character) and return
     end
     flash[:error] = "There was an error saving your downtime action."
-    redirect_to new_character_downtime_action_path and return
+    redirect_to new_character_downtime_period_downtime_action_path(@downtime_action.character, params[:downtime_period_id]) and return
   end
 
   def edit
@@ -27,10 +27,33 @@ class DowntimeActionsController < ApplicationController
   end
 
   def update
+    @downtime_action = DowntimeAction.find(params[:id])
+    if @downtime_action.update_attributes!(downtime_action_params)
+      flash[:success] = "Your downtime action was saved."
+      redirect_to character_downtime_actions_path and return
+    end
+    flash[:error] = "There was an error saving your downtime action."
+    redirect_to edit_character_downtime_period_downtime_action_path(params[:character_id], params[:downtime_period_id], @downtime_action) and return
   end
 
   def destroy
 
+  end
+
+  def submit
+    @downtime_actions = DowntimeAction.where(character_id: params[:character_id], downtime_period_id: params[:downtime_period_id])
+    @downtime_actions.each do |action|
+      action.update_attributes!(status: 1)
+    end
+    redirect_to character_downtime_actions_path and return
+  end
+
+  def reopen
+    @downtime_actions = DowntimeAction.where(character_id: params[:character_id], downtime_period_id: params[:downtime_period_id])
+    @downtime_actions.each do |action|
+      action.update_attributes!(status: 0)
+    end
+    redirect_to character_downtime_actions_path and return
   end
 
   private
