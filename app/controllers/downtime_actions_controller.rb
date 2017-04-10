@@ -1,7 +1,10 @@
 class DowntimeActionsController < ApplicationController
+  TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
+
   def index
     @character = Character.find(params[:character_id])
     @downtime_periods = DowntimePeriod.all.order(id: :desc)
+    @types = TYPE_ENUM
   end
 
   def show
@@ -10,6 +13,7 @@ class DowntimeActionsController < ApplicationController
 
   def new
     @downtime_action = DowntimeAction.new
+    @types = TYPE_ENUM
   end
 
   def create
@@ -24,6 +28,7 @@ class DowntimeActionsController < ApplicationController
 
   def edit
     @downtime_action = DowntimeAction.find(params[:id])
+    @types = TYPE_ENUM
   end
 
   def update
@@ -65,6 +70,6 @@ class DowntimeActionsController < ApplicationController
   private
 
   def downtime_action_params
-    params.require(:downtime_action).permit(:title, :assets, :size, :description, :burn, :response, :downtime_period_id, :character_id)
+    params.require(:downtime_action).permit(:title, :assets, :size, :description, :burn, :response, :downtime_period_id, :character_id, :action_type)
   end
 end

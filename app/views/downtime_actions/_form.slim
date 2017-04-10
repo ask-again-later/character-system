@@ -4,6 +4,10 @@
     = f.text_field :title, class: 'text-long'
 
   .form-row
+    = f.label :action_type
+    = f.select :action_type, options_for_select(@types)
+
+  .form-row
     = f.label :assets
     = f.text_field :assets, class: 'text-long'
 

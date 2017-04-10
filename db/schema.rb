@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "updated_at",                         null: false
     t.integer  "size",               default: 0
     t.integer  "status",             default: 0
+    t.integer  "action_type",        default: 0,     null: false
   end
 
   create_table "downtime_periods", force: :cascade do |t|
