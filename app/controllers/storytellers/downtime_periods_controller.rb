@@ -4,6 +4,10 @@ module Storytellers
       @downtime_periods = DowntimePeriod.all
     end
 
+    def show
+      @downtime_period = DowntimePeriod.find(params[:id])
+    end
+
     def new
       @downtime_period = DowntimePeriod.new
     end

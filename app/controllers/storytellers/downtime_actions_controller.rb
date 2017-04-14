@@ -1,7 +1,12 @@
 module Storytellers
   class DowntimeActionsController < ApplicationController
+    before_action :authenticate_user!, :requires_storyteller
+
+    add_breadcrumb "Storytellers", :storytellers_path
+    add_breadcrumb "Downtime Actions", :storytellers_downtime_actions_path
+
     def index
-      @downtimes = DowntimeAction.group_by { |dt| dt.game_id }
+      @downtimes = DowntimePeriod.all.order(id: :desc)
     end
 
     def show

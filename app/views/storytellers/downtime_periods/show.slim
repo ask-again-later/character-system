@@ -1,15 +1,15 @@
 .breadcrumbs
   = render_breadcrumbs
 
-h2 Downtime Period: #{@downtime_period.name}
+h2 Downtime Period: #{@downtime_period.title}
 
 p
   strong Downtimes Open?
-  | @downtime_period.downtimes_open
+  = @downtime_period.downtimes_open ? " Yes" : " No"
 
 p
   strong Downtimes Visible?
-  | @downtime_period.downtimes_visible
+  = @downtime_period.downtimes_visible ? " Yes" : " No"
 
 .button-row
   = link_to "Edit Downtime Period", edit_storytellers_downtime_period_path(@downtime_period), class: 'button'
