@@ -3,5 +3,6 @@ class RegistrationsController < Devise::RegistrationsController
 
   def after_inactive_sign_up_path_for(resource)
     flash[:alert] = I18n.t 'devise.confirmations.send_instructions'
+    redirect_to new_user_session_path and return
   end
 end
