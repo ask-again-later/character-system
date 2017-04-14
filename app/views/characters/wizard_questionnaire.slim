@@ -54,7 +54,11 @@
       - if @questionnaire.first.id != @page.id
         = f.submit "Back", id: 'back'
       = f.submit "Save", id: 'save'
-      = f.submit "Save and Next Page", id: 'save-continue'
-      = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+      - if @page.id < @questionnaire.length or !@character.use_extended
+        = f.submit "Save and Next Page", id: 'save-continue'
+        = f.submit "Save & Skip to Full Sheet", id: 'save-skip'
+      - else
+        = f.submit "Save and Submit", id: 'save-submit'
 
   = javascript_include_tag 'wizard'
+  = javascript_include_tag 'characters'
