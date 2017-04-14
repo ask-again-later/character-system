@@ -19,18 +19,15 @@
       position: absolute;
       right: 10px;
       top: 3px;
-
-      a {
-        text-decoration: none;
-      }
+      text-decoration: none;
     }
 
     &.success {
       background-color: #e8f5e9;
-      border-color: #81c784;
+      border-color: #827717;
 
-      .close a {
-        color: #81c784;
+      .close {
+        color: #827717;
       }
     }
 
@@ -38,16 +35,16 @@
       background-color: #ffebee;
       border-color: #e57373;
 
-      .close a {
+      .close {
         color: #e57373;
       }
     }
 
-    &.notice {
+    &.notice, &.alert {
       background-color: #f9fbe7;
       border-color: #dce775;
 
-      .close a {
+      .close {
         color: #dce775;
       }
     }
