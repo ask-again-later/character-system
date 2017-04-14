@@ -24,10 +24,10 @@
 
     &.success {
       background-color: #e8f5e9;
-      border-color: #827717;
+      border-color: #81c784;
 
       .close {
-        color: #827717;
+        color: #81c784;
       }
     }
 
@@ -42,10 +42,10 @@
 
     &.notice, &.alert {
       background-color: #f9fbe7;
-      border-color: #dce775;
+      border-color: #827717;
 
       .close {
-        color: #dce775;
+        color: #827717;
       }
     }
   }
