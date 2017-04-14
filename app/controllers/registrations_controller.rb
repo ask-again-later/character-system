@@ -2,7 +2,9 @@ class RegistrationsController < Devise::RegistrationsController
   protected
 
   def after_inactive_sign_up_path_for(resource)
-    flash[:alert] = I18n.t 'devise.confirmations.send_instructions'
-    redirect_to new_user_session_path and return
+    scope = Devise::Mapping.find_scope!(resource)
+    router_name = Devise.mappings[scope].router_name
+    context = router_name ? send(router_name) : self
+    context.respond_to?(:new_user_session_path) ? context.new_user_session_path : "/users/sign_in"
   end
 end
