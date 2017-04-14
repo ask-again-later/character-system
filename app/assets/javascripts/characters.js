@@ -25,7 +25,7 @@ $(document).ready(function() {
 
   // VALIDATION
 
-  $('.attributes input').on('change', function () {
+  function updateAttributes() {
     var mentals = parseInt($('input[name="character[intelligence]"]:checked').val()) + parseInt($('input[name="character[wits]"]:checked').val()) + parseInt($('input[name="character[resolve]"]:checked').val()) - 3;
     var physicals = parseInt($('input[name="character[strength]"]:checked').val()) + parseInt($('input[name="character[dexterity]"]:checked').val()) + parseInt($('input[name="character[stamina]"]:checked').val()) - 3;
     var socials = parseInt($('input[name="character[presence]"]:checked').val()) + parseInt($('input[name="character[manipulation]"]:checked').val()) + parseInt($('input[name="character[composure]"]:checked').val()) - 3;
@@ -164,50 +164,41 @@ $(document).ready(function() {
         }
       }
     }
-  });
-  $('.attributes input').trigger('change');
-
-  function totalSkillsTrainingCount() {
-    var total = 0;
-    $('.skills-training input:checked').each(function() {
-      total += parseInt($(this).val());
-    });
-
-    return 22-total;
   }
 
-  $('.skills-training input').on('change', function() {
-    var count = totalSkillsTrainingCount();
+  updateAttributes();
+
+  function updateSkillsTrainingCount() {
+    var count = 0;
     var $indicator = $('#skills-total');
-    $indicator.text(count+" Remaining");
-    if (count < 0) {
+    $('.skills-training input:checked').each(function() {
+      count += parseInt($(this).val());
+    });
+    $indicator.text((22-count)+" Remaining");
+    if (count > 22) {
       $indicator.addClass('warn');
     } else {
       $indicator.removeClass('warn');
     }
-  });
-  $('.skills-training input').first().trigger('change');
-
-  function specialTrainingCount() {
-    var trainings = 0;
-    $('.special-training input:checked').each(function() {
-      trainings += parseInt($(this).val());
-    });
-
-    return 8-trainings;
   }
 
-  $('.special-training input').on('change', function() {
-    var count = specialTrainingCount();
+  updateSkillsTrainingCount();
+
+  function updateSpecialTrainingCount() {
+    var count = 0;
     var $indicator = $('#special-training');
-    $indicator.text(count+" Remaining");
-    if (count < 0) {
+    $('.special-training input:checked').each(function() {
+      count += parseInt($(this).val());
+    });
+    $indicator.text((8-count)+" Remaining");
+    if (count > 8) {
       $indicator.addClass('warn');
     } else {
       $indicator.removeClass('warn');
     }
-  });
-  $('.special-training input').first().trigger('change');
+  }
+
+  updateSpecialTrainingCount();
 
   function updateAdvantageCount() {
     var count = 0;
@@ -437,14 +428,14 @@ $(document).ready(function() {
     updateChallengeCount();
   });
 
-  $('.dot').on('click', function(e) {
-    e.preventDefault();
-    if ($(e.target).hasClass('dot')) {
-      $(this).addClass('selected').prevAll().addClass('selected');
-      $(this).nextAll().removeClass('selected');
-      $(this).find('input').attr("checked", "checked");
-      $(this).find('input').change();
-    }
+  $('.dot').on('click', function() {
+    $(this).addClass('selected');
+    $(this).prevAll().addClass('selected');
+    $(this).nextAll().removeClass('selected');
+    $(this).find('input').prop('checked', 'checked');
+    updateSkillsTrainingCount();
+    updateSpecialTrainingCount();
+    updateAttributes();
   });
 
   $('#save-submit').on('click', function(e) {
