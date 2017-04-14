@@ -5,6 +5,9 @@
 
 .button-row.right
   = link_to "Character Wizard", new_character_wizard_path, class: 'button'
+  - if current_user.is_storyteller?
+    = form_tag(send_approvals_path, method: 'POST') do
+      = button_tag "Send Approvals", type: 'submit', onClick: 'return confirm("Are you sure you want to batch send approvals to newly-active characters?");', class: 'button'
 
 - if @characters.length > 0
   table.table
