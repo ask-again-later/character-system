@@ -357,8 +357,16 @@ class CharactersController < ApplicationController
 		render layout: 'print'
 	end
 
-	def validate_character
-
+	def send_approvals
+		unless current_user.is_storyteller
+			redirect_to root_path and return
+		end
+		@characters = Character.where(status: 2, approval_sent: false, is_npc: false)
+		@characters.each do |character|
+			CharacterMailer.character_approval(@character).deliver_now
+			character.update_attributes!(approval_sent: true)
+		end
+		redirect_to root_path and return
 	end
 
 	protected

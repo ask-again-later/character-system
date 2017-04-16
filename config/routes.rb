@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'characters/:id/wizard/:page', to: 'characters#wizard_questionnaire', as: 'character_wizard_page'
   get 'characters/:id/print', to: 'characters#print', as: 'character_print'
   post 'characters/wizard', to: 'characters#wizard_router', as: 'wizard_update'
+  post 'characters/send_approvals', to: 'characters#send_approvals', as: 'send_approvals'
 
   namespace :api do
     get 'characters', to: 'characters#index'
