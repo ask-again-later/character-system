@@ -42,7 +42,10 @@ class DowntimeActionsController < ApplicationController
   end
 
   def destroy
-
+    @downtime_action = DowntimeAction.find(params[:id])
+    @character = Character.find(params[:character_id])
+    @downtime_action.destroy
+    redirect_to character_downtime_actions_path(@character) and return
   end
 
   def submit

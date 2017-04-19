@@ -59,9 +59,9 @@
       </tr>
       <tr>
         <td bgcolor="#FFFFFF" color="#333333" class="content-body">
-          <h2>Downtime Actions Submitted for <%= @character.name %> for <%= @downtime_period.title %></h2>
+          <h2>Downtime Actions Submitted for <%= @character.name %> for <%= @period.title %></h2>
           <p>Hi, <%= @storyteller.name %>!</p>
-          <p><%= @character.user.name %> has submitted their downtime actions for <%= @character.name %>. <a href="<%= root_url %>characters/<%= @character.id %>">Click here</a> to see them.</p>
+          <p><%= @character.user.name %> has submitted their downtime actions for <%= @character.name %>. <a href="<%= root_url %>characters/<%= @character.id %>/downtime_actions">Click here</a> to see them.</p>
         </td>
       </tr>
     </table>
