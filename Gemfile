@@ -43,6 +43,8 @@ gem 'breadcrumbs_on_rails'
 
 gem 'postmark-rails', '~> 0.15.0'
 
+gem 'ledermann-rails-settings'
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
