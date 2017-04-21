@@ -4,6 +4,10 @@
     = f.text_field :title
 
   .form-row
+    = f.label :is_active, "Active?"
+    = f.check_box :is_active
+
+  .form-row
     = f.label :downtimes_open, "Downtimes Open?"
     = f.check_box :downtimes_open
 

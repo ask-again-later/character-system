@@ -7,6 +7,7 @@ table.table
   thead
     tr
       th Title
+      th Active?
       th Downtimes Open?
       th Downtimes Visible?
       th
@@ -17,6 +18,8 @@ table.table
         tr
           td
             = link_to downtime_period.title, storytellers_downtime_period_path(downtime_period)
+          td
+            = downtime_period.is_active ? "Yes" : "No"
           td
             = downtime_period.downtimes_open ? 'Yes' : 'No'
           td

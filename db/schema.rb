@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
     t.boolean  "downtimes_open",    default: false
+    t.boolean  "is_active",         default: false
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|

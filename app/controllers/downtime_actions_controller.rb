@@ -3,7 +3,7 @@ class DowntimeActionsController < ApplicationController
 
   def index
     @character = Character.find(params[:character_id])
-    @downtime_periods = DowntimePeriod.all.order(id: :desc)
+    @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
     @types = TYPE_ENUM
   end
 
