@@ -246,3 +246,6 @@ xp_records_list.each do |character_id, amount, description|
   puts "Giving seed XP to seed Characters"
   XpRecord.create(character_id: character_id, amount: amount, description: description)
 end
+
+Setting.qualitative_open = true
+Setting.quantitative_open = true
