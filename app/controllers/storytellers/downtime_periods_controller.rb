@@ -1,11 +1,14 @@
 module Storytellers
   class DowntimePeriodsController < ApplicationController
+    TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
     def index
       @downtime_periods = DowntimePeriod.all
     end
 
     def show
       @downtime_period = DowntimePeriod.find(params[:id])
+      @characters = Character.where(status: 2).order(:name)
+      @types = TYPE_ENUM
     end
 
     def new
@@ -41,6 +44,14 @@ module Storytellers
       @downtime_period.destroy
       flash[:success] = "Your downtime period was successfully deleted."
       redirect_to storytellers_downtime_periods_path
+    end
+
+    def send_downtime_notifs
+      # get all submitted downtimes for this period, grouped by user
+      @downtimes = DowntimeAction.where(status: 1, downtime_period_id: params[:downtime_period_id]).group_by(:user)
+      @downtimes.each do |user, downtimes|
+
+      end
     end
 
     private
