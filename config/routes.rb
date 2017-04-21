@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     post 'downtime_actions/:downtime_period_id/reopen', to: 'downtime_actions#reopen', as: 'reopen_downtime_actions'
     resources :downtime_periods do
       resources :downtime_actions
+      get 'downtime_actions/:downtime_action_id/respond', to: 'downtime_actions#respond', as: 'respond'
     end
   end
   get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'

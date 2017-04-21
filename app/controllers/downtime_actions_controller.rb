@@ -3,12 +3,23 @@ class DowntimeActionsController < ApplicationController
 
   def index
     @character = Character.find(params[:character_id])
-    @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
+    unless @character.user == current_user or current_user.is_storyteller
+      redirect_to root_path and return
+    end
+    if @character.user == current_user
+      @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
+    else
+      # don't show unfinished actions to storytellers
+      @downtime_periods = DowntimePeriod.where(is_active: true, status: 1).order(id: :desc)
+    end
     @types = TYPE_ENUM
   end
 
   def show
     @downtime_action = DowntimeAction.find(params[:id])
+    unless @downtime_action.character.user == current_user or (current_user.is_storyteller and @downtime_action.status == 1)
+      redirect_to root_path and return
+    end
   end
 
   def new
@@ -28,6 +39,9 @@ class DowntimeActionsController < ApplicationController
 
   def edit
     @downtime_action = DowntimeAction.find(params[:id])
+    unless @downtime_action.character.user == current_user or (current_user.is_storyteller and @downtime_action.status == 1)
+      redirect_to root_path and return
+    end
     @types = TYPE_ENUM
   end
 
@@ -68,6 +82,16 @@ class DowntimeActionsController < ApplicationController
       action.update_attributes!(status: 0)
     end
     redirect_to character_downtime_actions_path and return
+  end
+
+  def respond
+    unless current_user.is_storyteller
+      redirect_to root_path and return
+    end
+    @character = Character.find(params[:character_id])
+    @downtime_period = DowntimePeriod.find(params[:downtime_period_id])
+    @types = TYPE_ENUM
+    @downtime_action = DowntimeAction.find(params[:downtime_action_id])
   end
 
   private

@@ -50,3 +50,11 @@ em {
 @mixin text-glow {
   text-shadow: 1px 1px 3px #a6ada7;
 }
+
+hr {
+  background-color: $green;
+  height: 3px;
+  border: none;
+  margin: 15px 0;
+  max-width: 50em;
+}

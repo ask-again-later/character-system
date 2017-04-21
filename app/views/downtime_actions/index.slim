@@ -8,10 +8,10 @@ h2 #{@character.name}: Downtime Actions
 
       - if downtime_period.downtimes_open
         .button-row.right
-          - if @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).present?
+          - if @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).present? and downtime_period.downtimes_open
             = form_tag(character_reopen_downtime_actions_path(@character, downtime_period))
               = button_tag "Reopen Downtime Actions", type: 'submit', class: 'button'
-          - else
+          - elsif downtime_period.downtimes_open
             = link_to "New Downtime Action", new_character_downtime_period_downtime_action_path(@character, downtime_period), class: 'button'
             = form_tag(character_submit_downtime_actions_path(@character, downtime_period))
               = button_tag "Submit Downtime Actions", type: 'submit', class: 'button'
@@ -33,11 +33,16 @@ h2 #{@character.name}: Downtime Actions
               = action.burn ? 'Yes' : 'No'
             .action-description
               = action.description
-            - if downtime_period.downtimes_visible
+            - if downtime_period.downtimes_visible or (current_user.is_storyteller and action.response.present?)
+              hr
               .action-response
+                p
+                  strong Response:
                 = action.response
             - if (downtime_period.downtimes_open and action.status == 0) or current_user.is_storyteller
               .button-row
                 = link_to "Edit", edit_character_downtime_period_downtime_action_path(@character, downtime_period, action)
                 = form_tag(character_downtime_period_downtime_action_path(@character, downtime_period, action), method: 'DELETE') do
                   = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this downtime action?");', class: 'button-text'
+                - if current_user.is_storyteller
+                  = link_to "Respond", character_downtime_period_respond_path(@character, downtime_period, action)
