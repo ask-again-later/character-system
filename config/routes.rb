@@ -41,8 +41,8 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
-    get '/settings', to: 'settings#index', as: 'storytellers_settings_path'
-    post '/settings', to: 'settings#update', as: 'update_storytellers_settings_path'
+    get '/settings', to: 'settings#index', as: 'settings'
+    post '/settings', to: 'settings#update', as: 'update_settings'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

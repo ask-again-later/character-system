@@ -1,7 +1,7 @@
 module Storytellers
   class SettingsController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
-    
+
     add_breadcrumb "Storytellers", :storytellers_path
     add_breadcrumb "Settings", :storytellers_settings_path
 

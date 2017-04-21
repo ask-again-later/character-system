@@ -3,14 +3,14 @@
 
 h2 Settings
 
-= form_tag update_storytellers_settings_path, method: 'POST' do
+= form_tag storytellers_update_settings_path, method: 'POST' do
   .form-row
     = label_tag "Qualitative Pitches Open"
-    = check_box_tag "qualitative_open", @qualitative_open
+    = check_box_tag "qualitative_open", 1, @qualitative_open
 
   .form-row
     = label_tag "Quantitative Pitches Open"
-    = check_box_tag "quantitative_open", @quantitative_open
+    = check_box_tag "quantitative_open", 1, @quantitative_open
 
   .button-row
     = submit_tag "Save"
