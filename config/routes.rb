@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
+    get 'downtime_actions/period/:downtime_period_id/print', to: 'downtime_actions#downtime_period_print', as: 'print_downtime_actions_downtime_period'
     get 'downtime_actions/period/:downtime_period_id', to: 'downtime_actions#downtime_period', as: 'downtime_actions_downtime_period'
     resources :downtime_actions, only: [:index, :show, :edit, :update]
     resources :downtime_periods

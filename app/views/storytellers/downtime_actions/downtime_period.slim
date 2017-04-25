@@ -1,6 +1,9 @@
 h2 Downtime Period: #{@downtime_period.title}
 
-- @downtime_period.downtime_actions.group_by {|action| action.character }.each do |character, actions|
+.button-row.right
+  = link_to "Print Downtime Actions", storytellers_print_downtime_actions_downtime_period_path(@downtime_period), class: 'button'
+
+- @downtime_actions.group_by {|action| action.character }.each do |character, actions|
   h3 #{character.name}
 
   - actions.each do |action|
