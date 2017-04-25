@@ -4,12 +4,7 @@
 
   h2 Downtime Actions
 
-  - @downtimes.each do |downtime_period|
-
-    h3 #{downtime_period.title}
-
-    - downtime_period.downtime_actions.group_by{|da| da.character}.each do |character, actions|
-
-      h4 #{character.name}
-
-      
+  ul
+    - @downtimes.each do |downtime_period|
+      li
+        = link_to downtime_period.title, storytellers_downtime_actions_downtime_period_path(downtime_period)
