@@ -22,6 +22,14 @@
             = @character.true_self.name
       .column
         .row
+          strong Stability
+            .boxes
+              - @character.stability.times do |i|
+                .box
+                  .ico-stability
+          .stability-modifiers
+            
+        .row
           strong Willpower
           .boxes
             - @character.willpower.times do |i|
