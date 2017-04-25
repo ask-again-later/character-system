@@ -45,4 +45,4 @@ h2 #{@character.name}: Downtime Actions
                 = form_tag(character_downtime_period_downtime_action_path(@character, downtime_period, action), method: 'DELETE') do
                   = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this downtime action?");', class: 'button-text'
                 - if current_user.is_storyteller
-                  = link_to "Respond", character_downtime_period_respond_path(@character, downtime_period, action)
+                  = link_to "Respond", edit_storytellers_downtime_action_path(action)
