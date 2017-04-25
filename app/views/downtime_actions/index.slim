@@ -6,7 +6,7 @@ h2 #{@character.name}: Downtime Actions
     .downtime-period
       h3 #{downtime_period.title}
 
-      - if downtime_period.downtimes_open
+      - if downtime_period.downtimes_open and @character.status == 2
         .button-row.right
           - if @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).present? and downtime_period.downtimes_open
             = form_tag(character_reopen_downtime_actions_path(@character, downtime_period))
@@ -39,7 +39,7 @@ h2 #{@character.name}: Downtime Actions
                 p
                   strong Response:
                 = action.response
-            - if (downtime_period.downtimes_open and action.status == 0) or current_user.is_storyteller
+            - if (downtime_period.downtimes_open and action.status == 0 and @character.status == 2) or current_user.is_storyteller
               .button-row
                 = link_to "Edit", edit_character_downtime_period_downtime_action_path(@character, downtime_period, action)
                 = form_tag(character_downtime_period_downtime_action_path(@character, downtime_period, action), method: 'DELETE') do
