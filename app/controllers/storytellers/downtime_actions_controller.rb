@@ -21,6 +21,7 @@ module Storytellers
       @types = TYPE_ENUM
   		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
   		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+        add_breadcrumb @downtime_period.title, storytellers_downtime_actions_downtime_period_path(@downtime_period)
     end
 
     def downtime_period_print
