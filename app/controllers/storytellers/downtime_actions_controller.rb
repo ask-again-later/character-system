@@ -8,7 +8,7 @@ module Storytellers
     TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
 
     def index
-      @downtimes = DowntimePeriod.where(downtimes_open: true).order(id: :desc)
+      @downtimes = DowntimePeriod.where(is_active: true).order(id: :desc)
     end
 
     def show
