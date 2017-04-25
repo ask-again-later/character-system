@@ -112,7 +112,6 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
-<<<<<<< HEAD
   create_table "downtime_actions", force: :cascade do |t|
     t.string   "title",                              null: false
     t.string   "assets"
@@ -138,8 +137,6 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.boolean  "is_active",         default: false
   end
 
-=======
->>>>>>> master
   create_table "questionnaire_answers", force: :cascade do |t|
     t.integer  "questionnaire_item_id",              null: false
     t.integer  "character_id",                       null: false
