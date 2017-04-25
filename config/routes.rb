@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post 'characters/wizard', to: 'characters#wizard_router', as: 'wizard_update'
   get 'characters/:id/downtimes', to: 'characters#downtimes', as: 'character_downtime'
   post 'characters/:id/downtimes', to: 'characters#save_downtimes'
+  post 'characters/send_approvals', to: 'characters#send_approvals', as: 'send_approvals'
 
   namespace :api do
     get 'characters', to: 'characters#index'

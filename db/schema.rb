@@ -51,9 +51,9 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.integer  "challenge_id",                          null: false
     t.string   "custom_name"
     t.text     "custom_description"
-    t.boolean  "is_creature_challenge", default: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.boolean  "is_creature_challenge", default: false
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
@@ -106,10 +106,13 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.boolean  "use_extended",  default: false
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.boolean  "approval_sent", default: false
+    t.boolean  "is_npc",        default: false
     t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
+<<<<<<< HEAD
   create_table "downtime_actions", force: :cascade do |t|
     t.string   "title",                              null: false
     t.string   "assets"
@@ -135,6 +138,8 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.boolean  "is_active",         default: false
   end
 
+=======
+>>>>>>> master
   create_table "questionnaire_answers", force: :cascade do |t|
     t.integer  "questionnaire_item_id",              null: false
     t.integer  "character_id",                       null: false
@@ -164,10 +169,10 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",                     null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "description", default: ""
   end
 
   create_table "users", force: :cascade do |t|
