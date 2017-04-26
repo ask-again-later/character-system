@@ -18,9 +18,10 @@
         = character.true_self.name
 
   h3.section Motivation
+  .motivation
+    = raw markdown.render(character.public_blurb)
 
-  = raw markdown.render(character.public_blurb)
-
+  h3.section Attributes, Skills, and Special Training
   p
     strong
       = "Mental Attributes: "
