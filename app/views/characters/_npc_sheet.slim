@@ -1,0 +1,100 @@
+.character.sheet
+  h2
+    = "NPC: #{character.name}"
+
+  .form-row.basic-stats
+    .stat
+      strong Name:
+      = character.name
+    .stat
+      strong Status:
+      = character.get_status
+    .stat
+      strong Character Pronouns:
+      = character.pronouns
+    .stat
+      strong True Self:
+      - if character.true_self
+        = character.true_self.name
+
+  h3.section Motivation
+
+  = raw markdown.render(character.public_blurb)
+
+  p
+    strong
+      = "Mental Attributes: "
+    = "Intelligence #{character.intelligence}, Wits #{character.wits}, Resolve #{character.resolve}"
+  p
+    strong
+      = "Physical Attributes: "
+    = "Strength #{character.strength}, Dexterity #{character.dexterity}, Stamina #{character.stamina}"
+  p
+    strong
+      = "Social Attributes: "
+    = "Presence #{character.presence}, Manipulation #{character.manipulation}, Composure #{character.composure}"
+
+  p
+    strong
+      = "Skills: "
+    = skills_training[:Skills].reject{|st|eval("character.#{st.parameterize('_')}") == 0}.map{|s| s+" "+eval("character.#{s.parameterize('_')}").to_s }.join(", ")
+  p
+    strong
+      = "Special Training: "
+    = skills_training[:"Special Training"].reject{|st|eval("character.#{st.parameterize('_')}") == 0}.map{|s| s+" "+eval("character.#{s.parameterize('_')}").to_s }.join(", ")
+
+  h3.section Advantages
+
+  ul#advantages
+    - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+      - group.each_with_index do |cha, i|
+        li
+          p.name
+            = cha.advantage.name
+            - if cha.advantage.requires_specification?
+              = " (#{cha.specification})"
+            - if cha.advantage.allowed_ratings.length > 1
+              = " #{cha.rating}"
+          - if i == group.length-1
+            p.desc
+              = raw markdown.render(cha.advantage.description)
+
+  h3.section Challenges
+
+  ul#challenges
+    - character.character_has_challenges.each do |chc|
+      li
+        p.name
+          - if chc.challenge.is_custom and chc.custom_name.present?
+            = chc.custom_name
+          - else
+            = chc.challenge.name
+        p.desc
+          - if chc.challenge.is_custom and chc.custom_description.present?
+            = raw markdown.render(chc.custom_description)
+          - else
+            = raw markdown.render(chc.challenge.description)
+
+  h3.section Derived Stats
+  .derived-stats
+    .stat.willpower
+      strong Willpower:
+      = character.willpower
+
+    .stat.health
+      strong Health:
+      = character.health
+
+    .stat.initiative
+      strong Initiative:
+      = character.initiative
+
+    .stat.defense
+      strong Defense:
+      = character.defense
+
+    .stat.speed
+      strong Speed:
+      = character.speed
+
+  = javascript_include_tag 'characters', 'data-turbolinks-track' => true

@@ -54,6 +54,16 @@ class CharactersController < ApplicationController
 		@questionnaire_answers = @character.questionnaire_answers
 	end
 
+	def new_npc
+		@character = Character.new(is_npc: true, status: 3, user_id: current_user.id)
+		@attributes = ATTRIBUTES
+		@skills_training = SKILLS_TRAINING
+		@advantages = Advantage.all.order(:name)
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@statuses = [["Active", 2], ["Inactive", 3]]
+		@custom_challenge = Challenge.where(is_custom: true).first
+	end
+
 	def edit
 		@character = Character.find(params[:id])
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)

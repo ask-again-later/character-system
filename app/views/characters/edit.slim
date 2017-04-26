@@ -1,6 +1,9 @@
 h2
-  = "Edit Character: #{@character.name}"
+  = "Edit #{@character.is_npc ? 'Character' : 'NPC'}: #{@character.name}"
 
 = form_for @character, method: 'PATCH' do |f|
   = f.hidden_field :id
-  = render partial: 'form', locals: {f: f}
+  - if @character.is_npc
+    = render partial: 'npc_form', locals: {f: f}
+  - else
+    = render partial: 'form', locals: {f: f}

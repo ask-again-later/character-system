@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
+  get 'characters/new/npc', to: 'characters#new_npc', as: 'characters_new_npc'
   resources :characters
   get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'
