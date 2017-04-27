@@ -59,7 +59,7 @@ class CharactersController < ApplicationController
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
 			redirect_to root_path and return
 		end
-		if @character.status > 0 and !current_user.is_storyteller
+		if @character.status > 0 and !current_user.is_storyteller and @character.current_xp <= 0
 			redirect_to character_path(@character) and return
 		end
 		@attributes = ATTRIBUTES
@@ -85,6 +85,13 @@ class CharactersController < ApplicationController
 		oldstatus = @character.status
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
+		end
+		if @character.status == 2 and !current_user.is_storyteller
+			@character_updated = Character.new(characters_params)
+			diff = @character.diff(@character_updated)
+			@expenditure = XpExpenditure.new(character_id: @character.id, diff: diff.to_json)
+			@expenditure.save
+			redirect_to character_path(@character) and return
 		end
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."

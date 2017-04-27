@@ -1,4 +1,7 @@
+require 'active_record/diff'
+
 class Character < ApplicationRecord
+	include ActiveRecord::Diff
 	belongs_to :user
 	has_many :questionnaire_answers, dependent: :destroy
 	has_many :character_has_challenges, dependent: :destroy
@@ -16,6 +19,15 @@ class Character < ApplicationRecord
 
 	def get_status
 		return STATUS[self.status]
+	end
+
+	def current_xp
+		xprecords = XpRecord.where(character_id: self.id)
+		total = 0;
+		xprecords.each do |xpr|
+			total += xpr.amount
+		end
+		total
 	end
 
 	private

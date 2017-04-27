@@ -33,6 +33,7 @@ GEM
       activemodel (= 5.0.1)
       activesupport (= 5.0.1)
       arel (~> 7.0)
+    activerecord-diff (2.0.0)
     activesupport (5.0.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (~> 0.7)
@@ -205,6 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-diff
   angularjs-rails (~> 1.6, >= 1.6.1)
   bcrypt (~> 3.1.7)
   breadcrumbs_on_rails
