@@ -2,6 +2,7 @@ require 'active_record/diff'
 
 class Character < ApplicationRecord
 	include ActiveRecord::Diff
+	diff :include => [:character_has_advantages, :character_has_challenges]
 	belongs_to :user
 	has_many :questionnaire_answers, dependent: :destroy
 	has_many :character_has_challenges, dependent: :destroy

@@ -88,6 +88,15 @@ class CharactersController < ApplicationController
 			@character.status = 1
 		end
 		if @character.status == 2 and !current_user.is_storyteller
+			params[:character][:character_has_challenges_attributes].each do |chc|
+				chc.delete(:id)
+			end
+			params[:character][:character_has_advantages_attributes].each do |cha|
+				cha.delete(:id)
+			end
+			params[:character][:questionnaire_answers_attributes].each do |qa|
+				qa.delete(:id)
+			end
 			@character_updated = Character.new(characters_params)
 			diff = @character.diff(@character_updated)
 			@expenditure = XpExpenditure.new(character_id: @character.id, diff: diff.to_json)
