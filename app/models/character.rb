@@ -11,7 +11,9 @@ class Character < ApplicationRecord
 	has_many :downtime_actions
 	belongs_to :true_self
 
-	accepts_nested_attributes_for :questionnaire_answers, :character_has_challenges, :character_has_advantages
+	accepts_nested_attributes_for :questionnaire_answers
+	accepts_nested_attributes_for :character_has_challenges, allow_destroy: true
+	accepts_nested_attributes_for :character_has_advantages, allow_destroy: true
 
 	validates :user, presence: true
 

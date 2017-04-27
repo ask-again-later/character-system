@@ -83,6 +83,7 @@ class CharactersController < ApplicationController
 	def update
 		@character = Character.find(params[:id])
 		oldstatus = @character.status
+		puts params[:character].inspect
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
@@ -95,61 +96,6 @@ class CharactersController < ApplicationController
 		end
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
-			if params[:character][:character_has_challenges].present?
-				chc_ids = []
-				# add new challenges, and catalog all the challenges that should be on the sheet
-				params[:character][:character_has_challenges].each do |challenge|
-					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
-						@challenge.save!
-						chc_ids << @challenge.id.to_i
-					else
-						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
-						chc_ids << challenge[:id].to_i
-					end
-				end
-				# remove any challenges that are no longer on the sheet
-				@character.character_has_challenges.each do |chc|
-					unless chc_ids.include?(chc.id)
-						@challenge = CharacterHasChallenge.find(chc.id)
-						@challenge.delete
-					end
-				end
-			end
-			if params[:character][:character_has_advantages].present?
-				cha_ids = []
-				# add new advantages, and update older ones
-				params[:character][:character_has_advantages].each do |advantage|
-					unless advantage[:id].present?
-						@advantage = CharacterHasAdvantage.new(character_id: @character.id, advantage_id: advantage[:advantage_id], rating: advantage[:rating], specification: advantage[:specification])
-						@advantage.save!
-					else
-						# advantages have a more complex join, so we have to update attributes for non-new ones in case they haven't changed
-						@advantage = CharacterHasAdvantage.find(advantage[:id])
-						@advantage.update_attributes!(rating: advantage[:rating], specification: advantage[:specification])
-					end
-					cha_ids << @advantage.id
-				end
-				# remove any advantages that are no longer on the sheet
-				@character.character_has_advantages.each do |cha|
-					unless cha_ids.include?(cha.id)
-						@advantage = CharacterHasAdvantage.find(cha.id)
-						@advantage.delete
-					end
-				end
-			end
-			if params[:character][:questionnaire_answers].present?
-				params[:character][:questionnaire_answers].each do |qa|
-					if qa[:id].present?
-						@qa = QuestionnaireAnswer.find(qa[:id])
-						@qa.update_attributes!(answer: qa[:answer])
-					else
-						@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
-						@qa.save!
-					end
-				end
-			end
 			# send mailers if necessary
 			if oldstatus != @character.status
 				if @character.status == 1 and !current_user.is_storyteller
@@ -191,56 +137,6 @@ class CharactersController < ApplicationController
 		@character = Character.new(characters_params)
 		if @character.save!
 			flash[:success] = "Your character was saved."
-			if params[:character][:character_has_challenges].present?
-				chc_ids = []
-				# add new challenges, and catalog all the challenges that should be on the sheet
-				params[:character][:character_has_challenges].each do |challenge|
-					unless challenge[:id].present?
-						@challenge = CharacterHasChallenge.new(character_id: @character.id, challenge_id: challenge[:challenge_id], custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
-						@challenge.save!
-						chc_ids << @challenge.id.to_i
-					else
-						@challenge = CharacterHasChallenge.find(challenge[:id])
-						@challenge.update_attributes!(custom_name: challenge[:custom_name], custom_description: challenge[:custom_description])
-						chc_ids << challenge[:id].to_i
-					end
-				end
-				# remove any challenges that are no longer on the sheet
-				@character.character_has_challenges.each do |chc|
-					unless chc_ids.include?(chc.id)
-						@challenge = CharacterHasChallenge.find(chc.id)
-						@challenge.delete
-					end
-				end
-			end
-			if params[:character][:character_has_advantages].present?
-				cha_ids = []
-				# add new advantages, and update older ones
-				params[:character][:character_has_advantages].each do |advantage|
-					unless advantage[:id].present?
-						@advantage = CharacterHasAdvantage.new(character_id: @character.id, advantage_id: advantage[:advantage_id], rating: advantage[:rating], specification: advantage[:specification])
-						@advantage.save!
-					else
-						# advantages have a more complex join, so we have to update attributes for non-new ones in case they haven't changed
-						@advantage = CharacterHasAdvantage.find(advantage[:id])
-						@advantage.update_attributes!(rating: advantage[:rating], specification: advantage[:specification])
-					end
-					cha_ids << @advantage.id
-				end
-				# remove any advantages that are no longer on the sheet
-				@character.character_has_advantages.each do |cha|
-					unless cha_ids.include?(cha.id)
-						@advantage = CharacterHasAdvantage.find(cha.id)
-						@advantage.delete
-					end
-				end
-			end
-			if params[:character][:questionnaire_answers].present?
-				params[:character][:questionnaire_answers].each do |qa|
-					@qa = QuestionnaireAnswer.new(answer: qa[:answer], character_id: @character.id, questionnaire_item_id: qa[:questionnaire_item_id])
-					@qa.save!
-				end
-			end
 			# send mailers if necessary
 			if @character.status == 1 && !current_user.is_storyteller
 				# send submission notification to storytellers
@@ -379,6 +275,6 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended)
+		params.require(:character).permit(:name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
 	end
 end
