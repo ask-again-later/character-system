@@ -88,15 +88,8 @@ class CharactersController < ApplicationController
 			@character.status = 1
 		end
 		if @character.status == 2 and !current_user.is_storyteller
-			params[:character][:character_has_challenges_attributes].each do |chc|
-				chc.delete(:id)
-			end
-			params[:character][:character_has_advantages_attributes].each do |cha|
-				cha.delete(:id)
-			end
-			params[:character][:questionnaire_answers_attributes].each do |qa|
-				qa.delete(:id)
-			end
+			params[:character][:id] = @character.id
+			puts characters_params.inspect
 			@character_updated = Character.new(characters_params)
 			diff = @character.diff(@character_updated)
 			@expenditure = XpExpenditure.new(character_id: @character.id, diff: diff.to_json)
@@ -284,6 +277,6 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
+		params.require(:character).permit(:id, :name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
 	end
 end
