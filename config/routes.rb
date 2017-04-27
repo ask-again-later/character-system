@@ -55,6 +55,8 @@ Rails.application.routes.draw do
     get 'downtime_actions/period/:downtime_period_id', to: 'downtime_actions#downtime_period', as: 'downtime_actions_downtime_period'
     resources :downtime_actions, only: [:index, :show, :edit, :update]
     resources :downtime_periods
+    get '/settings', to: 'settings#index', as: 'settings'
+    post '/settings', to: 'settings#update', as: 'update_settings'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
