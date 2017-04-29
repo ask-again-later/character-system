@@ -41,6 +41,13 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
+    get 'experience/new', to: 'experience#new', as: 'new_experience_record'
+    get 'experience/mass', to: 'experience#mass', as: 'mass_experience_record'
+    post 'experience/mass', to: 'experience#mass_assign', as: 'mass_assign_experience'
+    post 'experience/new', to: 'experience#create', as: 'single_assign_experience'
+    get 'experience/:id', to: 'experience#show', as: 'show_experience_expenditure'
+    post 'experience/:id', to: 'experience#approve_expenditure', as: 'approve_experience_expenditure'
+    get 'experience', to: 'experience#index', as: 'experience'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

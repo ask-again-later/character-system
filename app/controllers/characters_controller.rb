@@ -83,13 +83,11 @@ class CharactersController < ApplicationController
 	def update
 		@character = Character.find(params[:id])
 		oldstatus = @character.status
-		puts params[:character].inspect
 		if params[:submit].present? && params[:submit]
 			@character.status = 1
 		end
 		if @character.status == 2 and !current_user.is_storyteller
 			params[:character][:id] = @character.id
-			puts characters_params.inspect
 			@character_updated = Character.new(characters_params)
 			diff = @character.diff(@character_updated)
 			@expenditure = XpExpenditure.new(character_id: @character.id, diff: diff.to_json)
