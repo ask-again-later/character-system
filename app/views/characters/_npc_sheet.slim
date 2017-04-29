@@ -98,4 +98,9 @@
       strong Speed:
       = character.speed
 
+  h3.section Additional Information
+
+  .additional-info
+    = raw @markdown.render(character.additional_info)
+
   = javascript_include_tag 'characters', 'data-turbolinks-track' => true
