@@ -139,6 +139,8 @@ GEM
       nokogiri (~> 1.6)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails-settings-cached (0.6.5)
+      rails (>= 4.2.0)
     railties (5.0.1)
       actionpack (= 5.0.1)
       activesupport (= 5.0.1)
@@ -224,6 +226,7 @@ DEPENDENCIES
   postmark-rails (~> 0.15.0)
   pry
   rails (= 5.0.1)
+  rails-settings-cached
   redcarpet
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

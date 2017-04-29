@@ -50,6 +50,8 @@ Rails.application.routes.draw do
     get 'experience/:id', to: 'experience#show', as: 'show_experience_expenditure'
     post 'experience/:id', to: 'experience#approve_expenditure', as: 'approve_experience_expenditure'
     get 'experience', to: 'experience#index', as: 'experience'
+    get '/settings', to: 'settings#index', as: 'settings'
+    post '/settings', to: 'settings#update', as: 'update_settings'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
