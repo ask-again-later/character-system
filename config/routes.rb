@@ -45,6 +45,8 @@ Rails.application.routes.draw do
     get 'experience/mass', to: 'experience#mass', as: 'mass_experience_record'
     post 'experience/mass', to: 'experience#mass_assign', as: 'mass_assign_experience'
     post 'experience/new', to: 'experience#create', as: 'single_assign_experience'
+    delete 'experience/expenditure/:id', to: 'experience#destroy_expenditure', as: 'delete_xp_expenditure_record'
+    delete 'experience/record/:id', to: 'experience#destroy', as: 'delete_xp_record'
     get 'experience/:id', to: 'experience#show', as: 'show_experience_expenditure'
     post 'experience/:id', to: 'experience#approve_expenditure', as: 'approve_experience_expenditure'
     get 'experience', to: 'experience#index', as: 'experience'

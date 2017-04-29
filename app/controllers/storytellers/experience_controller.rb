@@ -74,6 +74,16 @@ module Storytellers
       redirect_to storytellers_experience_path and return
     end
 
+    def destroy
+      XpRecord.destroy(params[:id])
+      redirect_to storytellers_experience_path and return
+    end
+
+    def destroy_expenditure
+      XpExpenditure.destroy(params[:id])
+      redirect_to storytellers_experience_path and return
+    end
+
     private
 
     def xp_record_params

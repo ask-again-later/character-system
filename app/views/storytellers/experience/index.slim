@@ -4,3 +4,51 @@
 h2 Experience
 
 h3 Expenditures Awaiting Approval
+
+table.table
+  thead
+    tr
+      th Character
+      th Amount Spent
+      th Date Submitted
+      th
+      th
+  tbody
+    - if @expenditures.present?
+      - @expenditures.each do |expenditure|
+        tr
+          td #{expenditure.character.name}
+          td #{expenditure.amount}
+          td #{expenditure.created_at}
+          td
+            = link_to "View", storytellers_show_experience_expenditure_path(expenditure)
+          td
+            = form_tag(storytellers_delete_xp_expenditure_path(xprecord), method: 'DELETE') do
+              = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this experience expenditure?");', class: 'button-text'
+
+
+h3 Experience Records
+
+.button-row.right
+  = link_to "Add Experience", storytellers_new_experience_record_path, class: 'button'
+  = link_to "Mass-Add Experience", storytellers_mass_experience_record_path, class: 'button'
+
+table.table
+  thead
+    tr
+      th Character
+      th Amount
+      th Reason
+      th Date
+      th
+  tbody
+    - if @records.present?
+      - @records.each do |xprecord|
+        tr
+          td #{xprecord.character.name}
+          td #{xprecord.amount}
+          td #{xprecord.description}
+          td #{xprecord.created_at}
+          td
+            = form_tag(storytellers_delete_xp_record_path(xprecord), method: 'DELETE') do
+              = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this experience record?");', class: 'button-text'
