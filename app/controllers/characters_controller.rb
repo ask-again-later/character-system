@@ -92,6 +92,7 @@ class CharactersController < ApplicationController
 			diff = @character.diff(@character_updated)
 			@expenditure = XpExpenditure.new(character_id: @character.id, diff: diff.to_json)
 			@expenditure.save
+			flash[:success] = "Experience expenditure for #{@character.name} submitted."
 			redirect_to character_path(@character) and return
 		end
 		if @character.update_attributes!(characters_params)

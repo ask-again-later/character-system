@@ -21,6 +21,7 @@ module Storytellers
       @character = Character.find(params[:xp_record][:character_id])
       @xpr = XpRecord.new(xp_record_params)
       @xpr.save
+      flash[:success] = "#{params[:xp_record][:amount]} experience added to #{@character.name}."
       redirect_to storytellers_experience_path and return
     end
 
@@ -42,6 +43,7 @@ module Storytellers
         @xpr = XpRecord.new(character_id: char.id, amount: params[:amount], description: params[:description])
         @xpr.save
       end
+      flash[:success] = "#{params[:amount]} experience added to all active characters."
       redirect_to storytellers_experience_path and return
     end
 
@@ -76,6 +78,7 @@ module Storytellers
       @xpe.update_attributes(is_approved: true)
       @xpr = XpRecord.new(character_id: @character.id, amount: @xpe.amount*-1, description: log.join(", "))
       @xpr.save
+      flash[:success] = "Experience expenditure for #{@character.name} approved."
       redirect_to storytellers_experience_path and return
     end
 
