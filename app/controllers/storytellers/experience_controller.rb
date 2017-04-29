@@ -31,6 +31,11 @@ module Storytellers
       add_breadcrumb "Experience Expenditure for #{@xpe.character.name}", storytellers_show_experience_expenditure_path
     end
 
+    def mass
+      add_breadcrumb "Experience", storytellers_experience_path
+      add_breadcrumb "Add Experience to Active Characters", storytellers_mass_assign_experience_path
+    end
+
     def mass_assign
       @characters = Character.where(status: 2, is_npc: false)
       @characters.each do |char|
