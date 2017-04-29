@@ -46,47 +46,65 @@
           strong Speed
           = @character.speed
 
-    h3.attributes Attributes
+    - if @character.is_npc
+      h3.section Attributes, Skills, and Special Training
+      p
+        strong
+          = "Mental Attributes: "
+        = "Intelligence #{@character.intelligence}, Wits #{@character.wits}, Resolve #{@character.resolve}"
+      p
+        strong
+          = "Physical Attributes: "
+        = "Strength #{@character.strength}, Dexterity #{@character.dexterity}, Stamina #{@character.stamina}"
+      p
+        strong
+          = "Social Attributes: "
+        = "Presence #{@character.presence}, Manipulation #{@character.manipulation}, Composure #{@character.composure}"
 
-    .flex-container
-      - @attributes.each do |cat, vals|
-        .column
-          strong
-            = cat
-          - vals.each do |val|
-            .row
-              span.label
-                = val
-              .dots
-                - eval("@character.#{val.parameterize("_")}").times do
-                  = icon 'circle'
+      p
+        strong
+          = "Skills: "
+        = @skills_training[:Skills].reject{|st|eval("@character.#{st.parameterize('_')}") == 0}.map{|s| s+" "+eval("@character.#{s.parameterize('_')}").to_s }.join(", ")
+      p
+        strong
+          = "Special Training: "
+        = @skills_training[:"Special Training"].reject{|st|eval("@character.#{st.parameterize('_')}") == 0}.map{|s| s+" "+eval("@character.#{s.parameterize('_')}").to_s }.join(", ")
+    - else
+      h3.attributes Attributes
 
-                - (5-eval("@character.#{val.parameterize("_")}")).times do
-                  = icon 'circle-o'
+      .flex-container
+        - @attributes.each do |cat, vals|
+          .column
+            strong
+              = cat
+            - vals.each do |val|
+              .row
+                span.label
+                  = val
+                .dots
+                  - eval("@character.#{val.parameterize("_")}").times do
+                    = icon 'circle'
 
-              .numeric
-                = eval "@character.#{val.parameterize("_")}"
+                  - (5-eval("@character.#{val.parameterize("_")}")).times do
+                    = icon 'circle-o'
 
-    h3.skills-training Skills and Special Training
+      h3.skills-training Skills and Special Training
 
-    .flex-container
-      - @skills_training.each do |cat, vals|
-        .column
-          strong
-            = cat
-          - vals.each do |val|
-            .row
-              span.label
-                = val
-              .dots
-                - eval("@character.#{val.parameterize("_")}").times do
-                  = icon 'circle'
+      .flex-container
+        - @skills_training.each do |cat, vals|
+          .column
+            strong
+              = cat
+            - vals.each do |val|
+              .row
+                span.label
+                  = val
+                .dots
+                  - eval("@character.#{val.parameterize("_")}").times do
+                    = icon 'circle'
 
-                - (5-eval("@character.#{val.parameterize("_")}")).times do
-                  = icon 'circle-o'
-
-              .numeric
-                = eval "@character.#{val.parameterize("_")}"
+                  - (5-eval("@character.#{val.parameterize("_")}")).times do
+                    = icon 'circle-o'
 
     .flex-container
       .column
@@ -115,3 +133,9 @@
                 = chc.challenge.name
               p.desc
                 = raw @markdown.render(chc.challenge.description)
+
+  - if @character.is_npc
+    h3 Additional Information
+
+    .additional-info
+      = raw @markdown.render(@character.additional_info)
