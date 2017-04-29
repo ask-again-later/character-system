@@ -5,11 +5,11 @@ h2 Add Experience to Active Characters
 
 = form_tag storytellers_mass_assign_experience_path, method: 'POST'
   .form-row
-    = f.label :amount
-    = f.number_field :amount
+    = label_tag :amount
+    = number_field_tag :amount
   .form-row
-    = f.label :description
-    = f.text_field :description
+    = label_tag :description
+    = text_field_tag :description
 
   .button-row
-    = f.submit "Add Experience"
+    = submit_tag "Add Experience"
