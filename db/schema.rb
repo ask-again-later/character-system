@@ -51,65 +51,91 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.integer  "challenge_id",                          null: false
     t.string   "custom_name"
     t.text     "custom_description"
+    t.boolean  "is_creature_challenge", default: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.boolean  "is_creature_challenge", default: false
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",          default: ""
-    t.string   "pronouns",      default: ""
-    t.integer  "status",        default: 0
-    t.text     "public_blurb",  default: ""
-    t.integer  "user_id",                       null: false
+    t.string   "name",            default: ""
+    t.string   "pronouns",        default: ""
+    t.integer  "status",          default: 0
+    t.text     "public_blurb",    default: ""
+    t.integer  "user_id",                         null: false
     t.integer  "true_self_id"
-    t.integer  "intelligence",  default: 1
-    t.integer  "wits",          default: 1
-    t.integer  "resolve",       default: 1
-    t.integer  "strength",      default: 1
-    t.integer  "dexterity",     default: 1
-    t.integer  "stamina",       default: 1
-    t.integer  "presence",      default: 1
-    t.integer  "manipulation",  default: 1
-    t.integer  "composure",     default: 1
-    t.integer  "handy",         default: 0
-    t.integer  "religion",      default: 0
-    t.integer  "bureaucracy",   default: 0
-    t.integer  "athletics",     default: 0
-    t.integer  "fight",         default: 0
-    t.integer  "drive",         default: 0
-    t.integer  "guns",          default: 0
-    t.integer  "theft",         default: 0
-    t.integer  "stealth",       default: 0
-    t.integer  "outdoorsy",     default: 0
-    t.integer  "empathy",       default: 0
-    t.integer  "artsy",         default: 0
-    t.integer  "intimidation",  default: 0
-    t.integer  "persuasion",    default: 0
-    t.integer  "lies",          default: 0
-    t.integer  "academics",     default: 0
-    t.integer  "investigation", default: 0
-    t.integer  "medicine",      default: 0
-    t.integer  "local_lore",    default: 0
-    t.integer  "law",           default: 0
-    t.integer  "science",       default: 0
-    t.integer  "computers",     default: 0
-    t.integer  "engineering",   default: 0
-    t.integer  "health",        default: 2
-    t.integer  "willpower",     default: 6
-    t.integer  "stability",     default: 7
-    t.integer  "defense",       default: 2
-    t.integer  "speed",         default: 6
-    t.integer  "initiative",    default: 2
-    t.boolean  "use_extended",  default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "approval_sent", default: false
-    t.boolean  "is_npc",        default: false
+    t.integer  "intelligence",    default: 1
+    t.integer  "wits",            default: 1
+    t.integer  "resolve",         default: 1
+    t.integer  "strength",        default: 1
+    t.integer  "dexterity",       default: 1
+    t.integer  "stamina",         default: 1
+    t.integer  "presence",        default: 1
+    t.integer  "manipulation",    default: 1
+    t.integer  "composure",       default: 1
+    t.integer  "handy",           default: 0
+    t.integer  "religion",        default: 0
+    t.integer  "bureaucracy",     default: 0
+    t.integer  "athletics",       default: 0
+    t.integer  "fight",           default: 0
+    t.integer  "drive",           default: 0
+    t.integer  "guns",            default: 0
+    t.integer  "theft",           default: 0
+    t.integer  "stealth",         default: 0
+    t.integer  "outdoorsy",       default: 0
+    t.integer  "empathy",         default: 0
+    t.integer  "artsy",           default: 0
+    t.integer  "intimidation",    default: 0
+    t.integer  "persuasion",      default: 0
+    t.integer  "lies",            default: 0
+    t.integer  "academics",       default: 0
+    t.integer  "investigation",   default: 0
+    t.integer  "medicine",        default: 0
+    t.integer  "local_lore",      default: 0
+    t.integer  "law",             default: 0
+    t.integer  "science",         default: 0
+    t.integer  "computers",       default: 0
+    t.integer  "engineering",     default: 0
+    t.integer  "health",          default: 2
+    t.integer  "willpower",       default: 6
+    t.integer  "stability",       default: 7
+    t.integer  "defense",         default: 2
+    t.integer  "speed",           default: 6
+    t.integer  "initiative",      default: 2
+    t.boolean  "use_extended",    default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "approval_sent",   default: false
+    t.boolean  "is_npc",          default: false
+    t.text     "additional_info", default: ""
     t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
+  end
+
+  create_table "downtime_actions", force: :cascade do |t|
+    t.string   "title",                              null: false
+    t.string   "assets"
+    t.boolean  "burn",               default: false
+    t.text     "description",                        null: false
+    t.boolean  "is_submitted",       default: false
+    t.text     "response"
+    t.integer  "downtime_period_id",                 null: false
+    t.integer  "character_id",                       null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "size",               default: 0
+    t.integer  "status",             default: 0
+    t.integer  "action_type",        default: 0,     null: false
+  end
+
+  create_table "downtime_periods", force: :cascade do |t|
+    t.string   "title"
+    t.boolean  "downtimes_visible"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "downtimes_open",    default: false
+    t.boolean  "is_active",         default: false
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
@@ -151,10 +177,10 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name",                     null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.text     "description", default: ""
+    t.string   "name",        null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -179,6 +205,15 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "xp_expenditures", force: :cascade do |t|
+    t.integer  "character_id",                 null: false
+    t.string   "diff"
+    t.integer  "amount",       default: 0
+    t.boolean  "is_approved",  default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "xp_records", force: :cascade do |t|
