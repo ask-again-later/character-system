@@ -18,7 +18,7 @@ module Storytellers
     end
 
     def create
-      @character = Character.find(params[:character_id])
+      @character = Character.find(params[:xp_record][:character_id])
       @xpr = XpRecord.new(xp_record_params)
       @xpr.save
       redirect_to storytellers_experience_path and return

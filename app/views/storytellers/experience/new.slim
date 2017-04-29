@@ -6,7 +6,7 @@ h2 Add Experience
 = form_for @xpr, url: {action: 'create'} do |f|
   .form-row
     = f.label :character_id, "Character"
-    = f.collection_select :xp_record, :character_id, Character.where(is_npc: false, status: 2), :id, :name
+    = f.collection_select :character_id, Character.where(is_npc: false, status: 2), :id, :name
   .form-row
     = f.label :amount
     = f.number_field :amount
