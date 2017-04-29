@@ -75,6 +75,7 @@ module Storytellers
         end
       end
       @character.save
+      CharacterMailer.character_expenditure_approved(@character, @xpe).deliver_now
       @xpe.update_attributes(is_approved: true)
       @xpr = XpRecord.new(character_id: @character.id, amount: @xpe.amount*-1, description: log.join(", "))
       @xpr.save

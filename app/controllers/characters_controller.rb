@@ -92,6 +92,10 @@ class CharactersController < ApplicationController
 			diff = @character.diff(@character_updated)
 			@expenditure = XpExpenditure.new(character_id: @character.id, diff: diff.to_json)
 			@expenditure.save
+			@storytellers = User.where(is_storyteller: true)
+			@storytellers.each do |st|
+				CharacterMailer.character_experience_expenditure(@character, @expenditure, st).deliver_now
+			end
 			flash[:success] = "Experience expenditure for #{@character.name} submitted."
 			redirect_to character_path(@character) and return
 		end
