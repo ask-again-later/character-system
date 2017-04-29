@@ -10,6 +10,8 @@ class Character < ApplicationRecord
 	has_many :character_has_advantages, dependent: :destroy
 	has_many :advantages, through: :character_has_advantages
 	has_many :downtime_actions
+	has_many :xp_records
+	has_many :xp_expenditures
 	belongs_to :true_self
 
 	accepts_nested_attributes_for :questionnaire_answers

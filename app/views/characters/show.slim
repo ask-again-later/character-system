@@ -134,15 +134,15 @@
 
   h3.section Experience
 
-  table
+  table.plain
     thead
       tr
         th Date
         th Amount
         th Description
     tbody
-      - if character.xp_records.present?
-        - character.xp_records.each do |xpr|
+      - if @character.xp_records.present?
+        - @character.xp_records.each do |xpr|
           tr
             td #{xpr.created_at}
             td #{xpr.amount}
@@ -151,8 +151,8 @@
   h4 Pending Expenditures
 
   .expenditure
-    - if character.xp_expenditures.present?
-      - character.xp_expenditures.each do |xpe|
+    - if @character.xp_expenditures.where(is_approved: false).present?
+      - @character.xp_expenditures.where(is_approved: false).each do |xpe|
         - JSON.parse(xpe.diff).each do |item, val|
           - if item != "character_has_advantages" and item != "character_has_challenges"
             li
@@ -211,12 +211,12 @@
                   - if ca['custom_description'].present?
                     .description
                       = raw @markdown.render(ca['custom_description'])
-    p.total
-      strong Total Points Spent:
-      = " #{xpe.amount}"
-    .button-row
-      = form_tag(character_delete_xp_expenditure_path(@character, xpe), method: 'DELETE')
-        = submit_tag
+        p.total
+          strong Total Points Spent:
+          = " #{xpe.amount}"
+        .button-row
+          = form_tag(character_delete_xp_expenditure_path(@character, xpe), method: 'DELETE')
+            = button_tag "Cancel Expenditure", type: 'submit', class: 'button-text'
 
 
   = javascript_include_tag 'characters', 'data-turbolinks-track' => true
