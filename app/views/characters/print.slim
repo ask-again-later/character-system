@@ -1,6 +1,11 @@
 .sheet
   h2 #{@character.name}
 
+  h3 Motivation
+
+  .motivation
+    = raw @markdown.render(@character.public_blurb)
+
   .stats
     .flex-container.start
       .column
@@ -110,19 +115,3 @@
                 = chc.challenge.name
               p.desc
                 = raw @markdown.render(chc.challenge.description)
-
-  .qualitative
-    h2 #{@character.name}: Questionnaire
-
-    .questionnaire
-      - @questionnaire_sections.each do |qs|
-        .questionnaire-section
-          h4 #{qs.title}
-          .section-content
-            - qs.questionnaire_items.each do |qi|
-              .question
-                .question-text
-                  = qi.question
-                .question-answer
-                  - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
-                    = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)

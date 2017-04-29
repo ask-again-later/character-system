@@ -29,6 +29,8 @@ class CharactersController < ApplicationController
 	end
 
 	def print
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		show
 		render layout: 'print'
 	end
@@ -79,7 +81,11 @@ class CharactersController < ApplicationController
 		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
-		@statuses = STATUS_ENUM
+		if @character.is_npc
+			@statuses = [["Active", 2], ["Inactive", 3]]
+		else
+			@statuses = STATUS_ENUM
+		end
 
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
