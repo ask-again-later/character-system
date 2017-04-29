@@ -132,4 +132,91 @@
                 - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
                   = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
 
+  h3.section Experience
+
+  table
+    thead
+      tr
+        th Date
+        th Amount
+        th Description
+    tbody
+      - if character.xp_records.present?
+        - character.xp_records.each do |xpr|
+          tr
+            td #{xpr.created_at}
+            td #{xpr.amount}
+            td #{xpr.description}
+
+  h4 Pending Expenditures
+
+  .expenditure
+    - if character.xp_expenditures.present?
+      - character.xp_expenditures.each do |xpe|
+        - JSON.parse(xpe.diff).each do |item, val|
+          - if item != "character_has_advantages" and item != "character_has_challenges"
+            li
+              strong #{item.titleize}
+              = " from "
+              em #{val[0]}
+              = " to "
+              em #{val[1]}
+          - elsif item == "character_has_advantages"
+            - advantages_old = val[0]
+            - advantages_new = val[1]
+            - advantages_removed = advantages_old.select{|ao| advantages_new.index{|an| an['id'] == ao['id']}.nil?}
+            - advantages_updated = advantages_old.reject{|ao| ab = advantages_new.bsearch{|an| an['id'] == ao['id']}; ab.present? ? ab['rating'] == ao['rating'] : true}
+            - advantages_added = advantages_new.select{|an| an['id'].nil?}
+            - unless advantages_removed.empty?
+              - advantages_removed.each do |ar|
+                - advantage = CharacterHasAdvantage.find(ar['id'])
+                li
+                  = "Removed "
+                  strong #{advantage.advantage.name}#{advantage.specification.present? ? " #{advantage.specification}" : ''} #{advantage.rating}
+            - unless advantages_updated.empty?
+              - advantages_updated.each do |au|
+                - advantage = CharacterHasAdvantage.find(au['id'])
+                li
+                  strong #{advantage.advantage.name}#{advantage.specification.present? ? " (#{advantage.specification})" : ''}
+                  = " from "
+                  em #{advantage.rating}
+                  = " to "
+                  em #{au['rating']}
+            - unless advantages_added.empty?
+              - advantages_added.each do |aa|
+                - advantage = Advantage.find(aa['advantage_id'])
+                li
+                  strong #{advantage.name}#{aa['specification'].present? ? " (#{aa['specification']})" : ''}
+                  = " from "
+                  em 0
+                  = " to "
+                  em #{aa['rating']}
+          - elsif item == "character_has_challenges"
+            - challenges_old = val[0]
+            - challenges_new = val[1]
+            - challenges_added = challenges_new.select{|cn| cn['id'].nil?}
+            - challenges_removed = challenges_old.select{|co| challenges_new.index{|cn| cn['id'] == co['id']}.nil?}
+            - unless challenges_removed.empty?
+              - challenges_removed.each do |cr|
+                - challenge = CharacterHasChallenge.find(cr['id'])
+            - unless challenges_added.empty?
+              - challenges_added.each do |ca|
+                - challenge = Challenge.find(ca['challenge_id'])
+                li
+                  = "Adding Challenge "
+                  - if ca['custom_name'].present?
+                    strong #{ca['custom_name']}
+                  - else
+                    strong #{challenge.name}
+                  - if ca['custom_description'].present?
+                    .description
+                      = raw @markdown.render(ca['custom_description'])
+    p.total
+      strong Total Points Spent:
+      = " #{xpe.amount}"
+    .button-row
+      = form_tag(character_delete_xp_expenditure_path(@character, xpe), method: 'DELETE')
+        = submit_tag
+
+
   = javascript_include_tag 'characters', 'data-turbolinks-track' => true

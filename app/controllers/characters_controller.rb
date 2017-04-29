@@ -246,6 +246,15 @@ class CharactersController < ApplicationController
 		end
 	end
 
+	def delete_expenditure
+		@character = Character.find(params[:id])
+		unless current_user == @character.user or current_user.is_storyteller
+			redirect_to root_path and return
+		end
+		XpExpenditure.destroy(params[:expenditure_id])
+		redirect_to character_path(@character) and return
+	end
+
 	def print_all
 		unless current_user.is_storyteller
 			redirect_to root_path and return
