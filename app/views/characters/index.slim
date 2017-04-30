@@ -37,6 +37,8 @@
           td
             - unless character.status > 0 and !current_user.is_storyteller
               = link_to "Edit", edit_character_path(character)
+            - if character.status > 1 and !current_user.is_storyteller and character.current_xp > 0
+              = link_to "Spend Experience", edit_character_path(character)
           td
             = form_tag(character_path(character), method: 'DELETE') do
               = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this character?");', class: 'button-text'

@@ -1,0 +1,15 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2 Add Experience to Active Characters
+
+= form_tag storytellers_mass_assign_experience_path, method: 'POST'
+  .form-row
+    = label_tag :amount
+    = number_field_tag :amount
+  .form-row
+    = label_tag :description
+    = text_field_tag :description
+
+  .button-row
+    = submit_tag "Add Experience"

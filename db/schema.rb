@@ -206,6 +206,15 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "xp_expenditures", force: :cascade do |t|
+    t.integer  "character_id",                 null: false
+    t.string   "diff"
+    t.integer  "amount",       default: 0
+    t.boolean  "is_approved",  default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "xp_records", force: :cascade do |t|
     t.integer  "character_id", null: false
     t.integer  "amount",       null: false

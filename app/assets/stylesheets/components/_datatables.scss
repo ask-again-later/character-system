@@ -15,3 +15,25 @@ table.dataTable {
     }
   }
 }
+
+table.plain {
+  margin: 20px 0;
+  th, td {
+    padding: 3px 5px;
+  }
+  thead {
+    th {
+      font-weight: bold;
+      text-align: left;
+    }
+    border-bottom: 1px $green solid;
+  }
+
+  tbody {
+    tr {
+      &:nth-child(2n+2) {
+        background-color: rgba($silver, .25);
+      }
+    }
+  }
+}
