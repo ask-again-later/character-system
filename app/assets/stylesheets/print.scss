@@ -25,4 +25,12 @@ h2 {
   .qualitative {
     page-break-before: always;
   }
+
+  .column-content {
+    columns: 2;
+
+    .column-item {
+      break-inside: avoid;
+    }
+  }
 }

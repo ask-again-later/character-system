@@ -1,0 +1,42 @@
+- if @characters
+  - @characters.each do |character|
+    .sheet.mechanics-sheet
+      h2 #{character.name}: Mechanics
+
+      .mechanics-content
+        h3 Basics
+
+        p Add a cheat sheet here that contains a basic mechanics refresher, kind of like the stuff we've put on the back cover of the DCP rulebook some years.
+
+        h3 True Self
+        = raw @markdown.render(character.true_self.description)
+
+        - if character.challenges.present?
+          h3 Challenges
+          .column-content
+            - character.character_has_challenges.each do |challenge|
+              .column-item
+                p
+                  strong #{challenge.custom_name.present? ? challenge.custom_name : challenge.challenge.name}
+                .challenge-description
+                  - if challenge.custom_description.present?
+                    = raw @markdown.render(challenge.custom_description)
+                  - else
+                    = raw @markdown.render(challenge.challenge.description)
+
+        h3 Advantages
+
+        .column-content
+          - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+            - group.each_with_index do |cha, i|
+              .column-item
+                p
+                  strong
+                    = cha.advantage.name
+                    - if cha.advantage.requires_specification?
+                      = " (#{cha.specification})"
+                    - if cha.advantage.allowed_ratings.length > 1
+                      = " #{cha.rating}"
+                - if i == group.length-1
+                  .advantage-description
+                    = raw @markdown.render(cha.advantage.description)

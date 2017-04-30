@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root to: 'characters#index'
 
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
+  get 'characters/print_all_mechanics', to: 'characters#print_all_mechanics', as: 'characters_print_mechanics'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
   resources :characters
   get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
