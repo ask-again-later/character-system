@@ -8,7 +8,7 @@ $(document).ready(function() {
     }
   });
 
-  $('.messages .msg .close a').on('click', function(e) {
+  $('.messages .msg .close').on('click', function(e) {
     e.preventDefault();
     $(this).parents('.msg').fadeOut();
   });
