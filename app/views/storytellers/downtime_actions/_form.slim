@@ -2,7 +2,7 @@
   h4 #{@downtime_action.title}
   p
     strong #{"Action Type: "}
-    = @types[@downtime_action.action_type-1][0]
+    = @action_types[@downtime_action.action_type-1][0]
   p
     strong #{"Size: "}
     = @downtime_action.size == 1 ? 'Large' : 'Regular'

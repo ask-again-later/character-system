@@ -5,7 +5,7 @@ module Storytellers
     add_breadcrumb "Storytellers", :storytellers_path
     add_breadcrumb "Downtime Actions", :storytellers_downtime_actions_path
 
-    TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
+    ACTION_TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
 
     def index
       @downtimes = DowntimePeriod.where(is_active: true).order(id: :desc)
@@ -18,7 +18,7 @@ module Storytellers
     def downtime_period
       @downtime_period = DowntimePeriod.find(params[:downtime_period_id])
       @downtime_actions = DowntimeAction.where(downtime_period_id: params[:downtime_period_id], status: 1)
-      @types = TYPE_ENUM
+      @action_types = ACTION_TYPE_ENUM
   		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
   		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
         add_breadcrumb @downtime_period.title, storytellers_downtime_actions_downtime_period_path(@downtime_period)
@@ -34,7 +34,7 @@ module Storytellers
 
     def edit
       @downtime_action = DowntimeAction.find(params[:id])
-      @types = TYPE_ENUM
+      @action_types = ACTION_TYPE_ENUM
 
       add_breadcrumb @downtime_action.downtime_period.title, storytellers_downtime_actions_downtime_period_path(@downtime_action.downtime_period)
       add_breadcrumb "#{@downtime_action.character.name}: #{@downtime_action.title}", edit_storytellers_downtime_action_path(@downtime_action)

@@ -1,5 +1,5 @@
 class DowntimeActionsController < ApplicationController
-  TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
+  ACTION_TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
 
   def index
     @character = Character.find(params[:character_id])
@@ -12,7 +12,7 @@ class DowntimeActionsController < ApplicationController
       # don't show unfinished actions to storytellers
       @downtime_periods = DowntimePeriod.where(is_active: true, status: 1).order(id: :desc)
     end
-    @types = TYPE_ENUM
+    @action_types = ACTION_TYPE_ENUM
   end
 
   def show
@@ -24,7 +24,7 @@ class DowntimeActionsController < ApplicationController
 
   def new
     @downtime_action = DowntimeAction.new
-    @types = TYPE_ENUM
+    @action_types = ACTION_TYPE_ENUM
   end
 
   def create
@@ -42,7 +42,7 @@ class DowntimeActionsController < ApplicationController
     unless @downtime_action.character.user == current_user or (current_user.is_storyteller and @downtime_action.status == 1)
       redirect_to root_path and return
     end
-    @types = TYPE_ENUM
+    @action_types = ACTION_TYPE_ENUM
   end
 
   def update
@@ -90,7 +90,7 @@ class DowntimeActionsController < ApplicationController
     end
     @character = Character.find(params[:character_id])
     @downtime_period = DowntimePeriod.find(params[:downtime_period_id])
-    @types = TYPE_ENUM
+    @action_types = ACTION_TYPE_ENUM
     @downtime_action = DowntimeAction.find(params[:downtime_action_id])
   end
 
