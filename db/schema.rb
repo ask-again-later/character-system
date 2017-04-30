@@ -165,6 +165,16 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",                   null: false
+    t.text     "value"
+    t.integer  "thing_id"
+    t.string   "thing_type", limit: 30
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
+  end
+
   create_table "true_selves", force: :cascade do |t|
     t.string   "name",                     null: false
     t.datetime "created_at",               null: false
