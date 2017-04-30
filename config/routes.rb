@@ -53,7 +53,6 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
-<<<<<<< HEAD
     get 'experience/new', to: 'experience#new', as: 'new_experience_record'
     get 'experience/mass', to: 'experience#mass', as: 'mass_experience_record'
     post 'experience/mass', to: 'experience#mass_assign', as: 'mass_assign_experience'
@@ -63,12 +62,10 @@ Rails.application.routes.draw do
     get 'experience/:id', to: 'experience#show', as: 'show_experience_expenditure'
     post 'experience/:id', to: 'experience#approve_expenditure', as: 'approve_experience_expenditure'
     get 'experience', to: 'experience#index', as: 'experience'
-=======
     get 'downtime_actions/period/:downtime_period_id/print', to: 'downtime_actions#downtime_period_print', as: 'print_downtime_actions_downtime_period'
     get 'downtime_actions/period/:downtime_period_id', to: 'downtime_actions#downtime_period', as: 'downtime_actions_downtime_period'
     resources :downtime_actions, only: [:index, :show, :edit, :update]
     resources :downtime_periods
->>>>>>> master
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
   end
