@@ -26,6 +26,14 @@ h2 {
     page-break-before: always;
   }
 
+  .boxes {
+    display: flex;
+
+    .mod {
+      font-size: 14px;
+      display: block;
+      text-align: center;
+  }
   .column-content {
     columns: 2;
 
