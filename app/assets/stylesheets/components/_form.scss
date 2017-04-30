@@ -27,6 +27,10 @@ textarea {
   }
 }
 
+input[type="text"].text-long {
+  width: 50em;
+}
+
 textarea {
   width: 100%;
   height: 150px;

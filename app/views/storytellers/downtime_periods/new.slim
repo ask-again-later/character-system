@@ -2,7 +2,7 @@
   .breadcrumbs
     = render_breadcrumbs
     
-  h2 New Advantage
+  h2 New Downtime Period
 
-  = form_for @advantage, url: {action: 'create'} do |f|
+  = form_for @downtime_period, url: {action: 'create'} do |f|
     = render partial: 'form', locals: {f: f}

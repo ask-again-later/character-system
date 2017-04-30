@@ -1,0 +1,48 @@
+h2 #{@character.name}: Downtime Actions
+
+- if @downtime_periods.present?
+  - @downtime_periods.each do |downtime_period|
+
+    .downtime-period
+      h3 #{downtime_period.title}
+
+      - if downtime_period.downtimes_open and @character.status == 2
+        .button-row.right
+          - if @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).present? and downtime_period.downtimes_open
+            = form_tag(character_reopen_downtime_actions_path(@character, downtime_period))
+              = button_tag "Reopen Downtime Actions", type: 'submit', class: 'button'
+          - elsif downtime_period.downtimes_open
+            = link_to "New Downtime Action", new_character_downtime_period_downtime_action_path(@character, downtime_period), class: 'button'
+            = form_tag(character_submit_downtime_actions_path(@character, downtime_period))
+              = button_tag "Submit Downtime Actions", type: 'submit', class: 'button'
+      .downtime-action
+        - if @character.downtime_actions.where(downtime_period_id: downtime_period.id)
+          - @character.downtime_actions.where(downtime_period_id: downtime_period.id).each do |action|
+            h4 #{action.title}
+            p
+              strong #{"Action Type: "}
+              = @action_types[action.action_type-1][0]
+            p
+              strong #{"Size: "}
+              = action.size == 1 ? 'Large' : 'Regular'
+            p
+              strong #{"Assets: "}
+              = action.assets
+            p
+              strong #{"Burning down life? "}
+              = action.burn ? 'Yes' : 'No'
+            .action-description
+              = action.description
+            - if downtime_period.downtimes_visible or (current_user.is_storyteller and action.response.present?)
+              hr
+              .action-response
+                p
+                  strong Response:
+                = action.response
+            - if (downtime_period.downtimes_open and action.status == 0 and @character.status == 2) or current_user.is_storyteller
+              .button-row
+                = link_to "Edit", edit_character_downtime_period_downtime_action_path(@character, downtime_period, action)
+                = form_tag(character_downtime_period_downtime_action_path(@character, downtime_period, action), method: 'DELETE') do
+                  = button_tag "Delete", type: 'submit', onClick: 'return confirm("Are you sure you want to delete this downtime action?");', class: 'button-text'
+                - if current_user.is_storyteller
+                  = link_to "Respond", edit_storytellers_downtime_action_path(action)

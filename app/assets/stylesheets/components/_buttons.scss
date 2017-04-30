@@ -17,6 +17,7 @@
   width: auto;
   text-align: center;
   transition: .5s;
+  line-height: 1;
 
   &:hover, &:focus {
     color: $green;
@@ -54,7 +55,7 @@
   margin: 20px 0;
   width: 100%;
 
-  .button, input[type="submit"] {
+  > * {
     margin-right: 20px;
     margin-left: 0;
     flex-shrink: 0;
@@ -63,7 +64,7 @@
   &.right {
     justify-content: flex-end;
 
-    .button, input[type="submit"] {
+    > * {
       margin-left: 20px;
       margin-right: 0;
     }
@@ -72,7 +73,7 @@
   &.center {
     justify-content: center;
 
-    .button, input[type="submit"] {
+    > * {
       margin: 0 20px;
     }
   }
