@@ -10,7 +10,7 @@ class DowntimeActionsController < ApplicationController
       @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
     else
       # don't show unfinished actions to storytellers
-      @downtime_periods = DowntimePeriod.where(is_active: true, status: 1).order(id: :desc)
+      @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
     end
     @action_types = ACTION_TYPE_ENUM
   end
