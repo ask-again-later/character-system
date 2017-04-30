@@ -1,10 +1,11 @@
 .sheet
   h2 #{@character.name}
 
-  h3 Motivation
+  - if @character.is_npc
+    h3 Motivation
 
-  .motivation
-    = raw @markdown.render(@character.public_blurb)
+    .motivation
+      = raw @markdown.render(@character.public_blurb)
 
   .stats
     .flex-container.start
@@ -134,8 +135,8 @@
               p.desc
                 = raw @markdown.render(chc.challenge.description)
 
-  - if @character.is_npc
-    h3 Additional Information
+- if @character.is_npc
+  h3 Additional Information
 
-    .additional-info
-      = raw @markdown.render(@character.additional_info)
+  .additional-info
+    = raw @markdown.render(@character.additional_info)
