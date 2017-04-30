@@ -51,9 +51,9 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.integer  "challenge_id",                          null: false
     t.string   "custom_name"
     t.text     "custom_description"
+    t.boolean  "is_creature_challenge", default: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
-    t.boolean  "is_creature_challenge", default: false
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
@@ -112,6 +112,31 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
+  create_table "downtime_actions", force: :cascade do |t|
+    t.string   "title",                              null: false
+    t.string   "assets"
+    t.boolean  "burn",               default: false
+    t.text     "description",                        null: false
+    t.boolean  "is_submitted",       default: false
+    t.text     "response"
+    t.integer  "downtime_period_id",                 null: false
+    t.integer  "character_id",                       null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "size",               default: 0
+    t.integer  "status",             default: 0
+    t.integer  "action_type",        default: 0,     null: false
+  end
+
+  create_table "downtime_periods", force: :cascade do |t|
+    t.string   "title"
+    t.boolean  "downtimes_visible"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.boolean  "downtimes_open",    default: false
+    t.boolean  "is_active",         default: false
+  end
+
   create_table "questionnaire_answers", force: :cascade do |t|
     t.integer  "questionnaire_item_id",              null: false
     t.integer  "character_id",                       null: false
@@ -140,11 +165,21 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.string   "var",                   null: false
+    t.text     "value"
+    t.integer  "thing_id"
+    t.string   "thing_type", limit: 30
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
+  end
+
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name",                     null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.text     "description", default: ""
+    t.string   "name",        null: false
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "users", force: :cascade do |t|

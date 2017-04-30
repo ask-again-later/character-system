@@ -28,7 +28,8 @@
       .column
         strong
           = cat
-          span.counter.hidden id="#{cat.to_s.parameterize}-count"
+          - if @character.status < 2
+            span.counter.hidden id="#{cat.to_s.parameterize}-count"
         - vals.each do |val|
           .row
             label
@@ -44,14 +45,15 @@
 
   h3.section
     | Skills and Special Training
-    span.counter#skills-total 22 Remaining
+    - if @character.status < 2
+      span.counter#skills-total 22 Remaining
 
   .flex-container.skills-training
     - @skills_training.each do |cat,vals|
       div class="column #{cat.to_s.parameterize}"
         strong
           = cat
-          - if cat.to_s == "Special Training"
+          - if cat.to_s == "Special Training" and @character.status < 2
             span.counter#special-training 8 Remaining
         - vals.each do |val|
           .row
@@ -70,7 +72,8 @@
 
   h3.section
     | Advantages
-    span.counter#advantage-count 17 Remaining
+    - if @character.status < 2
+      span.counter#advantage-count 17 Remaining
   .form-row
     select name="advantages" id="advantages"
       - @advantages.each do |advantage|
@@ -94,9 +97,10 @@
 
   h3.section
     | Challenges
-    .counters
-      span.counter#challenge-count 2 Remaining
-      span.counter#creature-challenge-count 1 Creature Challenge Remaining
+    - if @character.status < 2
+      .counters
+        span.counter#challenge-count 2 Remaining
+        span.counter#creature-challenge-count 1 Creature Challenge Remaining
   .form-row
     div
       = label_tag "Creature Challenges"
@@ -178,7 +182,7 @@
 
   .button-row
     = f.submit "Save"
-    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?) and !current_user.is_storyteller
+    - if @character.status == 0 and (current_user == @character.user or @character.user.nil?) and !current_user.is_storyteller and ((Setting.qualitative_open and @character.use_extended) or (Setting.quantitative_open and !@character.use_extended))
       = f.hidden_field :status
       = f.submit "Save and Submit", id: 'save-submit'
 

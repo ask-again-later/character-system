@@ -33,6 +33,12 @@ h2 {
       font-size: 14px;
       display: block;
       text-align: center;
+  }
+  .column-content {
+    columns: 2;
+
+    .column-item {
+      break-inside: avoid;
     }
   }
 }

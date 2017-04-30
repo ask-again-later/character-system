@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
 
   root to: 'characters#index'
 
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
+  get 'characters/print_all_mechanics', to: 'characters#print_all_mechanics', as: 'characters_print_mechanics'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
   resources :characters
   get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
@@ -41,6 +42,8 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
+    get '/settings', to: 'settings#index', as: 'settings'
+    post '/settings', to: 'settings#update', as: 'update_settings'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
