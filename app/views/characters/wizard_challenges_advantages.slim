@@ -7,7 +7,8 @@
 
     h3.section
       | Advantages
-      span.counter#advantage-count 17 Remaining
+      - if @character.status < 2
+        span.counter#advantage-count 17 Remaining
 
     div
       select name="advantages" id="advantages"
@@ -34,9 +35,10 @@
 
     h3.section
       | Challenges
-      .counters
-        span.counter#challenge-count 2 Remaining
-        span.counter#creature-challenge-count 1 Creature Challenge Remaining
+      - if @character.status < 2
+        .counters
+          span.counter#challenge-count 2 Remaining
+          span.counter#creature-challenge-count 1 Creature Challenge Remaining
 
     div
       = label_tag "Creature Challenges"
