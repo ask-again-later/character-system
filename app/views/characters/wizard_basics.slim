@@ -27,7 +27,8 @@
           .column
             strong
               = cat
-              span.counter.hidden id="#{cat.to_s.parameterize}-count"
+              - if @character.status < 2
+                span.counter.hidden id="#{cat.to_s.parameterize}-count"
             - vals.each do |val|
               .row
                 label

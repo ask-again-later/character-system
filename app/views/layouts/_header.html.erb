@@ -13,7 +13,17 @@
             </ul>
           </li>
           <% if current_user.is_storyteller %>
-            <li><%= link_to "Tools", storytellers_path %></li>
+            <li class="parent"><%= link_to "Tools", storytellers_path %>
+              <ul class="sub-menu">
+                <li><%= link_to "Print Sheets", characters_print_path, rel: 'external', target: '_blank' %></li>
+                <li><%= link_to "Downtime Periods", storytellers_downtime_periods_path %></li>
+                <li><%= link_to "Downtime Actions", storytellers_downtime_actions_path %></li>
+                <li><%= link_to "Advantages", storytellers_advantages_path %></li>
+                <li><%= link_to "Challenges", storytellers_challenges_path %></li>
+                <li><%= link_to "True Selves", storytellers_true_selves_path %></li>
+                <li><%= link_to "Questionnaire", storytellers_questionnaire_sections_path %></li>
+              </ul>
+            </li>
           <% end %>
           <li><%= link_to "Settings", edit_user_registration_path %></li>
         <% end %>

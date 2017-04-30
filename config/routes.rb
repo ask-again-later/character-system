@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
 
   root to: 'characters#index'
 
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
+  get 'characters/print_all_mechanics', to: 'characters#print_all_mechanics', as: 'characters_print_mechanics'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
-  resources :characters
   delete 'characters/:id/expenditures/:expenditure_id', to: 'characters#delete_expenditure', as: 'character_delete_xp_expenditure'
+  resources :characters do
+    get 'downtime_actions', to: 'downtime_actions#index', as: 'downtime_actions'
+    post 'downtime_actions/:downtime_period_id/submit', to: 'downtime_actions#submit', as: 'submit_downtime_actions'
+    post 'downtime_actions/:downtime_period_id/reopen', to: 'downtime_actions#reopen', as: 'reopen_downtime_actions'
+    resources :downtime_periods do
+      resources :downtime_actions
+      get 'downtime_actions/:downtime_action_id/respond', to: 'downtime_actions#respond', as: 'respond'
+    end
+  end
   get 'characters/:id/wizard', to: 'characters#wizard', as: 'character_wizard'
   get 'characters/:id/wizard/basics', to: 'characters#wizard_basics'
   get 'characters/:id/wizard/skills_trainings', to: 'characters#wizard_skills_trainings'
@@ -14,6 +23,8 @@ Rails.application.routes.draw do
   get 'characters/:id/wizard/:page', to: 'characters#wizard_questionnaire', as: 'character_wizard_page'
   get 'characters/:id/print', to: 'characters#print', as: 'character_print'
   post 'characters/wizard', to: 'characters#wizard_router', as: 'wizard_update'
+  get 'characters/:id/downtimes', to: 'characters#downtimes', as: 'character_downtime'
+  post 'characters/:id/downtimes', to: 'characters#save_downtimes'
   post 'characters/send_approvals', to: 'characters#send_approvals', as: 'send_approvals'
 
   namespace :api do
@@ -42,6 +53,7 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
+<<<<<<< HEAD
     get 'experience/new', to: 'experience#new', as: 'new_experience_record'
     get 'experience/mass', to: 'experience#mass', as: 'mass_experience_record'
     post 'experience/mass', to: 'experience#mass_assign', as: 'mass_assign_experience'
@@ -51,6 +63,12 @@ Rails.application.routes.draw do
     get 'experience/:id', to: 'experience#show', as: 'show_experience_expenditure'
     post 'experience/:id', to: 'experience#approve_expenditure', as: 'approve_experience_expenditure'
     get 'experience', to: 'experience#index', as: 'experience'
+=======
+    get 'downtime_actions/period/:downtime_period_id/print', to: 'downtime_actions#downtime_period_print', as: 'print_downtime_actions_downtime_period'
+    get 'downtime_actions/period/:downtime_period_id', to: 'downtime_actions#downtime_period', as: 'downtime_actions_downtime_period'
+    resources :downtime_actions, only: [:index, :show, :edit, :update]
+    resources :downtime_periods
+>>>>>>> master
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
   end

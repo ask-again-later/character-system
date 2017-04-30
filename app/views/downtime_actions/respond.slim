@@ -1,0 +1,24 @@
+h2 #{@character.name} #{@downtime_action.title}
+p
+  strong #{"Action Type: "}
+  = @action_types[@downtime_action.action_type-1][0]
+p
+  strong #{"Size: "}
+  = @downtime_action.size == 1 ? 'Large' : 'Regular'
+p
+  strong #{"Assets: "}
+  = @downtime_action.assets
+p
+  strong #{"Burning down life? "}
+  = @downtime_action.burn ? 'Yes' : 'No'
+.action-description
+  = @downtime_action.description
+
+= form_for @downtime_action, url: character_downtime_period_downtime_action_path(@character, @downtime_period, @downtime_action), method: 'PATCH' do |f|
+  = f.hidden_field :id
+
+  .form-row
+    = f.label :response
+    = f.text_area :response
+
+  = f.submit "Save"

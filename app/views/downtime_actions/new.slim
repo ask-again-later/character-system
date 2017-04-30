@@ -1,0 +1,6 @@
+.data-entry-form
+
+  h2 New Downtime Action
+
+  = form_for @downtime_action, url: {action: 'create'} do |f|
+    = render partial: 'form', locals: {f: f}

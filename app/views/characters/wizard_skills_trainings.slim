@@ -7,14 +7,15 @@
 
     h3.section
       | Skills and Special Training
-      span.counter#skills-total 22 Remaining
+      - if @character.status < 2
+        span.counter#skills-total 22 Remaining
 
     .flex-container.skills-training
       - @skills_training.each do |cat,vals|
         div class="column #{cat.to_s.parameterize}"
           strong
             = cat
-            - if cat.to_s == "Special Training"
+            - if cat.to_s == "Special Training" and @character.status < 2
               span.counter#special-training 8 Remaining
           - vals.each do |val|
             .row
@@ -32,7 +33,7 @@
                       = f.radio_button val.parameterize("_").to_sym, i, label: false
 
     p.instructions Each character has both #{link_to("Skills and Special Trainings", "http://askagainlater.com/rules/skills-special-training/", rel: 'external', target: '_blank')}, and they have 22 points to split between the two categories. Each rank in a Skill or Special Training costs 1 point, and both traits can only be raised to a maximum of 5 per individual Skill or Special Training. In addition, a character can only spend up to 8 of their 22 points on Special Trainings but they are not required to spend any on Special Trainings.
-    
+
     = hidden_field_tag "wizard_current", "skills_trainings"
     = hidden_field_tag "wizard_prev", "basics"
     = hidden_field_tag "wizard", "challenges_advantages"

@@ -1,0 +1,9 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2
+  = "Edit Downtime Period: #{@downtime_period.title}"
+
+= form_for @downtime_period, url: { action: 'update' }, method: 'PATCH' do |f|
+  = f.hidden_field :id
+  = render partial: 'form', locals: {f: f}
