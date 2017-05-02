@@ -68,6 +68,7 @@ Rails.application.routes.draw do
     resources :downtime_periods
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
+    resources :rituals
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
