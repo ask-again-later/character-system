@@ -113,8 +113,7 @@ h3 Motivation
             p.desc
               = raw markdown.render(chc.challenge.description)
 
-- if character.is_npc
-h3 Additional Information
+  h3 Additional Information
 
-.additional-info
-  = raw markdown.render(character.additional_info)
+  .additional-info
+    = raw markdown.render(character.additional_info)
