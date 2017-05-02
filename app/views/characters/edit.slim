@@ -1,5 +1,5 @@
 h2
-  = "Edit #{@character.is_npc ? 'Character' : 'NPC'}: #{@character.name}"
+  = "Edit #{@character.is_npc ? 'NPC' : 'Character'}: #{@character.name}"
 
 = form_for @character, method: 'PATCH' do |f|
   = f.hidden_field :id
