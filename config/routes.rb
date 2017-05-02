@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'characters/print_all_mechanics', to: 'characters#print_all_mechanics', as: 'characters_print_mechanics'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
   get 'characters/new/npc', to: 'characters#new_npc', as: 'characters_new_npc'
+  delete 'characters/:id/expenditures/:expenditure_id', to: 'characters#delete_expenditure', as: 'character_delete_xp_expenditure'
   resources :characters do
     get 'downtime_actions', to: 'downtime_actions#index', as: 'downtime_actions'
     post 'downtime_actions/:downtime_period_id/submit', to: 'downtime_actions#submit', as: 'submit_downtime_actions'
@@ -53,6 +54,15 @@ Rails.application.routes.draw do
     resources :true_selves
     post 'reorder_questionnaire', to: 'questionnaire_sections#reorder_sections', as: 'reorder_questionnaire_sections'
     resources :questionnaire_sections
+    get 'experience/new', to: 'experience#new', as: 'new_experience_record'
+    get 'experience/mass', to: 'experience#mass', as: 'mass_experience_record'
+    post 'experience/mass', to: 'experience#mass_assign', as: 'mass_assign_experience'
+    post 'experience/new', to: 'experience#create', as: 'single_assign_experience'
+    delete 'experience/expenditure/:id', to: 'experience#destroy_expenditure', as: 'delete_xp_expenditure_record'
+    delete 'experience/record/:id', to: 'experience#destroy', as: 'delete_xp_record'
+    get 'experience/:id', to: 'experience#show', as: 'show_experience_expenditure'
+    post 'experience/:id', to: 'experience#approve_expenditure', as: 'approve_experience_expenditure'
+    get 'experience', to: 'experience#index', as: 'experience'
     get 'downtime_actions/period/:downtime_period_id/print', to: 'downtime_actions#downtime_period_print', as: 'print_downtime_actions_downtime_period'
     get 'downtime_actions/period/:downtime_period_id', to: 'downtime_actions#downtime_period', as: 'downtime_actions_downtime_period'
     resources :downtime_actions, only: [:index, :show, :edit, :update]

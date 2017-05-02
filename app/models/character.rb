@@ -1,4 +1,8 @@
+require 'active_record/diff'
+
 class Character < ApplicationRecord
+	include ActiveRecord::Diff
+	diff :include => [:character_has_advantages, :character_has_challenges], :exclude => [:created_at, :updated_at, :speed, :willpower, :health, :defense, :stability, :status, :initiative]
 	belongs_to :user
 	has_many :questionnaire_answers, dependent: :destroy
 	has_many :character_has_challenges, dependent: :destroy
@@ -6,9 +10,13 @@ class Character < ApplicationRecord
 	has_many :character_has_advantages, dependent: :destroy
 	has_many :advantages, through: :character_has_advantages
 	has_many :downtime_actions
+	has_many :xp_records
+	has_many :xp_expenditures
 	belongs_to :true_self
 
-	accepts_nested_attributes_for :questionnaire_answers, :character_has_challenges, :character_has_advantages
+	accepts_nested_attributes_for :questionnaire_answers
+	accepts_nested_attributes_for :character_has_challenges, allow_destroy: true
+	accepts_nested_attributes_for :character_has_advantages, allow_destroy: true
 
 	validates :user, presence: true
 
@@ -16,6 +24,15 @@ class Character < ApplicationRecord
 
 	def get_status
 		return STATUS[self.status]
+	end
+
+	def current_xp
+		xprecords = XpRecord.where(character_id: self.id)
+		total = 0;
+		xprecords.each do |xpr|
+			total += xpr.amount
+		end
+		total
 	end
 
 	private

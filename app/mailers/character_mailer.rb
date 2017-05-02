@@ -17,4 +17,25 @@ class CharacterMailer < ActionMailer::Base
 			:to => @user.email,
 			:from => 'sts@askagainlater.com')
 	end
+
+	def character_experience_expenditure(character, expenditure, st)
+		@character = character
+		@expenditure = expenditure
+		@st_name = st.name
+		mail(
+			:subject => "[AAL Character System] New experience expenditure for #{@character.name}",
+			:to => st.email,
+			:from => 'sts@askagainlater.com'
+		)
+	end
+
+	def character_expenditure_approved(character, expenditure)
+		@character = character
+		@expenditure = expenditure
+		mail(
+			:subject => "[AAL Character System] Experience expenditure for #{@character.name} approved",
+			:to => @character.user.email,
+			:from => 'sts@askagainlater.com'
+		)
+	end
 end
