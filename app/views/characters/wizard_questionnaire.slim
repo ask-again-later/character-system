@@ -38,12 +38,12 @@
                 = question.question
               - if @questionnaire_answers.where(questionnaire_item_id: question.id).length > 0
                 - current_question = @questionnaire_answers.where(questionnaire_item_id: question.id).first
-                = text_area_tag "character[questionnaire_answers][][answer]", current_question.answer
-                = hidden_field_tag "character[questionnaire_answers][][id]", current_question.id
+                = text_area_tag "character[questionnaire_answers_attributes][][answer]", current_question.answer
+                = hidden_field_tag "character[questionnaire_answers_attributes][][id]", current_question.id
               - else
-                = text_area_tag "character[questionnaire_answers][][answer]"
-                = hidden_field_tag "character[questionnaire_answers][][id]"
-              = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+                = text_area_tag "character[questionnaire_answers_attributes][][answer]"
+                = hidden_field_tag "character[questionnaire_answers_attributes][][id]"
+              = hidden_field_tag "character[questionnaire_answers_attributes][][questionnaire_item_id]", question.id
 
     = hidden_field_tag "wizard_current", @page.id
     = hidden_field_tag "wizard_prev", @page.id-1
