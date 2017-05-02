@@ -1,0 +1,21 @@
+.downtime_actions {
+  .downtime-period {
+    border-bottom: 1px $ash-grey solid;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+
+    &:last-of-type {
+      border-bottom: 0;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .button-row {
+      margin-top: 0;
+    }
+
+    .action-response {
+      margin-bottom: 10px;
+    }
+  }
+}

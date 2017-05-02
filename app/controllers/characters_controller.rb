@@ -373,6 +373,18 @@ class CharactersController < ApplicationController
 		render layout: 'print'
 	end
 
+	def print_all_mechanics
+		unless current_user.is_storyteller
+			redirect_to root_path and return
+		end
+		@characters = Character.where({status: 2}).order(:name)
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
+		render layout: 'print'
+	end
+
+
 	def send_approvals
 		unless current_user.is_storyteller
 			redirect_to root_path and return

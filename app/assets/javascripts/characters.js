@@ -365,7 +365,7 @@ $(document).ready(function() {
   $('#challenges-list').delegate('.challenge-edit', 'click', function(e) {
     e.preventDefault();
     var $modal = $('#challenges-overlay .modal');
-    var $challenge = $(this).parent('li');
+    var $challenge = $(this).parents('li');
     var index = $challenge.index();
     var challengeId = $challenge.find('input[name="character[character_has_challenges][][challenge_id]"]').val();
     var name = $challenge.find('input[name="character[character_has_challenges][][custom_name]"]').val();
@@ -373,7 +373,7 @@ $(document).ready(function() {
     var creature = $challenge.find('input[name="character[character_has_challenges][][is_creature_challenge]"]').val();
 
     $modal.find('#modal-custom-name').val(name);
-    $modal.find('#modal-custom-description').text(description);
+    $modal.find('#modal-custom-description').val(description);
     if (creature == "true") {
       $modal.find('#modal-creature-challenge').prop("checked", "checked");
     } else {

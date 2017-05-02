@@ -21,15 +21,32 @@ h2 #{character.name}
           = character.true_self.name
     .column
       .row
+        strong
+          = "Stability"
+          .boxes
+            - character.stability.times do |i|
+              .box
+                .ico-stability
+        .stability-modifiers
+
+      .row
         strong Willpower
         .boxes
-          - character.willpower.times do
-            i.fa.fa-square-o
+          - character.willpower.times do |i|
+            .box
+              i.fa.fa-square-o
+              - if character.willpower - i < 4
+                span.mod
+                  = "-#{4 - (character.willpower-i)}"
       .row
         strong Health
         .boxes
-          - character.health.times do
-            i.fa.fa-square-o
+          - character.health.times do |i|
+            .box
+              i.fa.fa-square-o
+              - if character.health - i < 4
+                span.mod
+                  = "-#{4 - (character.willpower-i)}"
       .row
         strong Initiative
         = character.initiative

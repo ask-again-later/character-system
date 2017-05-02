@@ -1,0 +1,22 @@
+.downtime-action
+  h4 #{@downtime_action.title}
+  p
+    strong #{"Action Type: "}
+    = @action_types[@downtime_action.action_type-1][0]
+  p
+    strong #{"Size: "}
+    = @downtime_action.size == 1 ? 'Large' : 'Regular'
+  p
+    strong #{"Assets: "}
+    = @downtime_action.assets
+  p
+    strong #{"Burning down life? "}
+    = @downtime_action.burn ? 'Yes' : 'No'
+  .action-description
+    = @downtime_action.description
+
+  .form-row
+    = f.label :response
+    = f.text_area :response
+
+  = f.submit "Save"

@@ -1,0 +1,13 @@
+h2 #{@character.name} Downtime Actions for #{@downtime_period.title}
+
+- @downtime_actions.each do |action|
+  h3 #{action.title}
+  p
+    strong Assets:
+    = action.assets
+  p
+    strong Burning Down Life?
+    = action.burn
+    
+  .action-description
+    = action.description
