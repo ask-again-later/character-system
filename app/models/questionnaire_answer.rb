@@ -3,5 +3,5 @@ class QuestionnaireAnswer < ApplicationRecord
 	belongs_to :questionnaire_item
 
 	validates :questionnaire_item, presence: true
-	validates :character, 				 presence: true
+	validates :character
 end
