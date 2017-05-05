@@ -113,6 +113,11 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
+  create_table "characters_rituals", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "ritual_id"
+  end
+
   create_table "downtime_actions", force: :cascade do |t|
     t.string   "title",                              null: false
     t.string   "assets"

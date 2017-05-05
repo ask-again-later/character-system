@@ -13,10 +13,12 @@ class Character < ApplicationRecord
 	has_many :xp_records
 	has_many :xp_expenditures
 	belongs_to :true_self
+	has_and_belongs_to_many :rituals
 
 	accepts_nested_attributes_for :questionnaire_answers
 	accepts_nested_attributes_for :character_has_challenges, allow_destroy: true
 	accepts_nested_attributes_for :character_has_advantages, allow_destroy: true
+	accepts_nested_attributes_for :rituals
 
 	validates :user, presence: true
 

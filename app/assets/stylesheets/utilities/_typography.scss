@@ -58,3 +58,13 @@ hr {
   margin: 15px 0;
   max-width: 50em;
 }
+
+dl {
+  dt {
+    font-weight: bold;
+  }
+
+  dd {
+    margin-bottom: 1em;
+  }
+}
