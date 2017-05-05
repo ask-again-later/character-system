@@ -39,9 +39,9 @@
             .question-text
               = question.question
             .question-answer
-              = text_area_tag "character[questionnaire_answers][][answer]"
-            = hidden_field_tag "character[questionnaire_answers][][id]"
-            = hidden_field_tag "character[questionnaire_answers][][questionnaire_item_id]", question.id
+              = text_area_tag "character[questionnaire_answers_attributes][][answer]"
+            = hidden_field_tag "character[questionnaire_answers_attributes][][id]"
+            = hidden_field_tag "character[questionnaire_answers_attributes][][questionnaire_item_id]", question.id
 
   = hidden_field_tag "wizard_current", "1"
   = hidden_field_tag "wizard", @questionnaire.length > 1 ? '2' : 'basics'
