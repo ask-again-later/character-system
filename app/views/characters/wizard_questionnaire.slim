@@ -48,7 +48,7 @@
     = hidden_field_tag "wizard_current", @page.id
     = hidden_field_tag "wizard_prev", @page.id-1
     = hidden_field_tag "wizard", @questionnaire.length > @page.id ? @page.id+1 : 'basics'
-
+    = f.hidden_field :status
     .button-row
       = hidden_field_tag "formaction", "", id: 'form-action'
       - if @questionnaire.first.id != @page.id
