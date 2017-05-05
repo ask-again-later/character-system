@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.string "focus"
     t.text   "effect"
     t.string "duration"
+    t.string "name"
   end
 
   create_table "settings", force: :cascade do |t|

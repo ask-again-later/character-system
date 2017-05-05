@@ -1,4 +1,4 @@
-module storytellers
+module Storytellers
   class RitualsController < ApplicationController
     def index
       @rituals = Ritual.all

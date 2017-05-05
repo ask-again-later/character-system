@@ -1,0 +1,21 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2 Rituals
+
+table.table
+  thead
+    th Name
+    th
+    th
+  tbody
+    - if @rituals
+      - @rituals.each do |ritual|
+        tr
+          td
+            = link_to ritual.name
+          td
+            = link_to "Edit", edit_storytellers_ritual_path(ritual)
+          td
+            = form_for(storytellers_ritual_path(ritual), method: 'DELETE')
+              = button_tag "Delete", type: 'submit', class: 'button-text', onClick: 'confirm("Are you sure you want to delete this ritual?")'
