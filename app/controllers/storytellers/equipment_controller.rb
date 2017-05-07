@@ -11,10 +11,12 @@ module Storyteller
 
     def show
       @equipment = Equipment.find(params[:id])
+      add_breadcrumb @equipment.name, storytellers_equipment_path(@equipment)
     end
 
     def new
       @equipment = Equipment.new
+      add_breadcrumb "New", new_storytellers_equipment_path
     end
 
     def create
@@ -30,6 +32,8 @@ module Storyteller
 
     def edit
       @equipment = Equipment.find(params[:id])
+      add_breadcrumb @equipment.name, storytellers_equipment_path(@equipment)
+      add_breadcrumb "Edit", edit_storytellers_equipment_path(@equipment)
     end
 
     def update
