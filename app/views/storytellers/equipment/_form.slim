@@ -16,7 +16,7 @@
 
 .form-row
   = f.label :equipment_quality_ids, "Equipment Qualities"
-  = f.grouped_collection_select :equipment_quality_ids, EquipmentQuality.all.order(:name), :equipment_type, :name, :id, :name, {}, {multiple: true}
+  = f.collection_select :equipment_quality_ids, EquipmentQuality.all.order(:name), :id, :name, {}, {multiple: true}
 
 .form-row
   = f.label :character_ids, "Characters With This Equipment"

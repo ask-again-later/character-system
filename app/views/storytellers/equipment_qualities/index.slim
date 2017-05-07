@@ -15,8 +15,8 @@
       th
       th
     tbody
-      - if @quality
-        - @quality.each do |quality|
+      - if @qualities
+        - @qualities.each do |quality|
           tr
             td #{link_to quality.name, storytellers_equipment_quality_path(quality)}
             td #{quality.equipment_type.name}

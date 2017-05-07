@@ -1,0 +1,16 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2
+  = "Equipment Quality: #{@quality.name}"
+
+p
+  strong Type:
+  = " #{@quality.equipment_type.name}"
+
+p
+  strong Description:
+  = " #{@quality.description}"
+
+.button-row
+  = link_to "Edit Equipment", edit_storytellers_equipment_path(@equipment), class: 'button'

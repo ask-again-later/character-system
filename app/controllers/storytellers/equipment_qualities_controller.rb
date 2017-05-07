@@ -55,7 +55,7 @@ module Storytellers
     private
 
     def equipment_qualities_params
-      params.require(:equipment_qualities).permit(:id, :name, :description, :equipment_type_id, {:equipment_ids => []})
+      params.require(:equipment_quality).permit(:id, :name, :description, :equipment_type_id, {:equipment_ids => []})
     end
   end
 end
