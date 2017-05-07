@@ -39,8 +39,7 @@ module Storytellers
 
     def update
       @ritual = Ritual.find(params[:id])
-      puts params.inspect
-      if @ritual.update_attributes(ritual_params)
+      if @ritual.update_attributes!(ritual_params)
         flash[:success] = "Your ritual was saved."
         redirect_to storytellers_rituals_path and return
       else
@@ -51,13 +50,14 @@ module Storytellers
 
     def destroy
       Ritual.destroy(params[:id])
+      flash[:success] = "The ritual was deleted."
       redirect_to storytellers_rituals_path
     end
 
     private
 
     def ritual_params
-      params.require(:ritual).permit(:id, :name, :focus, :trappings, :principle, :duration, :effect, :character_ids)
+      params.require(:ritual).permit(:id, :name, :focus, :trappings, :principle, :duration, :effect, {:character_ids => []})
     end
   end
 end

@@ -18,7 +18,6 @@ class Character < ApplicationRecord
 	accepts_nested_attributes_for :questionnaire_answers
 	accepts_nested_attributes_for :character_has_challenges, allow_destroy: true
 	accepts_nested_attributes_for :character_has_advantages, allow_destroy: true
-	accepts_nested_attributes_for :rituals
 
 	validates :user, presence: true
 

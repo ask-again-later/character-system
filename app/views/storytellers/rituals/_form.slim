@@ -24,7 +24,7 @@
 
 .form-row
   = f.label :character_ids, "Characters With This Ritual"
-  = f.collection_select :character_ids, Character.all, :id, :name, {}, {multiple: true}
+  = f.collection_select :character_ids, Character.all.order(:name), :id, :name, {}, {multiple: true}
 
 .button-row
   = f.submit "Save", class: 'button'

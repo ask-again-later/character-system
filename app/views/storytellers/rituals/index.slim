@@ -10,6 +10,7 @@
   table.table
     thead
       th Name
+      th Principle
       th
       th
     tbody
@@ -18,6 +19,7 @@
           tr
             td
               = link_to ritual.name, storytellers_ritual_path(ritual)
+            td #{ritual.principle}
             td
               = link_to "Edit", edit_storytellers_ritual_path(ritual)
             td
