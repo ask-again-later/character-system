@@ -38,6 +38,12 @@
     border-bottom: 1px $silver solid;
     padding: 25px 0;
 
+    h4 {
+      border-bottom: 1px $green solid;
+      margin-bottom: 1em;
+      padding-bottom: .5em;
+    }
+
     .boxes {
       display: flex;
 
