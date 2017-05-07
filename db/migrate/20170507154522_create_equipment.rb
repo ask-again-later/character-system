@@ -4,7 +4,7 @@ class CreateEquipment < ActiveRecord::Migration[5.0]
       t.string :name, null: false
       t.integer :size
       t.integer :durability
-      t.integer :equipment_type, null: false
+      t.integer :equipment_type_id, null: false
     end
   end
 end

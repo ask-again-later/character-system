@@ -1,9 +1,9 @@
-module Storyteller
+module Storytellers
   class EquipmentController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
     add_breadcrumb "Storytellers", :storytellers_path
-    add_breadcrumb "Equipment", :storytellers_equipment_path
+    add_breadcrumb "Equipment", :storytellers_equipment_index_path
 
     def index
       @equipment = Equipment.all

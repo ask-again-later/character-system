@@ -10,16 +10,16 @@
   table.table
     thead
       th Name
+      th Type
       th
       th
     tbody
       - if @equipment
         - @equipment.each do |equipment|
           tr
-            td
-              = link_to equipment.name, storytellers_equipment_path(equipment)
-            td
-              = link_to "Edit", edit_storytellers_equipment_path(equipment)
+            td #{link_to equipment.name, storytellers_equipment_path(equipment)}
+            td #{equipment.type.name}
+            td #{link_to "Edit", edit_storytellers_equipment_path(equipment)}
             td
               = form_for(storytellers_equipment_path(equipment), method: 'DELETE')
                 = button_tag "Delete", type: 'submit', class: 'button-text', onClick: 'confirm("Are you sure you want to delete this equipment?")'

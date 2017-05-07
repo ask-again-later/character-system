@@ -1,0 +1,26 @@
+.form-row
+  = f.label :name
+  = f.text_field :name
+
+.form-row
+  = f.label :equipment_type_id, "Type"
+  = f.collection_select :equipment_type_id, EquipmentType.all.order(:name), :id, :name, {}, {}
+
+.form-row
+  = f.label :size
+  = f.number_field :size
+
+.form-row
+  = f.label :durability
+  = f.number_field :durability
+
+.form-row
+  = f.label :equipment_quality_ids, "Equipment Qualities"
+  = f.grouped_collection_select :equipment_quality_ids, EquipmentQuality.all.order(:name), :equipment_type, :name, :id, :name, {}, {multiple: true}
+
+.form-row
+  = f.label :character_ids, "Characters With This Equipment"
+  = f.collection_select :character_ids, Character.all.order(:name), :id, :name, {}, {multiple: true}
+
+.button-row
+  = f.submit "Save", class: 'button'

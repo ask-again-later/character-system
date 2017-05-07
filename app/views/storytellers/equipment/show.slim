@@ -1,0 +1,28 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2
+  = "Equipment: #{@equipment.name}"
+
+dl
+  dt Type
+  dd #{@equipment.equipment_type.name}
+  dt Size
+  dd #{@equipment.size}
+  dt Durability
+  dd #{@equipment.durability}
+  - if @equipment.equipment_qualities.present?
+    dt Qualities
+    dd
+      ul
+        - @equipment.equipment_qualities.each do |qual|
+          li
+            strong "#{qual.name}: "
+
+p
+  strong
+    = "Characters With This Equipment: "
+  = @equipment.characters.present? ? @equipment.characters.map{|c| link_to c.name, character_path(c) }.join(", ").html_safe : "N/A"
+
+.button-row
+  = link_to "Edit Equipment", edit_storytellers_equipment_path(@equipment), class: 'button'
