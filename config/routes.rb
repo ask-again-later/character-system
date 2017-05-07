@@ -69,6 +69,7 @@ Rails.application.routes.draw do
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
     resources :rituals
+    get '/equipment/print_all', to: 'equipment#print_all', as: 'print_all_equipment'
     resources :equipment
     resources :equipment_qualities
     resources :equipment_types

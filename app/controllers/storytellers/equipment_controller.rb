@@ -53,6 +53,11 @@ module Storytellers
       redirect_to storytellers_equipment_path and return
     end
 
+    def print_all
+      @characters = Character.where(status: 2)
+      render layout: 'print'
+    end
+
     private
 
     def equipment_params
