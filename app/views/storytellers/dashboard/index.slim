@@ -1,5 +1,7 @@
 h2 Storyteller Dashboard
 
+h3 Game Management
+
 ul
   li
     = link_to "Print Character Sheets", characters_print_path, target: '_blank'
@@ -9,6 +11,10 @@ ul
     = link_to "Downtime Periods", storytellers_downtime_periods_path
   li
     = link_to "Downtime Actions", storytellers_downtime_actions_path
+
+h3 Character Components
+
+ul
   li
     = link_to "Advantages", storytellers_advantages_path
   li
@@ -17,7 +23,21 @@ ul
     = link_to "True Selves", storytellers_true_selves_path
   li
     = link_to "Questionnaire", storytellers_questionnaire_sections_path
+
+h3 Character Assets
+
+ul
   li
     = link_to "Rituals", storytellers_rituals_path
+  li
+    = link_to "Equipment", storytellers_equipment_path
+  li
+    = link_to "Equipment Types", storytellers_equipment_types_path
+  li
+    = link_to "Equipment Qualities", storytellers_equipment_qualities_path
+
+h3 System
+
+ul
   li
     = link_to "Settings", storytellers_settings_path
