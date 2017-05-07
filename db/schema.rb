@@ -161,8 +161,8 @@ ActiveRecord::Schema.define(version: 201712020230223) do
   end
 
   create_table "equipment_qualities", force: :cascade do |t|
-    t.string  "name",           null: false
-    t.integer "equipment_type", null: false
+    t.string  "name",              null: false
+    t.integer "equipment_type_id", null: false
     t.string  "description"
   end
 
