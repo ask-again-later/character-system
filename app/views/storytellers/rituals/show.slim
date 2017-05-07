@@ -20,7 +20,7 @@ dl
 p
   strong
     = "Characters With This Ritual: "
-  = @ritual.characters.present? ? @ritual.characters.map{|c| c.name }.join(", ") : "N/A"
+  = @ritual.characters.present? ? @ritual.characters.map{|c| link_to c.name, character_path(c) }.join(", ").html_safe : "N/A"
 
 .button-row
   = link_to "Edit Ritual", edit_storytellers_ritual_path(@ritual), class: 'button'

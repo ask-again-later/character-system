@@ -143,6 +143,23 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.boolean  "is_active",         default: false
   end
 
+  create_table "equipment", force: :cascade do |t|
+    t.string  "name",           null: false
+    t.integer "size"
+    t.integer "durability"
+    t.integer "equipment_type", null: false
+  end
+
+  create_table "equipment_qualities", force: :cascade do |t|
+    t.string  "name",           null: false
+    t.integer "equipment_type", null: false
+    t.string  "description"
+  end
+
+  create_table "equipment_types", force: :cascade do |t|
+    t.string "name", null: false
+  end
+
   create_table "questionnaire_answers", force: :cascade do |t|
     t.integer  "questionnaire_item_id",              null: false
     t.integer  "character_id",                       null: false
