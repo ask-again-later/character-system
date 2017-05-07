@@ -147,10 +147,55 @@
                   - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
                     = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
 
-  section#rituals
-    h3.section Rituals
-  section#equipment
-    h3.section Equipment
+  - if @character.rituals.present?
+    section#rituals
+      h3.section Rituals
+
+      - @character.rituals.each do |ritual|
+        .ritual-item.card
+          h4 #{ritual.name}
+          dl
+            dt Principle
+            dd #{ritual.principle}
+            dt Focus
+            dd #{ritual.focus}
+            dt Trappings
+            dd #{ritual.trappings}
+            dt Duration
+            dd #{ritual.duration}
+            dt Effect
+            dd #{raw @markdown.render(ritual.effect)}
+
+  - if @character.equipment.present?
+    section#equipment
+      h3.section Equipment
+
+      - @character.equipment.each do |equipment|
+        .equipment-item.card
+          h4 #{equipment.name}
+          dl
+            dt Size
+            dd #{equipment.size}
+            dt Durability
+            dd #{equipment.durability}
+            - if equipment.equipment_qualities.present?
+              dt Qualities
+              dd.list
+                ul
+                  - equipment.equipment_qualities.group_by{|eq| eq.id }.each do |i, q|
+                    li
+                      strong #{q[0].name}:
+                      = " #{q[0].description}"
+                      - if q.length > 1
+                        = " x #{q.length}"
+          p
+            strong Health:
+          .boxes
+            - (equipment.size + equipment.durability).times do |i|
+              .box
+                i.fa.fa-square-o
+                - if i > equipment.durability - 1
+                  span.mod -1
 
   section#experience
     h3.section Experience
