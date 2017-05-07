@@ -69,7 +69,7 @@ Rails.application.routes.draw do
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
     resources :rituals
-    resources :equipments
+    resources :equipment
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

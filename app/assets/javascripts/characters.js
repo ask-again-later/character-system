@@ -1,4 +1,11 @@
 $(document).ready(function() {
+  $('ul.tabs a').on('click', function(e) {
+    e.preventDefault();
+    var sectionId = $(this).attr('href');
+    $(sectionId).fadeIn().siblings('section').fadeOut();
+    $(this).addClass('current').parent().siblings().find('a').removeClass('current');
+  });
+
   $('input[name="character[strength]"]').on('change', function() {
     $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));
   });

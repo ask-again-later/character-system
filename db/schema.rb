@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
-  create_table "characters_equipments", force: :cascade do |t|
-    t.integer "character_ids"
+  create_table "characters_equipment", force: :cascade do |t|
+    t.integer "character_id"
     t.integer "equipment_id"
   end
 
@@ -148,6 +148,18 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.boolean  "is_active",         default: false
   end
 
+  create_table "equipment", force: :cascade do |t|
+    t.string  "name",           null: false
+    t.integer "size"
+    t.integer "durability"
+    t.integer "equipment_type", null: false
+  end
+
+  create_table "equipment_equipment_qualities", force: :cascade do |t|
+    t.integer "equipment_id"
+    t.integer "equipment_quality_id"
+  end
+
   create_table "equipment_qualities", force: :cascade do |t|
     t.string  "name",           null: false
     t.integer "equipment_type", null: false
@@ -159,18 +171,6 @@ ActiveRecord::Schema.define(version: 201712020230223) do
 
   create_table "equipment_types", force: :cascade do |t|
     t.string "name", null: false
-  end
-
-  create_table "equipments", force: :cascade do |t|
-    t.string  "name",           null: false
-    t.integer "size"
-    t.integer "durability"
-    t.integer "equipment_type", null: false
-  end
-
-  create_table "equipments_equipment_qualities", force: :cascade do |t|
-    t.integer "equipment_id"
-    t.integer "equipment_quality_id"
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|

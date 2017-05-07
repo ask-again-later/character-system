@@ -4,19 +4,19 @@
 
   ul.tabs
     li
-      = link_to "Mechanics", "#mechanics"
+      = link_to "Mechanics", "#mechanics", class: 'current'
     li
       = link_to "Questionnaire", "#questionnaire"
     - if @character.rituals.present?
       li
         = link_to "Rituals", "#rituals"
-    - if @character.equipments.present?
+    - if @character.equipment.present?
       li
         = link_to "Equipment", "#equipment"
     li
       = link_to "Experience", "#experience"
 
-  section.mechanics
+  section#mechanics.show
     .form-row.basic-stats
       .stat
         strong Name:
@@ -131,7 +131,7 @@
       - if @character.public_blurb.present?
         = @character.public_blurb
 
-  section.questionnaire
+  section#questionnaire
     h3.section Questionnaire
 
     .questionnaire.accordion
@@ -147,12 +147,12 @@
                   - if @character.questionnaire_answers.where(questionnaire_item_id: qi.id).present?
                     = raw @markdown.render(@character.questionnaire_answers.where(questionnaire_item_id: qi.id).first.answer)
 
-  section.rituals
+  section#rituals
     h3.section Rituals
-  section.equipment
+  section#equipment
     h3.section Equipment
 
-  section.experience
+  section#experience
     h3.section Experience
 
     table.plain
