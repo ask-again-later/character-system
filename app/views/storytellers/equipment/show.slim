@@ -17,7 +17,8 @@ dl
       ul
         - @equipment.equipment_qualities.each do |qual|
           li
-            strong "#{qual.name}: "
+            strong #{qual.name}:
+            = " #{qual.description}"
 
 p
   strong

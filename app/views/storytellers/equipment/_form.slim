@@ -16,7 +16,7 @@
 
 .form-row
   = f.label :equipment_quality_ids, "Equipment Qualities"
-  = f.collection_select :equipment_quality_ids, EquipmentQuality.all.order(:name), :id, :name, {}, {multiple: true}
+  = f.select :equipment_quality_ids, options_for_select(EquipmentQuality.all.order(:name).map{|q| [q.name, q.id, {"data-type": q.equipment_type_id}] }), {}, {multiple: true}
 
 .form-row
   = f.label :character_ids, "Characters With This Equipment"
@@ -24,3 +24,10 @@
 
 .button-row
   = f.submit "Save", class: 'button'
+
+javascript:
+  $('#equipment_equipment_type_id').on('change', function() {
+    var type = $(this).find('option:selected').val();
+    $('#equipment_equipment_quality_ids').find('[data-type="'+type+'"]').show();
+    $('#equipment_equipment_quality_ids').find('[data-type!="'+type+'"]').hide();
+  });

@@ -23,7 +23,7 @@ module Storytellers
       @equipment = Equipment.new(equipment_params)
       if @equipment.save
         flash[:success] = "Your equipment was saved."
-        redirect_to storytellers_equipment_path and return
+        redirect_to storytellers_equipment_index_path and return
       else
         flash[:error] = "There was an error saving your equipment."
         redirect_to new_storytellers_equipment_path and return
@@ -40,7 +40,7 @@ module Storytellers
       @equipment = Equipment.find(params[:id])
       if @equipment.update_attributes(equipment_params)
         flash[:success] = "Your equipment was saved."
-        redirect_to storytellers_equipment_path and return
+        redirect_to storytellers_equipment_index_path and return
       else
         flash[:error] = "There was an error saving your equipment."
         redirect_to edit_storytellers_equipment_path(@equipment) and return
@@ -56,7 +56,7 @@ module Storytellers
     private
 
     def equipment_params
-      params.require(:equipment).permit(:id, :name, :description, :equipment_type_id, {:character_ids => []})
+      params.require(:equipment).permit(:id, :name, :size, :durability, :equipment_type_id, {:character_ids => []}, {:equipment_quality_ids => []})
     end
   end
 end
