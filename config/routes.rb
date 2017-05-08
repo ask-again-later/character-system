@@ -68,8 +68,11 @@ Rails.application.routes.draw do
     resources :downtime_periods
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
+    get '/rituals/print_all', to: 'rituals#print_all', as: 'print_all_rituals'
+    get '/rituals/:id/print', to: 'rituals#print', as: 'print_ritual'
     resources :rituals
     get '/equipment/print_all', to: 'equipment#print_all', as: 'print_all_equipment'
+    get '/equipment/:id/print', to: 'equipment#print', as: 'print_equipment'
     resources :equipment
     resources :equipment_qualities
     resources :equipment_types

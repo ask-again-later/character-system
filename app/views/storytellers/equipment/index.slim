@@ -6,11 +6,13 @@
 
   .button-row.right
     = link_to "New Equipment", new_storytellers_equipment_path, class: 'button'
+    = link_to "Print All", storytellers_print_all_equipment, class: 'button', target: '_blank'
 
   table.table
     thead
       th Name
       th Type
+      th
       th
       th
     tbody
@@ -19,6 +21,7 @@
           tr
             td #{link_to equipment.name, storytellers_equipment_path(equipment)}
             td #{equipment.equipment_type.name}
+            td #{link_to "Print", storytellers_print_equipment_path(equipment), target: '_blank'}
             td #{link_to "Edit", edit_storytellers_equipment_path(equipment)}
             td
               = form_for(storytellers_equipment_path(equipment), method: 'DELETE')

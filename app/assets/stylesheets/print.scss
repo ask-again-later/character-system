@@ -51,6 +51,7 @@ h2 {
   color: $black;
   position: relative;
   width: 100%;
+  height: 100vh;
 
   h4 {
     border-bottom: 1px $black solid;
@@ -77,13 +78,15 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     dt {
-      width: 6em;
+      width: 12vw;
       font-weight: bold;
     }
 
     dd {
-      width: 92em;
-      margin-left: 2em;
+      width: 86vw;
+      min-width: 86vw;
+      margin-left: 2vw;
+      margin-bottom: 0;
     }
   }
 

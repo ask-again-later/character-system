@@ -54,7 +54,12 @@ module Storytellers
     end
 
     def print_all
-      @characters = Character.where(status: 2)
+      @characters = Character.where(status: 2).order(:name)
+      render layout: 'print'
+    end
+
+    def print
+      @equipment = Equipment.find(params[:id])
       render layout: 'print'
     end
 
