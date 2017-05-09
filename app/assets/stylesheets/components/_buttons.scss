@@ -26,6 +26,11 @@
 
   &[disabled] {
     background-color: $silver;
+
+    &:hover, &:focus {
+      background-color: $silver;
+      color: $white;
+    }
   }
 }
 
