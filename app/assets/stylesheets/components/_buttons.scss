@@ -23,6 +23,10 @@
     color: $green;
     background-color: $white;
   }
+
+  &[disabled] {
+    background-color: $silver;
+  }
 }
 
 .button-secondary {
