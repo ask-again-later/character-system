@@ -83,12 +83,14 @@
     = hidden_field_tag "wizard_prev", "skills_trainings"
     = hidden_field_tag "wizard", "full"
     = f.hidden_field :id
+    = f.hidden_field :status
 
     .button-row
       = hidden_field_tag "formaction", "", id: 'form-action'
       = f.submit "Back", id: 'back'
       = f.submit "Save", id: 'save'
-      = f.submit "Finish", id: 'finish'
+      - if @character.status == 0 and Setting.quantitative_open
+        = f.submit "Finish", id: 'save-submit'
 
   .overlay#advantages-overlay
     .modal
