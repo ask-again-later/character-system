@@ -16,6 +16,7 @@
         th Name
         - if current_user.is_storyteller?
           th Player Name
+          th Proposal Type
         th Status
         th
         th
@@ -28,6 +29,8 @@
           - if current_user.is_storyteller?
             td
               = character.user.name
+            td
+              = character.use_extended ? "Extended" : "Mechanical"
           td
             - if character.status == 0 or current_user.is_storyteller
               = character.get_status
