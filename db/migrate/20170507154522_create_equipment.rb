@@ -1,6 +1,6 @@
 class CreateEquipment < ActiveRecord::Migration[5.0]
   def change
-    create_table :equipments do |t|
+    create_table :equipment do |t|
       t.string :name, null: false
       t.integer :size
       t.integer :durability
