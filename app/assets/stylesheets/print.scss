@@ -26,12 +26,15 @@ h2 {
     page-break-before: always;
   }
 
+  .mod {
+    font-size: 14px;
+    display: block;
+  }
+
   .boxes {
     display: flex;
 
     .mod {
-      font-size: 14px;
-      display: block;
       text-align: center;
     }
   }
