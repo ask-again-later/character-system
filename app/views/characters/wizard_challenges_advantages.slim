@@ -17,7 +17,7 @@
       = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
 
     ul#advantages-list
-      - @character.character_has_advantages.each do |advantage|
+      - @character.character_has_advantages_attributes.each do |advantage|
         li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
           = "#{advantage.advantage.name} "
           - if advantage.advantage.requires_specification
@@ -52,7 +52,7 @@
 
 
     ul#challenges-list
-      - @character.character_has_challenges.each do |challenge|
+      - @character.character_has_challenges_attributes.each do |challenge|
         li
           - if challenge.challenge.is_custom
             - if challenge.custom_name.present?

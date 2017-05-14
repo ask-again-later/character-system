@@ -5,6 +5,7 @@
 
 .button-row.right
   = link_to "Character Wizard", new_character_wizard_path, class: 'button'
+  = link_to "New NPC", characters_new_npc_path, class: 'button'
   - if current_user.is_storyteller?
     = form_tag(send_approvals_path, method: 'POST') do
       = button_tag "Send Approvals", type: 'submit', onClick: 'return confirm("Are you sure you want to batch send approvals to newly-active characters?");', class: 'button'
@@ -16,6 +17,7 @@
         th Name
         - if current_user.is_storyteller?
           th Player Name
+          th NPC?
         th Status
         th
         th
@@ -28,11 +30,13 @@
           - if current_user.is_storyteller?
             td
               = character.user.name
+            td
+              = character.is_npc ? 'NPC' : ''
           td
             - if character.status == 0 or current_user.is_storyteller
               = character.get_status
           td
-            - if character.status == 2
+            - if character.status == 2 and !character.is_npc
               = link_to "Downtime Actions", character_downtime_actions_path(character)
           td
             - unless character.status > 0 and !current_user.is_storyteller
