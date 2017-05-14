@@ -37,6 +37,25 @@ h2 {
     .mod {
       text-align: center;
     }
+
+    &.stability {
+      align-items: center;
+    }
+  }
+  .ico-stability {
+    i {
+      color: $white;
+      font-size: 20px;
+      text-shadow: -1px -1px 0 $black, 1px 1px 0 $black, 1px -1px 0 $black, -1px 1px 0 $black;
+    }
+
+    &.current {
+      i {
+        color: $black;
+        font-size: 32px;
+        text-shadow: none;
+      }
+    }
   }
   .column-content {
     columns: 2;
