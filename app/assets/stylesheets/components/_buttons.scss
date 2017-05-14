@@ -23,6 +23,15 @@
     color: $green;
     background-color: $white;
   }
+
+  &[disabled] {
+    background-color: $silver;
+
+    &:hover, &:focus {
+      background-color: $silver;
+      color: $white;
+    }
+  }
 }
 
 .button-secondary {

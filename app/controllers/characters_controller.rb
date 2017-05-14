@@ -115,6 +115,13 @@ class CharactersController < ApplicationController
 			flash[:success] = "Experience expenditure for #{@character.name} submitted."
 			redirect_to character_path(@character) and return
 		end
+		if @character.status == 0 and ((@character.use_extended and !Settings.qualitative_open) or !Settings.quantitative_open)
+			# set status to In Progress even if they submitted
+			params[:character][:status] = 0
+			@character.update_attributes(characters_params)
+			flash[:error] = "Submissions of this type are currently closed. Your character sheet has been saved, but not submitted."
+			redirect_to character_path(@character) and return
+		end
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
 			# send mailers if necessary
@@ -125,6 +132,7 @@ class CharactersController < ApplicationController
 					@storytellers.each do |storyteller|
 						CharacterMailer.character_submission(@character, storyteller).deliver_now
 					end
+					CharacterMailer.character_submission_receipt(@character).deliver_now
 				end
 			end
 			if params[:wizard].present?

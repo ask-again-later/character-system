@@ -91,6 +91,8 @@
       = f.submit "Save", id: 'save'
       - if @character.status == 0 and Setting.quantitative_open
         = f.submit "Finish", id: 'save-submit'
+      - else
+        = f.submit "Mechanical Proposals Closed", id: 'save-submit', disabled: true
 
   .overlay#advantages-overlay
     .modal
