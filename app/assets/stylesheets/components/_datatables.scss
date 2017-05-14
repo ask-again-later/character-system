@@ -28,6 +28,7 @@ table.dataTable {
       &.child {
         ul {
           display: flex;
+          flex-wrap: wrap;
 
           li {
             display: flex;
