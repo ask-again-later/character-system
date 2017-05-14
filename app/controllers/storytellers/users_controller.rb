@@ -1,5 +1,5 @@
 module Storytellers
-  class UsersController < ActionController
+  class UsersController < ApplicationController
     before_action :authenticate_user!, :requires_storyteller
 
     add_breadcrumb "Storytellers", :storytellers_path
