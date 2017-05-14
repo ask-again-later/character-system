@@ -8,8 +8,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    devise_parameter_sanitizer.permit(:edit, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :attended_info_session])
+    devise_parameter_sanitizer.permit(:edit, keys: [:name, :attended_info_session])
   end
 
   def requires_storyteller

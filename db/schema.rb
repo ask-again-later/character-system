@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201702020635481) do
+ActiveRecord::Schema.define(version: 201712020230223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,65 +51,76 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.integer  "challenge_id",                          null: false
     t.string   "custom_name"
     t.text     "custom_description"
-    t.boolean  "is_creature_challenge", default: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.boolean  "is_creature_challenge", default: false
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",          default: ""
-    t.string   "pronouns",      default: ""
-    t.integer  "status",        default: 0
-    t.text     "public_blurb",  default: ""
-    t.integer  "user_id",                       null: false
+    t.string   "name",            default: ""
+    t.string   "pronouns",        default: ""
+    t.integer  "status",          default: 0
+    t.text     "public_blurb",    default: ""
+    t.integer  "user_id",                         null: false
     t.integer  "true_self_id"
-    t.integer  "intelligence",  default: 1
-    t.integer  "wits",          default: 1
-    t.integer  "resolve",       default: 1
-    t.integer  "strength",      default: 1
-    t.integer  "dexterity",     default: 1
-    t.integer  "stamina",       default: 1
-    t.integer  "presence",      default: 1
-    t.integer  "manipulation",  default: 1
-    t.integer  "composure",     default: 1
-    t.integer  "handy",         default: 0
-    t.integer  "religion",      default: 0
-    t.integer  "bureaucracy",   default: 0
-    t.integer  "athletics",     default: 0
-    t.integer  "fight",         default: 0
-    t.integer  "drive",         default: 0
-    t.integer  "guns",          default: 0
-    t.integer  "theft",         default: 0
-    t.integer  "stealth",       default: 0
-    t.integer  "outdoorsy",     default: 0
-    t.integer  "empathy",       default: 0
-    t.integer  "artsy",         default: 0
-    t.integer  "intimidation",  default: 0
-    t.integer  "persuasion",    default: 0
-    t.integer  "lies",          default: 0
-    t.integer  "academics",     default: 0
-    t.integer  "investigation", default: 0
-    t.integer  "medicine",      default: 0
-    t.integer  "local_lore",    default: 0
-    t.integer  "law",           default: 0
-    t.integer  "science",       default: 0
-    t.integer  "computers",     default: 0
-    t.integer  "engineering",   default: 0
-    t.integer  "health",        default: 2
-    t.integer  "willpower",     default: 6
-    t.integer  "stability",     default: 7
-    t.integer  "defense",       default: 2
-    t.integer  "speed",         default: 6
-    t.integer  "initiative",    default: 2
-    t.boolean  "use_extended",  default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "approval_sent", default: false
-    t.boolean  "is_npc",        default: false
+    t.integer  "intelligence",    default: 1
+    t.integer  "wits",            default: 1
+    t.integer  "resolve",         default: 1
+    t.integer  "strength",        default: 1
+    t.integer  "dexterity",       default: 1
+    t.integer  "stamina",         default: 1
+    t.integer  "presence",        default: 1
+    t.integer  "manipulation",    default: 1
+    t.integer  "composure",       default: 1
+    t.integer  "handy",           default: 0
+    t.integer  "religion",        default: 0
+    t.integer  "bureaucracy",     default: 0
+    t.integer  "athletics",       default: 0
+    t.integer  "fight",           default: 0
+    t.integer  "drive",           default: 0
+    t.integer  "guns",            default: 0
+    t.integer  "theft",           default: 0
+    t.integer  "stealth",         default: 0
+    t.integer  "outdoorsy",       default: 0
+    t.integer  "empathy",         default: 0
+    t.integer  "artsy",           default: 0
+    t.integer  "intimidation",    default: 0
+    t.integer  "persuasion",      default: 0
+    t.integer  "lies",            default: 0
+    t.integer  "academics",       default: 0
+    t.integer  "investigation",   default: 0
+    t.integer  "medicine",        default: 0
+    t.integer  "local_lore",      default: 0
+    t.integer  "law",             default: 0
+    t.integer  "science",         default: 0
+    t.integer  "computers",       default: 0
+    t.integer  "engineering",     default: 0
+    t.integer  "health",          default: 2
+    t.integer  "willpower",       default: 6
+    t.integer  "stability",       default: 7
+    t.integer  "defense",         default: 2
+    t.integer  "speed",           default: 6
+    t.integer  "initiative",      default: 2
+    t.boolean  "use_extended",    default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "approval_sent",   default: false
+    t.boolean  "is_npc",          default: false
+    t.text     "additional_info", default: ""
     t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
+  end
+
+  create_table "characters_equipment", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "equipment_id"
+  end
+
+  create_table "characters_rituals", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "ritual_id"
   end
 
   create_table "downtime_actions", force: :cascade do |t|
@@ -135,6 +146,31 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "updated_at",                        null: false
     t.boolean  "downtimes_open",    default: false
     t.boolean  "is_active",         default: false
+  end
+
+  create_table "equipment", force: :cascade do |t|
+    t.string  "name",              null: false
+    t.integer "size"
+    t.integer "durability"
+    t.integer "equipment_type_id", null: false
+  end
+
+  create_table "equipment_equipment_qualities", force: :cascade do |t|
+    t.integer "equipment_id"
+    t.integer "equipment_quality_id"
+  end
+
+  create_table "equipment_qualities", force: :cascade do |t|
+    t.string  "name",              null: false
+    t.integer "equipment_type_id", null: false
+    t.string  "description"
+  end
+
+  create_table "equipment_qualities_equipment_types", force: :cascade do |t|
+  end
+
+  create_table "equipment_types", force: :cascade do |t|
+    t.string "name", null: false
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
@@ -165,6 +201,15 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "rituals", force: :cascade do |t|
+    t.string "principle"
+    t.string "trappings"
+    t.string "focus"
+    t.text   "effect"
+    t.string "duration"
+    t.string "name"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string   "var",                   null: false
     t.text     "value"
@@ -176,10 +221,10 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",                     null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "description", default: ""
   end
 
   create_table "users", force: :cascade do |t|
@@ -201,6 +246,7 @@ ActiveRecord::Schema.define(version: 201702020635481) do
     t.string   "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
+    t.boolean  "attended_info_session",  default: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
