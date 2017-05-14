@@ -13,11 +13,11 @@ ul.tabs
   - if @character.rituals.present?
       li
         = link_to "Rituals", "#rituals"
-    - if @character.equipment.present?
-      li
-        = link_to "Equipment", "#equipment"
+  - if @character.equipment.present?
     li
-      = link_to "Experience", "#experience"
+      = link_to "Equipment", "#equipment"
+  li
+    = link_to "Experience", "#experience"
 
 section#mechanics.show
   .form-row.basic-stats
