@@ -23,12 +23,24 @@ h2 #{character.name}
       .row
         strong
           = "Stability"
-          .boxes
+        .stability-content
+          .boxes.stability
             - character.stability.times do |i|
               .box
-                .ico-stability
-        .stability-modifiers
+                - if i == character.stability-1
+                  .ico-stability.current
+                    i.fa.fa-certificate
+                - else
+                  .ico-stability
+                    i.fa.fa-certificate
 
+          .stability-modifiers
+            - if character.stability > 4
+              .mod +#{character.stability - 4} to mundane perception
+              .mod -#{character.stability - 4} to unnatural perception
+            - elsif character.stability < 4
+              .mod -#{4 - character.stability} to mundane perception
+              .mod +#{4 - character.stability} to unnatural perception
       .row
         strong Willpower
         .boxes

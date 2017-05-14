@@ -14,14 +14,15 @@
   table.table
     thead
       tr
-        th Name
+        th data-priority="1" Name
         - if current_user.is_storyteller?
-          th Player Name
-          th NPC?
-        th Status
-        th
-        th
-        th
+          th data-priority="1" Player Name
+          th data-priority="98" Proposal Type
+          th data-priority="98" NPC?
+        th data-priority="1" Status
+        th data-priority="99"
+        th data-priority="99"
+        th data-priority="99"
     tbody
       - @characters.each do |character|
         tr
@@ -30,6 +31,8 @@
           - if current_user.is_storyteller?
             td
               = character.user.name
+            td
+              = character.use_extended ? "Extended" : "Mechanical"
             td
               = character.is_npc ? 'NPC' : ''
           td
@@ -40,7 +43,7 @@
               = link_to "Downtime Actions", character_downtime_actions_path(character)
           td
             - unless character.status > 0 and !current_user.is_storyteller
-              = link_to "Edit", edit_character_path(character)
+              = link_to "Edit", character_wizard_page_path(character, 1)
             - if character.status > 1 and !current_user.is_storyteller and character.current_xp > 0
               = link_to "Spend Experience", edit_character_path(character)
           td

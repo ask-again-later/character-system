@@ -1,12 +1,16 @@
 h2
   = "Character: #{character.name}"
 
-  ul.tabs
-    li
-      = link_to "Mechanics", "#mechanics", class: 'current'
-    li
-      = link_to "Questionnaire", "#questionnaire"
-    - if @character.rituals.present?
+.button-row.right
+  = link_to "Edit in Wizard", character_wizard_page_path(@character, 1), class: 'button'
+
+
+ul.tabs
+  li
+    = link_to "Mechanics", "#mechanics", class: 'current'
+  li
+    = link_to "Questionnaire", "#questionnaire"
+  - if @character.rituals.present?
       li
         = link_to "Rituals", "#rituals"
     - if @character.equipment.present?

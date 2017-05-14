@@ -1,5 +1,11 @@
 $(document).ready(function() {
   $('.table').dataTable({
+    responsive: {
+      details: {
+        type: '',
+        display: $.fn.dataTable.Responsive.display.childRowImmediate,
+      }
+    },
     conditionalPaging: true
   });
 

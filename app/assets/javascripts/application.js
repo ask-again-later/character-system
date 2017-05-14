@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require dataTables/jquery.dataTables
+//= require dataTables/extras/dataTables.responsive
 //= require dataTables.conditionalPaging
 //= require showdown
 //= require nestedSortable
