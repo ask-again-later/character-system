@@ -6,29 +6,16 @@ $(document).ready(function() {
     $(this).addClass('current').parent().siblings().find('a').removeClass('current');
   });
 
-  $('input[name="character[strength]"]').on('change', function() {
-    $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));
-  });
-
-  $('input[name="character[resolve]"]').on('change', function() {
-    $('input#character_willpower').val(5+parseInt($('input[name="character[resolve]"]:checked').val()));
-  });
-
-  $('input[name="character[composure]"], input[name="character[dexterity]"]').on('change', function() {
+  function updateDerivedStats() {
     var composure = parseInt($('input[name="character[composure]"]:checked').val());
     var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
-    $('input#character_initiative').val(composure+dexterity);
-  });
-
-  $('input[name="character[wits]"], input[name="character[dexterity]"]').on('change', function () {
     var wits = parseInt($('input[name="character[wits]"]:checked').val());
-    var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());
+    $('input#character_speed').val(5+parseInt($('input[name="character[strength]"]:checked').val()));
+    $('input#character_willpower').val(5+parseInt($('input[name="character[resolve]"]:checked').val()));
+    $('input#character_initiative').val(composure+dexterity);
     $('input#character_defense').val(wits+dexterity);
-  });
-
-  $('input[name="character[stamina]"]').on('change', function () {
     $('input#character_health').val(5+parseInt($('input[name="character[stamina]"]:checked').val()));
-  });
+  }
 
   // VALIDATION
 
@@ -443,6 +430,7 @@ $(document).ready(function() {
     $(this).prevAll().addClass('selected');
     $(this).nextAll().removeClass('selected');
     $(this).find('input').prop('checked', 'checked');
+    updateDerivedStats();
     updateSkillsTrainingCount();
     updateSpecialTrainingCount();
     updateAttributes();
