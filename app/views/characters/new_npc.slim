@@ -1,0 +1,6 @@
+h2 New NPC
+
+= form_for @character, url: {action: 'create'} do |f|
+  = f.hidden_field :user_id, value: current_user.id
+  = f.hidden_field :is_npc, value: true
+  = render partial: 'npc_form', locals: {f: f}

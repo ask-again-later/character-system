@@ -1,0 +1,14 @@
+.form-row
+  = f.label :name
+  = f.text_field :name
+
+.form-row
+  = f.label :equipment_type_id, "Type"
+  = f.collection_select :equipment_type_id, EquipmentType.all.order(:name), :id, :name, {}, {}
+
+.form-row
+  = f.label :description
+  = f.text_area :description
+
+.button-row
+  = f.submit "Save", class: 'button'

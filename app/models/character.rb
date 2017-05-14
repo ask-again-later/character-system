@@ -13,6 +13,8 @@ class Character < ApplicationRecord
 	has_many :xp_records
 	has_many :xp_expenditures
 	belongs_to :true_self
+	has_and_belongs_to_many :rituals
+	has_and_belongs_to_many :equipment
 
 	accepts_nested_attributes_for :questionnaire_answers
 	accepts_nested_attributes_for :character_has_challenges, allow_destroy: true

@@ -1,0 +1,137 @@
+h2 #{character.name}
+
+.stats
+  .flex-container.start
+    .column
+      .row
+        strong Name
+        = character.name
+      .row
+        strong Status
+        = character.get_status
+      .row
+        strong Character Pronouns
+        = character.pronouns
+      .row
+        strong Player
+        = character.user.name
+      .row
+        strong True Self
+        - if character.true_self
+          = character.true_self.name
+    .column
+      .row
+        strong
+          = "Stability"
+        .stability-content
+          .boxes.stability
+            - character.stability.times do |i|
+              .box
+                - if i == character.stability-1
+                  .ico-stability.current
+                    i.fa.fa-certificate
+                - else
+                  .ico-stability
+                    i.fa.fa-certificate
+
+          .stability-modifiers
+            - if character.stability > 4
+              .mod +#{character.stability - 4} to mundane perception
+              .mod -#{character.stability - 4} to unnatural perception
+            - elsif character.stability < 4
+              .mod -#{4 - character.stability} to mundane perception
+              .mod +#{4 - character.stability} to unnatural perception
+      .row
+        strong Willpower
+        .boxes
+          - character.willpower.times do |i|
+            .box
+              i.fa.fa-square-o
+              - if character.willpower - i < 4
+                span.mod
+                  = "-#{4 - (character.willpower-i)}"
+      .row
+        strong Health
+        .boxes
+          - character.health.times do |i|
+            .box
+              i.fa.fa-square-o
+              - if character.health - i < 4
+                span.mod
+                  = "-#{4 - (character.willpower-i)}"
+      .row
+        strong Initiative
+        = character.initiative
+      .row
+        strong Defense
+        = character.defense
+      .row
+        strong Speed
+        = character.speed
+
+  h3.attributes Attributes
+
+  .flex-container
+    - attributes.each do |cat, vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            span.label
+              = val
+            .dots
+              - eval("character.#{val.parameterize("_")}").times do
+                = icon 'circle'
+
+              - (5-eval("character.#{val.parameterize("_")}")).times do
+                = icon 'circle-o'
+
+  h3.skills-training Skills and Special Training
+
+  .flex-container
+    - skills_training.each do |cat, vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            span.label
+              = val
+            .dots
+              - eval("character.#{val.parameterize("_")}").times do
+                = icon 'circle'
+
+              - (5-eval("character.#{val.parameterize("_")}")).times do
+                = icon 'circle-o'
+
+  .flex-container
+    .column
+      h3 Advantages
+
+      ul#advantages
+        - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+          - group.each_with_index do |cha, i|
+            li
+              p.name
+                = cha.advantage.name
+                - if cha.advantage.requires_specification?
+                  = " (#{cha.specification})"
+                - if cha.advantage.allowed_ratings.length > 1
+                  = " #{cha.rating}"
+              - if i == group.length-1
+                p.desc
+                  = raw markdown.render(cha.advantage.description)
+    .column
+      h3 Challenges
+
+      ul#advantages
+        - character.character_has_challenges.each do |chc|
+          li
+            p.name
+              = chc.challenge.name
+            p.desc
+              = raw markdown.render(chc.challenge.description)
+
+.additional-info
+  = raw markdown.render(character.additional_info)

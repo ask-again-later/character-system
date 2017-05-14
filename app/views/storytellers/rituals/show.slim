@@ -1,0 +1,26 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2
+  = "Ritual: #{@ritual.name}"
+
+dl
+  dt Principle
+  dd #{@ritual.principle}
+  dt Trappings
+  dd #{@ritual.trappings}
+  dt Focus
+  dd #{@ritual.focus}
+  dt Duration
+  dd #{@ritual.duration}
+  dt Effect
+  dd
+    = raw @markdown.render(@ritual.effect)
+
+p
+  strong
+    = "Characters With This Ritual: "
+  = @ritual.characters.present? ? @ritual.characters.map{|c| link_to c.name, character_path(c) }.join(", ").html_safe : "N/A"
+
+.button-row
+  = link_to "Edit Ritual", edit_storytellers_ritual_path(@ritual), class: 'button'

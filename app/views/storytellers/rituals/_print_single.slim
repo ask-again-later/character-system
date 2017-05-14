@@ -1,0 +1,19 @@
+.card
+  h4 #{ritual.name}
+  dl
+    dt Principle
+    dd #{ritual.principle}
+    dt Focus
+    dd #{ritual.focus}
+    dt Trappings
+    dd #{ritual.trappings}
+    dt Duration
+    dd #{ritual.duration}
+    dt Effect
+    dd #{raw markdown.render(ritual.effect)}
+
+    - if character.present?
+      .right
+        p
+          strong For Character:
+          = " #{character.name}"

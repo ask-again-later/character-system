@@ -1,4 +1,79 @@
 .character {
+  ul.tabs {
+    display: flex;
+    align-items: flex-end;
+    border-bottom: 1px $green solid;
+    li {
+      a {
+        padding: 5px 10px;
+        background-color: $green;
+        color: $white;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
+        display: block;
+        border-width: 2px 2px 0 2px;
+        border-style: solid;
+        border-color: $green;
+        transition: .5s;
+
+        &.current, &:hover {
+          background-color: $white;
+          color: $green;
+        }
+      }
+    }
+  }
+  section {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  .card {
+    max-width: 50em;
+    border-bottom: 1px $silver solid;
+    padding: 25px 0;
+
+    h4 {
+      border-bottom: 1px $green solid;
+      margin-bottom: 1em;
+      padding-bottom: .5em;
+    }
+
+    .boxes {
+      display: flex;
+
+      .box {
+        text-align: center;
+        margin-right: 5px;
+
+        span {
+          font-size: 12px;
+          display: block;
+          line-height: 1;
+        }
+      }
+    }
+
+    dl {
+      display: flex;
+      flex-wrap: wrap;
+      dt {
+        width: 6em;
+        font-weight: bold;
+      }
+
+      dd {
+        width: 40em;
+        margin-left: 2em;
+      }
+    }
+  }
+
   h3.section {
     border-bottom: 3px solid $green;
     display: inline-block;

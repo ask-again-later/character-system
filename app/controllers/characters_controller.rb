@@ -29,6 +29,8 @@ class CharactersController < ApplicationController
 	end
 
 	def print
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		show
 		render layout: 'print'
 	end
@@ -54,6 +56,16 @@ class CharactersController < ApplicationController
 		@questionnaire_answers = @character.questionnaire_answers
 	end
 
+	def new_npc
+		@character = Character.new(is_npc: true, status: 3, user_id: current_user.id)
+		@attributes = ATTRIBUTES
+		@skills_training = SKILLS_TRAINING
+		@advantages = Advantage.all.order(:name)
+		@challenges = Challenge.where(is_custom: false).order(:name)
+		@statuses = [["Active", 2], ["Inactive", 3]]
+		@custom_challenge = Challenge.where(is_custom: true).first
+	end
+
 	def edit
 		@character = Character.find(params[:id])
 		if (@character.user.id != current_user.id && !current_user.is_storyteller)
@@ -69,7 +81,11 @@ class CharactersController < ApplicationController
 		@custom_challenge = Challenge.where(is_custom: true).first
 		@player = @character.user
 		@questionnaire_sections = QuestionnaireSection.all.order(order: :asc)
-		@statuses = STATUS_ENUM
+		if @character.is_npc
+			@statuses = [["Active", 2], ["Inactive", 3]]
+		else
+			@statuses = STATUS_ENUM
+		end
 
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
@@ -99,6 +115,13 @@ class CharactersController < ApplicationController
 			flash[:success] = "Experience expenditure for #{@character.name} submitted."
 			redirect_to character_path(@character) and return
 		end
+		if @character.status == 0 and ((@character.use_extended and !Settings.qualitative_open) or !Settings.quantitative_open)
+			# set status to In Progress even if they submitted
+			params[:character][:status] = 0
+			@character.update_attributes(characters_params)
+			flash[:error] = "Submissions of this type are currently closed. Your character sheet has been saved, but not submitted."
+			redirect_to character_path(@character) and return
+		end
 		if @character.update_attributes!(characters_params)
 			flash[:success] = "Changes to your character were saved."
 			# send mailers if necessary
@@ -109,6 +132,7 @@ class CharactersController < ApplicationController
 					@storytellers.each do |storyteller|
 						CharacterMailer.character_submission(@character, storyteller).deliver_now
 					end
+					CharacterMailer.character_submission_receipt(@character).deliver_now
 				end
 			end
 			if params[:wizard].present?
@@ -301,6 +325,6 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:id, :name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
+		params.require(:character).permit(:id, :name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :is_npc, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
 	end
 end

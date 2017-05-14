@@ -1,0 +1,8 @@
+.data-entry-form
+  .breadcrumbs
+    = render_breadcrumbs
+
+  h2 New Equipment
+
+  = form_for @equipment, url: {action: 'create'} do |f|
+    = render partial: 'form', locals: {f: f}

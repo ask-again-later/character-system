@@ -1,0 +1,4 @@
+- @characters.each do |character|
+  - if character.rituals.present?
+    - character.rituals.each do |ritual|
+      = render partial: 'print_single', locals: {ritual: ritual, character: character, markdown: @markdown}

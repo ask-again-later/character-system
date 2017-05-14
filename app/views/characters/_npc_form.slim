@@ -1,0 +1,194 @@
+.character
+  .form-row.basic-stats
+    .stat.name
+      = f.label :name
+      = f.text_field :name
+    - if current_user.is_storyteller
+      .stat
+        = f.label :status
+        = f.select :status, options_for_select(@statuses, @character.status)
+    .stat
+      = f.label :pronouns, "Character Pronouns"
+      = f.text_field :pronouns
+    .stat
+      = f.label :true_self
+      = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
+
+  h3.section Motivation
+  = f.text_area :public_blurb
+
+  h3.section Attributes
+  .flex-container.attributes
+    - @attributes.each do |cat,vals|
+      .column
+        strong
+          = cat
+        - vals.each do |val|
+          .row
+            label
+              = val
+            .dots
+              - (1..5).each do |i|
+                - if @character.send(val.parameterize("_").to_sym) >= i
+                  span.dot.selected
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                - else
+                  span.dot
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false
+
+  h3.section
+    | Skills and Special Training
+
+  .flex-container.skills-training
+    - @skills_training.each do |cat,vals|
+      div class="column #{cat.to_s.parameterize}"
+        strong
+          = cat
+          - if cat.to_s == "Special Training"
+        - vals.each do |val|
+          .row
+            label
+              = val
+            .dots
+              span.dot.reset
+                = f.radio_button val.parameterize("_").to_sym, 0, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(0) ? 'checked' : ''
+              - (1..5).each do |i|
+                - if @character.send(val.parameterize("_").to_sym) >= i
+                  span.dot.selected
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false, checked: @character.send(val.parameterize("_").to_sym).eql?(i) ? 'checked' : ''
+                - else
+                  span.dot
+                    = f.radio_button val.parameterize("_").to_sym, i, label: false
+
+  h3.section
+    | Advantages
+  .form-row
+    select name="advantages" id="advantages"
+      - @advantages.each do |advantage|
+        option value="#{advantage.id}" data-allowed-ratings="#{advantage.allowed_ratings}" data-specification="#{advantage.requires_specification}" #{advantage.name}#{advantage.is_unnatural ? ' (Unnatural)' : ''} [#{advantage.allowed_ratings}]
+    = button_tag 'Add', type: 'button', class: 'button-secondary', id: "advantage-add"
+
+  ul#advantages-list
+    - @character.character_has_advantages.each do |advantage|
+      li data-id="#{advantage.id}" data-rating="#{advantage.rating}" data-specification="#{advantage.specification}" data-advantage-id="#{advantage.advantage.id}"
+        = "#{advantage.advantage.name} "
+        - if advantage.advantage.requires_specification
+          = "(<span class='specification'>#{advantage.specification}</span>) ".html_safe
+        - if advantage.advantage.allowed_ratings.split(",").length > 1
+          = " <span class='rating'>#{advantage.rating}</span>".html_safe
+        = hidden_field_tag "character[character_has_advantages][][id]", advantage.id
+        = hidden_field_tag "character[character_has_advantages][][advantage_id]", advantage.advantage.id
+        = hidden_field_tag "character[character_has_advantages][][rating]", advantage.rating
+        = hidden_field_tag "character[character_has_advantages][][specification]", advantage.specification
+        = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
+        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
+
+  h3.section Challenges
+  .form-row
+    div
+      = label_tag "Creature Challenges"
+    select name="challenges" id="challenges"
+      - @challenges.each do |challenge|
+        option value="#{challenge.id}" data-is-custom="#{challenge.is_custom}" #{challenge.name}
+    = button_tag 'Add Creature Challenge', type: 'button', class: 'button-secondary', id: "challenge-add"
+    - if @custom_challenge.present?
+      = button_tag 'New Challenge', type: 'button', class: 'button-secondary', id: 'challenge-add-custom', "data-challenge-id": @custom_challenge.id
+
+
+  ul#challenges-list
+    - @character.character_has_challenges.each do |challenge|
+      li data-creature="#{(challenge.is_creature_challenge || challenge.challenge.is_creature_challenge) ? 'true' : 'false'}"
+        - if challenge.challenge.is_custom
+          - if challenge.custom_name.present?
+            = "<span class='custom-name'>#{challenge.custom_name}</span> ".html_safe
+          - else
+            = "<span class='custom-name'>#{challenge.challenge.name}</span> ".html_safe
+        - else
+          = "#{challenge.challenge.name} "
+        - if challenge.challenge.is_custom
+          = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'challenge-edit'
+        = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'challenge-delete'
+        - if challenge.custom_description.present?
+          .description
+            = raw @markdown.render(challenge.custom_description)
+        - elsif challenge.challenge.description.present?
+          .description
+            = raw @markdown.render(challenge.challenge.description)
+        = hidden_field_tag "character[character_has_challenges][][id]", challenge.id
+        = hidden_field_tag "character[character_has_challenges][][challenge_id]", challenge.challenge.id
+        = hidden_field_tag "character[character_has_challenges][][custom_name]", challenge.custom_name
+        = hidden_field_tag "character[character_has_challenges][][custom_description]", challenge.custom_description
+        = hidden_field_tag "character[character_has_challenges][][is_creature_challenge]", challenge.is_creature_challenge
+
+  h3.section Derived Stats
+  .derived-stats
+    .stat
+      = f.label :health
+      = f.number_field :health
+    .stat
+      = f.label :willpower
+      = f.number_field :willpower
+    .stat
+      = f.label :defense
+      = f.number_field :defense
+    .stat
+      = f.label :speed
+      = f.number_field :speed
+    .stat
+      = f.label :initiative
+      = f.number_field :initiative
+
+  h3.section Additional Information
+
+  = f.text_area :additional_info
+
+  .button-row
+    = f.submit "Save"
+
+  .overlay#advantages-overlay
+    .modal
+      .header
+        | Edit Advantage:
+        span
+      .content
+        .form-row.specification
+          = label_tag :specification
+          = text_field_tag :specification, "", id: 'modal-specification'
+
+        .form-row.rating
+          = label_tag :rating
+          = select_tag :rating, "", id: 'modal-rating'
+
+        .form-row#modal-description
+
+        = hidden_field_tag :cha_id, "", id: 'modal-id'
+
+        .form-row
+          = button_tag "Save", type: 'button', class: 'button', id: 'save-advantage'
+          = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-advantage'
+
+  .overlay#challenges-overlay
+    .modal
+      .header
+        | Edit Challenge:
+        span
+      .content
+        .form-row.name
+          = label_tag :custom_name, "Name"
+          = text_field_tag :custom_name, "", id: 'modal-custom-name'
+
+        .form-row.description
+          = label_tag :custom_description, "Description"
+          = text_area_tag :custom_description, "", id: 'modal-custom-description'
+
+        .form-row.creature
+          = check_box_tag :is_creature_challenge, true, false, id: 'modal-creature-challenge'
+          = label_tag :is_creature_challenge, "Is this a creature challenge?"
+
+        = hidden_field_tag :chc_id, "", id: 'modal-chc-id'
+
+        .form-row
+          = button_tag "Save", type: 'button', class: 'button', id: 'save-challenge'
+          = button_tag "Cancel", type: 'button', class: 'button', id: 'cancel-challenge'
+
+  = javascript_include_tag 'characters'
