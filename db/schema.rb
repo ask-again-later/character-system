@@ -51,9 +51,9 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.integer  "challenge_id",                          null: false
     t.string   "custom_name"
     t.text     "custom_description"
-    t.boolean  "is_creature_challenge", default: false
     t.datetime "created_at",                            null: false
     t.datetime "updated_at",                            null: false
+    t.boolean  "is_creature_challenge", default: false
     t.index ["challenge_id"], name: "index_character_has_challenges_on_challenge_id", using: :btree
     t.index ["character_id"], name: "index_character_has_challenges_on_character_id", using: :btree
   end
@@ -113,6 +113,16 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
 
+  create_table "characters_equipment", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "equipment_id"
+  end
+
+  create_table "characters_rituals", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "ritual_id"
+  end
+
   create_table "downtime_actions", force: :cascade do |t|
     t.string   "title",                              null: false
     t.string   "assets"
@@ -136,6 +146,31 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.datetime "updated_at",                        null: false
     t.boolean  "downtimes_open",    default: false
     t.boolean  "is_active",         default: false
+  end
+
+  create_table "equipment", force: :cascade do |t|
+    t.string  "name",              null: false
+    t.integer "size"
+    t.integer "durability"
+    t.integer "equipment_type_id", null: false
+  end
+
+  create_table "equipment_equipment_qualities", force: :cascade do |t|
+    t.integer "equipment_id"
+    t.integer "equipment_quality_id"
+  end
+
+  create_table "equipment_qualities", force: :cascade do |t|
+    t.string  "name",              null: false
+    t.integer "equipment_type_id", null: false
+    t.string  "description"
+  end
+
+  create_table "equipment_qualities_equipment_types", force: :cascade do |t|
+  end
+
+  create_table "equipment_types", force: :cascade do |t|
+    t.string "name", null: false
   end
 
   create_table "questionnaire_answers", force: :cascade do |t|
@@ -166,6 +201,15 @@ ActiveRecord::Schema.define(version: 201712020230223) do
     t.datetime "updated_at",               null: false
   end
 
+  create_table "rituals", force: :cascade do |t|
+    t.string "principle"
+    t.string "trappings"
+    t.string "focus"
+    t.text   "effect"
+    t.string "duration"
+    t.string "name"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string   "var",                   null: false
     t.text     "value"
@@ -177,10 +221,10 @@ ActiveRecord::Schema.define(version: 201712020230223) do
   end
 
   create_table "true_selves", force: :cascade do |t|
-    t.string   "name",        null: false
-    t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name",                     null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "description", default: ""
   end
 
   create_table "users", force: :cascade do |t|

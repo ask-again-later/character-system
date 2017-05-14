@@ -2,7 +2,7 @@
   .breadcrumbs
     = render_breadcrumbs
     
-  h2 New Challenge
+  h2 New Ritual
 
-  = form_for @challenge, url: {action: 'create'} do |f|
+  = form_for @ritual, url: {action: 'create'} do |f|
     = render partial: 'form', locals: {f: f}

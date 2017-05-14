@@ -1,0 +1,30 @@
+.form-row
+  = f.label :name
+  = f.text_field :name
+
+.form-row
+  = f.label :principle
+  = f.text_field :principle
+
+.form-row
+  = f.label :trappings
+  = f.text_field :trappings
+
+.form-row
+  = f.label :focus
+  = f.text_field :focus
+
+.form-row
+  = f.label :duration
+  = f.text_field :duration
+
+.form-row
+  = f.label :effect
+  = f.text_area :effect
+
+.form-row
+  = f.label :character_ids, "Characters With This Ritual"
+  = f.collection_select :character_ids, Character.all.order(:name), :id, :name, {}, {multiple: true}
+
+.button-row
+  = f.submit "Save", class: 'button'

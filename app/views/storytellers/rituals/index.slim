@@ -1,0 +1,29 @@
+.data-entry-index
+  .breadcrumbs
+    = render_breadcrumbs
+
+  h2 Rituals
+
+  .button-row.right
+    = link_to "New Ritual", new_storytellers_ritual_path, class: 'button'
+    = link_to "Print All", storytellers_print_all_rituals_path, class: 'button', target: '_blank'
+
+  table.table
+    thead
+      th Name
+      th Principle
+      th
+      th
+      th
+    tbody
+      - if @rituals
+        - @rituals.each do |ritual|
+          tr
+            td #{link_to ritual.name, storytellers_ritual_path(ritual)}
+            td #{ritual.principle}
+            td #{link_to "Print", storytellers_print_ritual_path(ritual), target: '_blank'}
+            td
+              = link_to "Edit", edit_storytellers_ritual_path(ritual)
+            td
+              = form_for(storytellers_ritual_path(ritual), method: 'DELETE')
+                = button_tag "Delete", type: 'submit', class: 'button-text', onClick: 'confirm("Are you sure you want to delete this ritual?")'

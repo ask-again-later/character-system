@@ -1,4 +1,11 @@
 $(document).ready(function() {
+  $('ul.tabs a').on('click', function(e) {
+    e.preventDefault();
+    var sectionId = $(this).attr('href');
+    $(sectionId).fadeIn().siblings('section').fadeOut();
+    $(this).addClass('current').parent().siblings().find('a').removeClass('current');
+  });
+
   function updateDerivedStats() {
     var composure = parseInt($('input[name="character[composure]"]:checked').val());
     var dexterity = parseInt($('input[name="character[dexterity]"]:checked').val());

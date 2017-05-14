@@ -1,0 +1,9 @@
+.data-entry-form
+  .breadcrumbs
+    = render_breadcrumbs
+  h2
+    = "Edit Equipment Type: #{@equipment_type.name}"
+
+  = form_for @equipment_type, url: {action: 'update'}, method: 'PATCH' do |f|
+    = f.hidden_field :id
+    = render partial: 'form', locals: {f: f}

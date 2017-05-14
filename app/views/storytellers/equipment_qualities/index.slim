@@ -1,0 +1,26 @@
+.data-entry-index
+  .breadcrumbs
+    = render_breadcrumbs
+
+  h2 Equipment Qualities
+
+  .button-row.right
+    = link_to "New Equipment Quality", new_storytellers_equipment_quality_path, class: 'button'
+
+  table.table
+    thead
+      th Name
+      th Type
+      th Description
+      th
+      th
+    tbody
+      - if @qualities
+        - @qualities.each do |quality|
+          tr
+            td #{link_to quality.name, storytellers_equipment_quality_path(quality)}
+            td #{quality.equipment_type.name}
+            td #{link_to "Edit", edit_storytellers_equipment_quality_path(quality)}
+            td
+              = form_for(storytellers_equipment_quality_path(quality), method: 'DELETE')
+                = button_tag "Delete", type: 'submit', class: 'button-text', onClick: 'confirm("Are you sure you want to delete this equipment quality?")'
