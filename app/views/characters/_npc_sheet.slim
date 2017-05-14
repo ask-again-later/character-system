@@ -2,6 +2,9 @@
   h2
     = "NPC: #{character.name}"
 
+  .button-row.right
+    = link_to "Edit NPC", edit_character_path(@character), class: 'button'
+
   .form-row.basic-stats
     .stat
       strong Name:
