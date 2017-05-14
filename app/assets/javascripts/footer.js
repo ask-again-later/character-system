@@ -5,7 +5,8 @@ $(document).ready(function() {
         type: '',
         display: $.fn.dataTable.Responsive.display.childRowImmediate,
       }
-    }
+    },
+    conditionalPaging: true
   });
 
   $('textarea').wrap('<div class="textarea-wrapper"></div>');

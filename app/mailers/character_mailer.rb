@@ -9,6 +9,15 @@ class CharacterMailer < ActionMailer::Base
       :from => 'sts@askagainlater.com')
 	end
 
+	def character_submission_receipt(character)
+		@character = character
+		mail(
+			:subject => "[AAL Character System] Receipt for your character submission: \"#{@character.name}\"",
+			:to => @character.user.email,
+			:from => 'sts@askagainlater.com'
+		)
+	end
+
 	def character_approval(character)
 		@character = character
 		@user = @character.user
