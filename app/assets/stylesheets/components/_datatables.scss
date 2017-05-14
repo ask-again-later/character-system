@@ -18,10 +18,10 @@ table.dataTable {
   tbody {
     tr {
       &.odd {
-        background-color: rgba($silver, .25);
+        background-color: rgba($silver, .15);
 
         & + .child {
-          background-color: rgba($silver, .25);
+          background-color: rgba($silver, .15);
         }
       }
 
