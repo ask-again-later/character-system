@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201702020635481) do
+ActiveRecord::Schema.define(version: 201712020230223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,55 +59,56 @@ ActiveRecord::Schema.define(version: 201702020635481) do
   end
 
   create_table "characters", force: :cascade do |t|
-    t.string   "name",          default: ""
-    t.string   "pronouns",      default: ""
-    t.integer  "status",        default: 0
-    t.text     "public_blurb",  default: ""
-    t.integer  "user_id",                       null: false
+    t.string   "name",            default: ""
+    t.string   "pronouns",        default: ""
+    t.integer  "status",          default: 0
+    t.text     "public_blurb",    default: ""
+    t.integer  "user_id",                         null: false
     t.integer  "true_self_id"
-    t.integer  "intelligence",  default: 1
-    t.integer  "wits",          default: 1
-    t.integer  "resolve",       default: 1
-    t.integer  "strength",      default: 1
-    t.integer  "dexterity",     default: 1
-    t.integer  "stamina",       default: 1
-    t.integer  "presence",      default: 1
-    t.integer  "manipulation",  default: 1
-    t.integer  "composure",     default: 1
-    t.integer  "handy",         default: 0
-    t.integer  "religion",      default: 0
-    t.integer  "bureaucracy",   default: 0
-    t.integer  "athletics",     default: 0
-    t.integer  "fight",         default: 0
-    t.integer  "drive",         default: 0
-    t.integer  "guns",          default: 0
-    t.integer  "theft",         default: 0
-    t.integer  "stealth",       default: 0
-    t.integer  "outdoorsy",     default: 0
-    t.integer  "empathy",       default: 0
-    t.integer  "artsy",         default: 0
-    t.integer  "intimidation",  default: 0
-    t.integer  "persuasion",    default: 0
-    t.integer  "lies",          default: 0
-    t.integer  "academics",     default: 0
-    t.integer  "investigation", default: 0
-    t.integer  "medicine",      default: 0
-    t.integer  "local_lore",    default: 0
-    t.integer  "law",           default: 0
-    t.integer  "science",       default: 0
-    t.integer  "computers",     default: 0
-    t.integer  "engineering",   default: 0
-    t.integer  "health",        default: 2
-    t.integer  "willpower",     default: 6
-    t.integer  "stability",     default: 7
-    t.integer  "defense",       default: 2
-    t.integer  "speed",         default: 6
-    t.integer  "initiative",    default: 2
-    t.boolean  "use_extended",  default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
-    t.boolean  "approval_sent", default: false
-    t.boolean  "is_npc",        default: false
+    t.integer  "intelligence",    default: 1
+    t.integer  "wits",            default: 1
+    t.integer  "resolve",         default: 1
+    t.integer  "strength",        default: 1
+    t.integer  "dexterity",       default: 1
+    t.integer  "stamina",         default: 1
+    t.integer  "presence",        default: 1
+    t.integer  "manipulation",    default: 1
+    t.integer  "composure",       default: 1
+    t.integer  "handy",           default: 0
+    t.integer  "religion",        default: 0
+    t.integer  "bureaucracy",     default: 0
+    t.integer  "athletics",       default: 0
+    t.integer  "fight",           default: 0
+    t.integer  "drive",           default: 0
+    t.integer  "guns",            default: 0
+    t.integer  "theft",           default: 0
+    t.integer  "stealth",         default: 0
+    t.integer  "outdoorsy",       default: 0
+    t.integer  "empathy",         default: 0
+    t.integer  "artsy",           default: 0
+    t.integer  "intimidation",    default: 0
+    t.integer  "persuasion",      default: 0
+    t.integer  "lies",            default: 0
+    t.integer  "academics",       default: 0
+    t.integer  "investigation",   default: 0
+    t.integer  "medicine",        default: 0
+    t.integer  "local_lore",      default: 0
+    t.integer  "law",             default: 0
+    t.integer  "science",         default: 0
+    t.integer  "computers",       default: 0
+    t.integer  "engineering",     default: 0
+    t.integer  "health",          default: 2
+    t.integer  "willpower",       default: 6
+    t.integer  "stability",       default: 7
+    t.integer  "defense",         default: 2
+    t.integer  "speed",           default: 6
+    t.integer  "initiative",      default: 2
+    t.boolean  "use_extended",    default: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.boolean  "approval_sent",   default: false
+    t.boolean  "is_npc",          default: false
+    t.text     "additional_info", default: ""
     t.index ["true_self_id"], name: "index_characters_on_true_self_id", using: :btree
     t.index ["user_id"], name: "index_characters_on_user_id", using: :btree
   end
