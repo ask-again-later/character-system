@@ -17,6 +17,7 @@
         th data-priority="1" class="desktop tablet-l tablet-p mobile-l mobile-p" Name
         - if current_user.is_storyteller?
           th data-priority="1" class="desktop tablet-l tablet-p mobile-l mobile-p" class="desktop tablet-l tablet-p mobile-l mobile-p" Player Name
+          th data-priority="1" class="desktop tablet-l tablet-p mobile-l mobile-p" class="desktop tablet-l tablet-p mobile-l mobile-p" Proposal Type
           th data-priority="1" class="desktop tablet-l tablet-p mobile-l mobile-p" class="desktop tablet-l tablet-p mobile-l mobile-p" NPC?
         th data-priority="1" class="desktop tablet-l tablet-p mobile-l mobile-p" Status
         th data-priority="99" class="desktop tablet-l tablet-p"
@@ -30,6 +31,8 @@
           - if current_user.is_storyteller?
             td
               = character.user.name
+            td
+              = character.use_extended ? "Extended" : "Mechanical"
             td
               = character.is_npc ? 'NPC' : ''
           td
