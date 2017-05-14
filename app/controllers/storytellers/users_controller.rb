@@ -11,10 +11,13 @@ module Storytellers
 
     def show
       @user = User.find(params[:id])
+      add_breadcrumb @user.name, storytellers_user_path(@user)
     end
 
     def edit
       @user = User.find(params[:id])
+      add_breadcrumb @user.name, storytellers_user_path(@user)
+      add_breadcrumb "Edit", edit_storytellers_user_path(@user)
     end
 
     def update
