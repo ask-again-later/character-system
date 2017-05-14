@@ -14,6 +14,46 @@ table.dataTable {
       text-align: left;
     }
   }
+
+  tbody {
+    tr {
+      &.odd {
+        background-color: rgba($silver, .15);
+
+        & + .child {
+          background-color: rgba($silver, .15);
+        }
+      }
+
+      &.child {
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+
+          li {
+            display: flex;
+            .dtr-title {
+              font-weight: bold;
+              margin-right: 5px;
+
+              &:empty {
+                display: none;
+              }
+            }
+
+            .dtr-data {
+              margin-right: 10px;
+              display: block;
+
+              &:empty {
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 table.plain {

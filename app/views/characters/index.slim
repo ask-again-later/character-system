@@ -14,14 +14,15 @@
   table.table
     thead
       tr
-        th Name
+        th data-priority="1" Name
         - if current_user.is_storyteller?
-          th Player Name
-          th NPC?
-        th Status
-        th
-        th
-        th
+          th data-priority="1" Player Name
+          th data-priority="98" Proposal Type
+          th data-priority="98" NPC?
+        th data-priority="1" Status
+        th data-priority="99"
+        th data-priority="99"
+        th data-priority="99"
     tbody
       - @characters.each do |character|
         tr
@@ -30,6 +31,8 @@
           - if current_user.is_storyteller?
             td
               = character.user.name
+            td
+              = character.use_extended ? "Extended" : "Mechanical"
             td
               = character.is_npc ? 'NPC' : ''
           td
