@@ -115,7 +115,7 @@ class CharactersController < ApplicationController
 			flash[:success] = "Experience expenditure for #{@character.name} submitted."
 			redirect_to character_path(@character) and return
 		end
-		if @character.status == 0 and ((@character.use_extended and !Settings.qualitative_open) or !Settings.quantitative_open)
+		if @character.status == 0 and ((@character.use_extended and !Setting.qualitative_open) or !Setting.quantitative_open)
 			# set status to In Progress even if they submitted
 			params[:character][:status] = 0
 			@character.update_attributes(characters_params)
