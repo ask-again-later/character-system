@@ -1,4 +1,4 @@
 - @characters.each do |character|
   - if character.equipment.present?
     - character.equipment.each do |equipment|
-      = render partial: 'print_single', locals: {equipment: equipment, character: character}
+      = render partial: 'print_single', locals: {equipment: equipment, character: character, markdown: @markdown}

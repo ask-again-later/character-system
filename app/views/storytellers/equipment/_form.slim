@@ -22,6 +22,10 @@
   = f.label :character_ids, "Characters With This Equipment"
   = f.collection_select :character_ids, Character.all.order(:name), :id, :name, {}, {multiple: true}
 
+.form-row
+  = f.label :description
+  = f.text_area :description
+
 .button-row
   = f.submit "Save", class: 'button'
 
