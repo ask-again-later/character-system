@@ -38,13 +38,12 @@ module Storytellers
 
     def get_creatures(status)
       characters = Character.where(status: status).joins(:challenges)
-      data = {
-        :witch => characters.where("challenges.id = :cid", cid: Challenge.where(name: "Witch").first.id).length,
-        :werewolf => characters.where("challenges.id = :cid", cid: Challenge.where(name: "Werewolf").first.id).length,
-        :vampire => characters.where("challenges.id = :cid", cid: Challenge.where(name: "Vampire").first.id).length,
-        :demonblooded => characters.where("challenges.id = :cid", cid: Challenge.where(name: "Demonblooded").first.id).length,
-        :other => Character.where(status: status).joins(:character_has_challenges).where("character_has_challenges.challenge_id = :cid and character_has_challenges.is_creature_challenge = true", cid: Challenge.where(name: "New Challenge").first.id).length
-      }
+      creature_challenges = Challenge.where(is_custom: false)
+      data = {}
+      creature_challenges.each do |cc|
+        data[cc.name.downcase.parameterize.to_sym] = characters.where("challenges.id = :cid", cid: cc.id).length
+      end
+      data[:other] = Character.where(status: status).joins(:character_has_challenges).where("character_has_challenges.challenge_id = :cid and character_has_challenges.is_creature_challenge = true", cid: Challenge.where(is_custom: true).first.id).length
       data
     end
 
