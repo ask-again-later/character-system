@@ -1,6 +1,13 @@
 h2 Statistics
 
-p There are #{@total} #{@status} characters.
+= form_tag('', method: 'GET') do
+  = label_tag "View characters with status: "
+  = select_tag "status", options_for_select(@statuses, params[:status])
+  = submit_tag "Go"
+
+hr
+
+p There are <strong>#{@total}</strong> #{@status_name.downcase} characters.
 
 .chart-row
   .chart

@@ -7,13 +7,16 @@ module Storytellers
 
     ATTRIBUTES = {"Mental": ["Intelligence", "Wits", "Resolve"], "Physical": ["Strength", "Dexterity", "Stamina"], "Social": ["Presence", "Manipulation", "Composure"]}
     SKILLS_TRAINING = {"Skills": ["Artsy", "Athletics", "Bureaucracy", "Drive", "Empathy", "Fight", "Guns", "Handy", "Intimidation", "Lies", "Outdoorsy", "Persuasion", "Religion", "Stealth", "Theft"], "Special Training": ["Academics", "Computers", "Engineering", "Investigation", "Law", "Local Lore", "Medicine", "Science"]}
+    STATUS_ENUM = [["In Progress", 0], ["Submitted", 1], ["Active", 2], ["Inactive", 3]]
 
     def index
       if params[:status].present?
-        status = params[:status]
+        status = params[:status].to_i
       else
         status = 1
       end
+      @status_name = STATUS_ENUM[status][0]
+      @statuses = STATUS_ENUM
       @total = get_characters_total(status)
       @creatures = get_creatures(status)
       @unnatural = get_unnatural_count(status)
