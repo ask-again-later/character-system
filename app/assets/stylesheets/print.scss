@@ -130,3 +130,72 @@ h2 {
     font-size: 10px;
   }
 }
+
+.flex-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0 -20px 40px;
+  flex-wrap: wrap;
+
+  .column {
+    flex-grow: 1;
+    flex-shrink: 1;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    strong {
+      text-align: center;
+      display: block;
+      font-weight: bold;
+      display: flex;
+
+      span.counter {
+        position: static;
+        margin-left: 5px;
+      }
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+
+      .numeric {
+        display: none;
+      }
+
+      .boxes {
+        font-size: 24px;
+        i {
+          margin-right: 4px;
+        }
+      }
+    }
+  }
+
+  &.start {
+    .column {
+      .row {
+        justify-content: flex-start;
+
+        strong {
+          min-width: 175px;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: $small-media-query-size) {
+    .column {
+      .row {
+        .numeric {
+          display: block;
+        }
+        .dots {
+        }
+      }
+    }
+  }
+}

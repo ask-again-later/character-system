@@ -25,7 +25,7 @@ h2 #{character.name}
           = "Stability"
         .stability-content
           .boxes.stability
-            - character.stability.times do |i|
+            - 7.times do |i|
               .box
                 - if i == character.stability-1
                   .ico-stability.current
@@ -122,16 +122,17 @@ h2 #{character.name}
               - if i == group.length-1
                 p.desc
                   = raw markdown.render(cha.advantage.description)
-    .column
-      h3 Challenges
+    - if character.character_has_challenges.present?
+      .column
+        h3 Challenges
 
-      ul#advantages
-        - character.character_has_challenges.each do |chc|
-          li
-            p.name
-              = chc.challenge.name
-            p.desc
-              = raw markdown.render(chc.challenge.description)
+        ul#advantages
+          - character.character_has_challenges.each do |chc|
+            li
+              p.name
+                = chc.challenge.name
+              p.desc
+                = raw markdown.render(chc.challenge.description)
 
 .additional-info
   = raw markdown.render(character.additional_info)
