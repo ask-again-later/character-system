@@ -119,9 +119,6 @@ h2 #{character.name}
                   = " (#{cha.specification})"
                 - if cha.advantage.allowed_ratings.length > 1
                   = " #{cha.rating}"
-              - if i == group.length-1
-                p.desc
-                  = raw markdown.render(cha.advantage.description)
     - if character.character_has_challenges.present?
       .column
         h3 Challenges
