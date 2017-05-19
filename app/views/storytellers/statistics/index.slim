@@ -1,0 +1,67 @@
+h2 Statistics
+
+p There are #{@total} #{@status} characters.
+
+.chart-row
+  .chart
+    h3 Creature Type Breakdown
+
+    canvas#creatureTypes
+  .chart
+    h3 True Selves Breakdown
+
+    canvas#trueSelves
+
+h3 Skills
+.chart-row.wrap
+  - @skills_training[:Skills].each do |skill|
+    .chart.sm
+      canvas id="#{skill[0].to_s}"
+      javascript:
+        var #{skill[0].to_s}Labels = [#{skill[1].map{|s| s[0]}.join(", ")}];
+        var #{skill[0].to_s}Data = [#{skill[1].map{|s| s[1]}.join(", ")}];
+        var #{skill[0].to_s} = document.getElementById('#{skill[0].to_s}');
+        var #{skill[0].to_s}Chart = new Chart(#{skill[0].to_s}, {
+          type: 'bar',
+          data: {
+            labels: #{skill[0].to_s}Labels,
+            datasets: [
+              {
+                label: "#{skill[0].to_s.gsub("_", " ").capitalize}",
+                backgroundColor: '##{"%06x" % (rand * 0xffffff)}',
+                data: #{skill[0].to_s}Data
+              }
+            ]
+          }
+        });
+
+h3 Special Training
+.chart-row.wrap
+  - @skills_training[:"Special Training"].each do |st|
+    .chart.sm
+      canvas id="#{st[0].to_s}"
+      javascript:
+        var #{st[0].to_s}Labels = [#{st[1].map{|s| s[0]}.join(", ")}];
+        var #{st[0].to_s}Data = [#{st[1].map{|s| s[1]}.join(", ")}];
+        var #{st[0].to_s} = document.getElementById('#{st[0].to_s}');
+        var #{st[0].to_s}Chart = new Chart(#{st[0].to_s}, {
+          type: 'bar',
+          data: {
+            labels: #{st[0].to_s}Labels,
+            datasets: [
+              {
+                label: "#{st[0].to_s.gsub("_", " ").capitalize}",
+                backgroundColor: '##{"%06x" % (rand * 0xffffff)}',
+                data: #{st[0].to_s}Data
+              }
+            ]
+          }
+        });
+
+
+javascript:
+  var creatureTypesData = [#{@creatures[:witch]}, #{@creatures[:vampire]}, #{@creatures[:werewolf]}, #{@creatures[:demonblooded]}, #{@unnatural - @creatures[:witch] - @creatures[:vampire] - @creatures[:werewolf] - @creatures[:demonblooded]}, #{@total - @unnatural}]
+  var trueSelfLabels = [#{@true_selves.map{|ts| "\"#{ts[0]}\""}.join(", ").html_safe}];
+  var trueSelfData = [#{@true_selves.map{|ts| ts[1]}.join(", ")}];
+
+= javascript_include_tag 'charts'
