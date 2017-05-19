@@ -3,7 +3,7 @@ module Storytellers
     before_action :authenticate_user!, :requires_storyteller
 
     add_breadcrumb "Storytellers", :storytellers_path
-    add_breadcrumb "Statistics", :storytellers_true_selves_path
+    add_breadcrumb "Statistics", :storytellers_statistics_path
 
     ATTRIBUTES = {"Mental": ["Intelligence", "Wits", "Resolve"], "Physical": ["Strength", "Dexterity", "Stamina"], "Social": ["Presence", "Manipulation", "Composure"]}
     SKILLS_TRAINING = {"Skills": ["Artsy", "Athletics", "Bureaucracy", "Drive", "Empathy", "Fight", "Guns", "Handy", "Intimidation", "Lies", "Outdoorsy", "Persuasion", "Religion", "Stealth", "Theft"], "Special Training": ["Academics", "Computers", "Engineering", "Investigation", "Law", "Local Lore", "Medicine", "Science"]}
