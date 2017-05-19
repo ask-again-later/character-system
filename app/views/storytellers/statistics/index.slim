@@ -70,7 +70,7 @@ h3 Special Training
 
 
 javascript:
-  var creatureTypesData = [#{@creatures[:witch]}, #{@creatures[:vampire]}, #{@creatures[:werewolf]}, #{@creatures[:demonblooded]}, #{@unnatural - @creatures[:witch] - @creatures[:vampire] - @creatures[:werewolf] - @creatures[:demonblooded]}, #{@total - @unnatural}]
+  var creatureTypesData = [#{@creatures[:witch]}, #{@creatures[:vampire]}, #{@creatures[:werewolf]}, #{@creatures[:demonblooded]}, #{@creatures[:other]}, #{@unnatural - @creatures[:witch] - @creatures[:vampire] - @creatures[:werewolf] - @creatures[:demonblooded] - @creatures[:other]}, #{@total - @unnatural}]
   var trueSelfLabels = [#{@true_selves.map{|ts| "\"#{ts[0]}\""}.join(", ").html_safe}];
   var trueSelfData = [#{@true_selves.map{|ts| ts[1]}.join(", ")}];
 

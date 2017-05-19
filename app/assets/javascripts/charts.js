@@ -3,11 +3,11 @@ $(document).ready(function() {
   var creatureTypesChart = new Chart(creatureTypes, {
     type: 'pie',
     data: {
-      labels: ["Witch", "Vampire", "Werewolf", "Demonblooded", "Unnatural", "Human"],
+      labels: ["Witch", "Vampire", "Werewolf", "Demonblooded", "Other Creature", "Unnatural", "Human"],
       datasets: [
         {
           data: creatureTypesData,
-          backgroundColor: ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF']
+          backgroundColor: ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00', '#00FFFF', '#000000']
         }
       ]
     }
