@@ -34,7 +34,7 @@ challenges_list = [
   ["Werewolf", "You're a werewoof", true, false],
   ["Vampire", "I vant to suck your blud", true, false],
   ["Witch", "Spells and stuff", true, false],
-  ["Demon-Blooded", "You are a demon-blooded", true, false],
+  ["Demonblooded", "You are a demon-blooded", true, false],
   ["New Challenge", "A challenging circumstance that affects your character's life.", false, true]
 ]
 
