@@ -87,49 +87,51 @@ h2 #{character.name}
               - (5-eval("character.#{val.parameterize("_")}")).times do
                 = icon 'circle-o'
 
-  h3.skills-training Skills and Special Training
-
-  .flex-container
-    - skills_training.each do |cat, vals|
-      .column
-        strong
-          = cat
-        - vals.each do |val|
-          .row
-            span.label
-              = val
-            .dots
-              - eval("character.#{val.parameterize("_")}").times do
-                = icon 'circle'
-
-              - (5-eval("character.#{val.parameterize("_")}")).times do
-                = icon 'circle-o'
-
   .flex-container
     .column
-      h3 Advantages
+      h3.skills-training Skills and Special Training
 
-      ul#advantages
-        - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
-          - group.each_with_index do |cha, i|
-            li
-              p.name
-                = cha.advantage.name
-                - if cha.advantage.requires_specification?
-                  = " (#{cha.specification})"
-                - if cha.advantage.allowed_ratings.length > 1
-                  = " #{cha.rating}"
-    - if character.character_has_challenges.present?
-      .column
-        h3 Challenges
+      .flex-container
+        - skills_training.each do |cat, vals|
+          .column
+            strong
+              = cat
+            - vals.each do |val|
+              .row
+                span.label
+                  = val
+                .dots
+                  - eval("character.#{val.parameterize("_")}").times do
+                    = icon 'circle'
 
-        ul#advantages
-          - character.character_has_challenges.each do |chc|
-            li
-              p.name
-                = chc.challenge.name
-              p.desc
-                = raw markdown.render(chc.challenge.description)
+                  - (5-eval("character.#{val.parameterize("_")}")).times do
+                    = icon 'circle-o'
+    .column
+      .flex-container
+        .column
+          h3 Advantages
+
+          ul#advantages
+            - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+              - group.each_with_index do |cha, i|
+                li
+                  p.name
+                    = cha.advantage.name
+                    - if cha.advantage.requires_specification?
+                      = " (#{cha.specification})"
+                    - if cha.advantage.allowed_ratings.length > 1
+                      = " #{cha.rating}"
+        - if character.character_has_challenges.present?
+          .column
+            h3 Challenges
+
+            ul#advantages
+              - character.character_has_challenges.each do |chc|
+                li
+                  p.name
+                    = chc.challenge.name
+                  p.desc
+                    = raw markdown.render(chc.challenge.description)
 
 .additional-info
   = raw markdown.render(character.additional_info)
