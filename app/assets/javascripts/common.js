@@ -3,8 +3,10 @@ $(document).ready(function() {
     $(this).toggleClass('is-active');
     if ($(this).hasClass('is-active')) {
       $('nav').addClass('show');
+      $('body').addClass('nav-open');
     } else {
       $('nav').removeClass('show');
+      $('body').removeClass('nav-open');
     }
   });
 

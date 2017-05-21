@@ -22,6 +22,7 @@ header {
   }
 
   nav {
+    overflow: auto;
     ul {
       list-style: none;
       margin: 0;
@@ -193,7 +194,7 @@ header {
               border-top: none;
 
               li a {
-                padding: 10px 20px;
+                padding: 10px;
               }
             }
           }
