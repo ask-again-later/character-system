@@ -43,7 +43,7 @@
               = link_to "Downtime Actions", character_downtime_actions_path(character)
           td
             - if current_user.is_storyteller
-              = link_to "Edit", edit_character_path(character, 1)
+              = link_to "Edit", edit_character_path(character)
             - elsif character.status == 0
               = link_to "Edit", character_wizard_page_path(character, 1)
             - if character.status > 1 and !current_user.is_storyteller and character.current_xp > 0
