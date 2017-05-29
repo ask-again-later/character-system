@@ -316,7 +316,7 @@ class CharactersController < ApplicationController
 		end
 		@characters = Character.where(status: 2).where.not(approval_sent: true, is_npc: true)
 		@characters.each do |character|
-			CharacterMailer.character_approval(@character).deliver_now
+			CharacterMailer.character_approval(character).deliver_now
 			character.update_attributes!(approval_sent: true)
 		end
 		redirect_to root_path and return
