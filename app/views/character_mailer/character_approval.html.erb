@@ -59,9 +59,20 @@
       </tr>
       <tr>
         <td bgcolor="#FFFFFF" color="#333333" class="content-body">
-          <h2>Character Approved</h2>
-          <p>Hi, <%= @user.name %>!</p>
-          <p>Your character, <%= @character.name %>, has been approved. Congratulations! To see your finalized character sheet, <a href="<%= root_url %>characters/<%= @character.id %>">click here</a>.</p>
+          <p>Dear, <%= @user.name %>:</p>
+          <p>Your character submission of <%= @character.name %> has been approved! Please respond to this email with the following:</p>
+
+          <ol>
+            <li>Confirm that you are accepting your slot in the game.</li>
+            <li>We expect that players attend all games, but if something has come up and you need to miss a single game, that&rsquo;s fine. Tell us which one of the three games you need to miss, if any.</li>
+            <li>Confirm that you will be attending the accepted character kickoff session on Sunday, June 11 from 1-5pm. (This will be held at Mark and Stephanie&rsquo;s house in Skokie near public transit, more details to come.)</li>
+            <li>Confirm that you&rsquo;ve read and accept the player agreement. It&rsquo;s super important that you have read this, and we will have a copy for you to sign at accepted character day.</li>
+          </ol>
+
+          <p>After you respond with that information, we will send you an invite to join the game&rsquo;s Slack team. Also, keep in mind that we will be working with you between now and game to make minor tweaks to your character. We will be sending mechanics for your character&rsquo;s Challenge(s) within the week.</p>
+
+          <p>Congrats again!</p>
+          <p>The Ask Again Later Storytelling Team</p>
         </td>
       </tr>
     </table>
