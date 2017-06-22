@@ -1,0 +1,31 @@
+.breadcrumbs
+  = render_breadcrumbs
+
+h2
+  = "User: #{@user.name}"
+
+p
+  strong Email:&nbsp;
+  = link_to "#{@user.email}", "mailto:#{@user.email}"
+p
+  strong Registered At:&nbsp;
+  = @user.created_at
+p
+  strong Attended Info Session?&nbsp;
+  = @user.attended_info_session ? 'Yes' : 'No'
+
+- if @user.characters.where(is_npc: false).present?
+  p
+    strong Characters:
+  ul
+    - @user.characters.where(is_npc: false).each do |character|
+      li
+        - if character.status == 2
+          strong
+            = link_to "#{character.name}", characters_path(character)
+            = " (Active)"
+        - else
+          = link_to "#{character.name}", characters_path(character)
+
+.button-row
+  = link_to "Edit User", edit_storytellers_user_path(@user), class: 'button'

@@ -7,6 +7,9 @@
       .stat
         = f.label :status
         = f.select :status, options_for_select(@statuses, @character.status)
+      .stat
+        = f.label :is_secret, "Is Secret?"
+        = f.check_box :is_secret
     .stat
       = f.label :pronouns, "Character Pronouns"
       = f.text_field :pronouns
@@ -15,8 +18,11 @@
       = collection_select(:character, :true_self_id, TrueSelf.all, :id, :name, {})
 
   h3.section Motivation
-  = f.text_area :public_blurb
+  = f.text_area :motivation
 
+  h3.section Public Blurb
+  = f.text_area :public_blurb
+  
   h3.section Attributes
   .flex-container.attributes
     - @attributes.each do |cat,vals|

@@ -1,0 +1,9 @@
+.form-row
+  = f.label :name
+  = f.text_field :name
+.form-row
+  = f.label :attended_info_session, "Attended Info Session?"
+  = f.check_box :attended_info_session
+
+.button-row
+  = f.submit "Save", class: 'button'

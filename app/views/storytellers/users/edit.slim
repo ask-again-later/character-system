@@ -1,0 +1,10 @@
+.data-entry-form
+  .breadcrumbs
+    = render_breadcrumbs
+
+  h2
+    = "Edit User: #{@user.name}"
+
+  = form_for @user, url: {action: 'update'}, method: 'PATCH' do |f|
+    = f.hidden_field :id
+    = render partial: 'form', locals: {f: f}

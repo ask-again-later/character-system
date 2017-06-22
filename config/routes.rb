@@ -27,7 +27,8 @@ Rails.application.routes.draw do
   get 'characters/:id/downtimes', to: 'characters#downtimes', as: 'character_downtime'
   post 'characters/:id/downtimes', to: 'characters#save_downtimes'
   post 'characters/send_approvals', to: 'characters#send_approvals', as: 'send_approvals'
-
+  get 'dramatis', to: 'characters#dramatis', as: 'dramatis'
+  
   namespace :api do
     get 'characters', to: 'characters#index'
     get 'characters/:id', to: 'characters#show'
@@ -67,6 +68,7 @@ Rails.application.routes.draw do
     get 'downtime_actions/period/:downtime_period_id', to: 'downtime_actions#downtime_period', as: 'downtime_actions_downtime_period'
     resources :downtime_actions, only: [:index, :show, :edit, :update]
     resources :downtime_periods
+    resources :users, only: [:index, :show, :edit, :update, :destroy]
     get '/settings', to: 'settings#index', as: 'settings'
     post '/settings', to: 'settings#update', as: 'update_settings'
     get '/rituals/print_all', to: 'rituals#print_all', as: 'print_all_rituals'
