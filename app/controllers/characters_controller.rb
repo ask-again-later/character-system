@@ -288,6 +288,9 @@ class CharactersController < ApplicationController
 			flash[:error] = "Sorry, only storytellers and players of active characters can view the Dramatis Personae."
 			redirect_to root_path and return
 		end
+
+		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		@characters = Character.where({status: 2, is_secret: false}).order(:name)
 	end
 
