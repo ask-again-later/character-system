@@ -6,4 +6,4 @@
       h3 #{character.name}
 
       .content
-        = character.public_blurb
+        = raw @markdown.render(character.public_blurb)
