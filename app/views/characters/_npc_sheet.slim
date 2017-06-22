@@ -13,6 +13,9 @@
       strong Status:
       = character.get_status
     .stat
+      strong Is Secret:
+      = character.is_secret ? 'Yes' : 'No'
+    .stat
       strong Character Pronouns:
       = character.pronouns
     .stat
@@ -22,6 +25,10 @@
 
   h3.section Motivation
   .motivation
+    = raw markdown.render(character.motivation)
+
+  h3.section Public Blurb
+  .public_blurb
     = raw markdown.render(character.public_blurb)
 
   h3.section Attributes, Skills, and Special Training

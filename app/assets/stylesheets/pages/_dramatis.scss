@@ -1,0 +1,12 @@
+.dramatis {
+  .character {
+    width: 75%;
+    border-bottom: 1px $ash-grey solid;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}

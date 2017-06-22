@@ -27,7 +27,8 @@ Rails.application.routes.draw do
   get 'characters/:id/downtimes', to: 'characters#downtimes', as: 'character_downtime'
   post 'characters/:id/downtimes', to: 'characters#save_downtimes'
   post 'characters/send_approvals', to: 'characters#send_approvals', as: 'send_approvals'
-
+  get 'dramatis', to: 'characters#dramatis', as: 'dramatis'
+  
   namespace :api do
     get 'characters', to: 'characters#index'
     get 'characters/:id', to: 'characters#show'
