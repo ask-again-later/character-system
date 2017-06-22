@@ -7,10 +7,12 @@ h2
 dl
   dt Type
   dd #{@equipment.equipment_type.name}
-  dt Size
-  dd #{@equipment.size}
-  dt Durability
-  dd #{@equipment.durability}
+  - if @equipment.size.present?
+    dt Size
+    dd #{@equipment.size}
+  - if @equipment.durability.present?
+    dt Durability
+    dd #{@equipment.durability}
   - if @equipment.equipment_qualities.present?
     dt Qualities
     dd
@@ -19,6 +21,10 @@ dl
           li
             strong #{qual.name}:
             = " #{qual.description}"
+
+p
+  strong Description
+  = raw @markdown.render(@equipment.description)
 
 p
   strong

@@ -11,6 +11,8 @@ module Storytellers
 
     def show
       @equipment = Equipment.find(params[:id])
+  		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+  		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
       add_breadcrumb @equipment.name, storytellers_equipment_path(@equipment)
     end
 
@@ -55,18 +57,22 @@ module Storytellers
 
     def print_all
       @characters = Character.where(status: 2).order(:name)
+  		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+  		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
       render layout: 'print'
     end
 
     def print
       @equipment = Equipment.find(params[:id])
+  		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
+  		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
       render layout: 'print'
     end
 
     private
 
     def equipment_params
-      params.require(:equipment).permit(:id, :name, :size, :durability, :equipment_type_id, {:character_ids => []}, {:equipment_quality_ids => []})
+      params.require(:equipment).permit(:id, :name, :size, :durability, :description, :equipment_type_id, {:character_ids => []}, {:equipment_quality_ids => []})
     end
   end
 end

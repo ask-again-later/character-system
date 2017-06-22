@@ -1,10 +1,12 @@
 .card
   h4 #{equipment.name}
   dl
-    dt Size
-    dd #{equipment.size}
-    dt Durability
-    dd #{equipment.durability}
+    - if equipment.size.present?
+      dt Size
+      dd #{equipment.size}
+    - if equipment.durability.present?
+      dt Durability
+      dd #{equipment.durability}
     - if equipment.equipment_qualities.present?
       dt Qualities
       dd.list
@@ -15,16 +17,19 @@
               = " #{q[0].description}"
               - if q.length > 1
                 = " x #{q.length}"
+  = raw markdown.render(equipment.description)
+
   .row
     .left
-      p
-        strong Health:
-      .boxes
-        - (equipment.size + equipment.durability).times do |i|
-          .box
-            i.fa.fa-square-o
-            - if i > equipment.durability - 1
-              span.mod -1
+      - if equipment.size.present? or equipment.durability.present?
+        p
+          strong Health:
+        .boxes
+          - (equipment.size + equipment.durability).times do |i|
+            .box
+              i.fa.fa-square-o
+              - if i > equipment.durability - 1
+                span.mod -1
     - if character.present?
       .right
         p
