@@ -1,0 +1,9 @@
+.dramatis
+  h2 Dramatis Personae
+
+  - @characters.each do |character|
+    .character
+      h3 #{character.name}
+
+      .content
+        = character.public_blurb

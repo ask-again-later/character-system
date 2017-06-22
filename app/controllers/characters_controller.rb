@@ -283,6 +283,14 @@ class CharactersController < ApplicationController
 		redirect_to character_path(@character) and return
 	end
 
+	def dramatis
+		unless current_user.is_storyteller or current_user.characters.where({status: 2}).length > 0
+			flash[:error] = "Sorry, only storytellers and players of active characters can view the Dramatis Personae."
+			redirect_to root_path and return
+		end
+		@characters = Character.where({status: 2, is_secret: false}).order(:name)
+	end
+
 	def print_all
 		unless current_user.is_storyteller
 			redirect_to root_path and return
@@ -325,6 +333,6 @@ class CharactersController < ApplicationController
 	protected
 
 	def characters_params
-		params.require(:character).permit(:id, :name, :user_id, :status, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :is_npc, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
+		params.require(:character).permit(:id, :name, :user_id, :status, :is_secret, :motivation, :true_self_id, :stability, :handy, :religion, :bureaucracy, :athletics, :fight, :drive, :guns, :theft, :stealth, :outdoorsy, :empathy, :artsy, :intimidation, :persuasion, :lies, :academics, :investigation, :medicine, :local_lore, :law, :science, :computers, :engineering, :public_blurb, :willpower, :defense, :speed, :intelligence, :wits, :resolve, :strength, :dexterity, :stamina, :presence, :manipulation, :composure, :speed, :initiative, :willpower, :health, :defense, :pronouns, :use_extended, :is_npc, :character_has_advantages_attributes => [:id, :advantage_id, :character_id, :specification, :rating, :_destroy], :character_has_challenges_attributes => [:id, :character_id, :challenge_id, :custom_name, :custom_description, :is_creature_challenge, :_destroy], :questionnaire_answers_attributes => [:id, :questionnaire_item_id, :answer, :character_id])
 	end
 end

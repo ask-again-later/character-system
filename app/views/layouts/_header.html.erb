@@ -12,6 +12,9 @@
               <li><%= link_to "Create New", new_character_wizard_path %></li>
             </ul>
           </li>
+          <% if current_user.is_storyteller or current_user.characters.where({status: 2}).length > 0 %>
+            <li><%= link_to "Dramatis Personae", dramatis_path %></li>
+          <% end %>
           <% if current_user.is_storyteller %>
             <li class="parent"><%= link_to "Tools", storytellers_path %>
               <ul class="sub-menu">
