@@ -284,6 +284,10 @@ class CharactersController < ApplicationController
 	end
 
 	def dramatis
+		unless current_user.is_storyteller or current_user.characters.where({status: 2}).length > 0
+			flash[:error] = "Sorry, only storytellers and players of active characters can view the Dramatis Personae."
+			redirect_to root_path and return
+		end
 		@characters = Character.where({status: 2, is_secret: false}).order(:name)
 	end
 
