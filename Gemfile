@@ -45,6 +45,7 @@ gem 'postmark-rails', '~> 0.15.0'
 
 gem 'activerecord-diff'
 gem 'rails-settings-cached'
+gem 'chart-js-rails'
 
 # Use Unicorn as the app server
 # gem 'unicorn'

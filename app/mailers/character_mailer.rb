@@ -24,6 +24,7 @@ class CharacterMailer < ActionMailer::Base
 		mail(
 			:subject => "[AAL Character System] Your character submission has been approved",
 			:to => @user.email,
+			:cc => 'sts@askagainlater.com'
 			:from => 'sts@askagainlater.com')
 	end
 
@@ -44,6 +45,7 @@ class CharacterMailer < ActionMailer::Base
 		mail(
 			:subject => "[AAL Character System] Experience expenditure for #{@character.name} approved",
 			:to => @character.user.email,
+			:cc => 'sts@askagainlater.com',
 			:from => 'sts@askagainlater.com'
 		)
 	end

@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :equipment
     resources :equipment_qualities
     resources :equipment_types
+    get 'statistics', to: 'statistics#index', as: 'statistics'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

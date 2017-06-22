@@ -1,0 +1,13 @@
+.chart-row {
+  display: flex;
+  &.wrap {
+    flex-wrap: wrap;
+  }
+  .chart {
+    width: 400px;
+    &.sm {
+      width: 25%;
+      min-width: 200px;
+    }
+  }
+}

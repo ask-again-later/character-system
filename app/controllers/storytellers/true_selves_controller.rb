@@ -1,5 +1,6 @@
 module Storytellers
   class TrueSelvesController < ApplicationController
+    before_action :authenticate_user!, :requires_storyteller
 
     add_breadcrumb "Storytellers", :storytellers_path
     add_breadcrumb "True Selves", :storytellers_true_selves_path

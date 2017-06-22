@@ -115,7 +115,7 @@ class CharactersController < ApplicationController
 			flash[:success] = "Experience expenditure for #{@character.name} submitted."
 			redirect_to character_path(@character) and return
 		end
-		if @character.status == 0 and ((@character.use_extended and !Setting.qualitative_open) or !Setting.quantitative_open)
+		if @character.status == 0 and ((@character.use_extended and !Setting.qualitative_open) or !Setting.quantitative_open) and !current_user.is_storyteller
 			# set status to In Progress even if they submitted
 			params[:character][:status] = 0
 			@character.update_attributes(characters_params)
@@ -314,9 +314,9 @@ class CharactersController < ApplicationController
 		unless current_user.is_storyteller
 			redirect_to root_path and return
 		end
-		@characters = Character.where(status: 2, approval_sent: false, is_npc: false)
+		@characters = Character.where(status: 2).where.not(approval_sent: true, is_npc: true)
 		@characters.each do |character|
-			CharacterMailer.character_approval(@character).deliver_now
+			CharacterMailer.character_approval(character).deliver_now
 			character.update_attributes!(approval_sent: true)
 		end
 		redirect_to root_path and return

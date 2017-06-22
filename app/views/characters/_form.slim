@@ -140,8 +140,11 @@
         = hidden_field_tag "character[character_has_challenges_attributes][][_destroy]", ""
 
   - if current_user.is_storyteller || @character.status == 3
-    h3.section Derived Stats
+    h3.section Your Relevant Numbers
     .derived-stats
+      .stat
+        = f.label :stability
+        = f.number_field :stability
       .stat
         = f.label :health
         = f.number_field :health
