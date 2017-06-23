@@ -161,6 +161,7 @@ select[multiple="multiple"] {
 
 .rituals {
   input[type="text"] {
+    max-width: 50em;
     width: 100%;
   }
 }
