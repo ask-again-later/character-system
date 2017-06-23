@@ -24,7 +24,7 @@ class CharacterMailer < ActionMailer::Base
 		mail(
 			:subject => "[AAL Character System] Your character submission has been approved",
 			:to => @user.email,
-			:cc => 'sts@askagainlater.com'
+			:cc => 'sts@askagainlater.com',
 			:from => 'sts@askagainlater.com')
 	end
 
