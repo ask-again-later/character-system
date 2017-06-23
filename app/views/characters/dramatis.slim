@@ -4,6 +4,12 @@
   - @characters.each do |character|
     .character
       h3 #{character.name}
+      p
+        strong Player:
+        - if character.is_npc
+          = " NPC"
+        - else
+          = " #{character.user.name}"
 
       .content
         = raw @markdown.render(character.public_blurb)
