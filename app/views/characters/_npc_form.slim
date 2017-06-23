@@ -86,6 +86,7 @@
         = hidden_field_tag "character[character_has_advantages_attributes][][advantage_id]", advantage.advantage.id
         = hidden_field_tag "character[character_has_advantages_attributes][][rating]", advantage.rating
         = hidden_field_tag "character[character_has_advantages_attributes][][specification]", advantage.specification
+
         = hidden_field_tag "character[character_has_advantages_attributes][][_destroy]", ""
         = link_to "<i class='fa fa-edit'></i>".html_safe, "#", class: 'advantage-edit'
         = link_to "<i class='fa fa-minus-circle'></i>".html_safe, "#", class: 'advantage-delete'
