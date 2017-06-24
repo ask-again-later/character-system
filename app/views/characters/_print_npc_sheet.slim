@@ -85,24 +85,24 @@ h3 Motivation
       = "Special Training: "
     = skills_training[:"Special Training"].reject{|st|eval("character.#{st.parameterize('_')}") == 0}.map{|s| s+" "+eval("character.#{s.parameterize('_')}").to_s }.join(", ")
 
-  .flex-container
-    .column
-      h3 Advantages
+  .advantages
+    h3 Advantages
 
-      ul#advantages
-        - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
-          - group.each_with_index do |cha, i|
-            li
-              p.name
-                = cha.advantage.name
-                - if cha.advantage.requires_specification?
-                  = " (#{cha.specification})"
-                - if cha.advantage.allowed_ratings.length > 1
-                  = " #{cha.rating}"
-              - if i == group.length-1
-                p.desc
-                  = raw markdown.render(cha.advantage.description)
-    .column
+    ul#advantages
+      - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+        - group.each_with_index do |cha, i|
+          li
+            p.name
+              = cha.advantage.name
+              - if cha.advantage.requires_specification?
+                = " (#{cha.specification})"
+              - if cha.advantage.allowed_ratings.length > 1
+                = " #{cha.rating}"
+            - if i == group.length-1
+              p.desc
+                = raw markdown.render(cha.advantage.description)
+  - if character.challenges.present?
+    .challenges
       h3 Challenges
 
       ul#advantages
@@ -113,7 +113,8 @@ h3 Motivation
             p.desc
               = raw markdown.render(chc.challenge.description)
 
-  h3 Additional Information
+  - if character.additional_info.present?
+    h3 Additional Information
 
-  .additional-info
-    = raw markdown.render(character.additional_info)
+    .additional-info
+      = raw markdown.render(character.additional_info)
