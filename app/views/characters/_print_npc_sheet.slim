@@ -28,11 +28,24 @@ h3 Motivation
       .row
         strong
           = "Stability"
-          .boxes
-            - character.stability.times do |i|
+        .stability-content
+          .boxes.stability
+            - 7.times do |i|
               .box
-                .ico-stability
-        .stability-modifiers
+                - if i == character.stability-1
+                  .ico-stability.current
+                    i.fa.fa-certificate
+                - else
+                  .ico-stability
+                    i.fa.fa-certificate
+
+          .stability-modifiers
+            - if character.stability > 4
+              .mod +#{character.stability - 4} to mundane perception
+              .mod -#{character.stability - 4} to unnatural perception
+            - elsif character.stability < 4
+              .mod -#{4 - character.stability} to mundane perception
+              .mod +#{4 - character.stability} to unnatural perception
 
       .row
         strong Willpower
@@ -105,13 +118,19 @@ h3 Motivation
     .challenges
       h3 Challenges
 
-      ul#advantages
+      ul#challenges
         - character.character_has_challenges.each do |chc|
           li
             p.name
-              = chc.challenge.name
+              - if chc.challenge.is_custom and chc.custom_name.present?
+                = chc.custom_name
+              - else
+                = chc.challenge.name
             p.desc
-              = raw markdown.render(chc.challenge.description)
+              - if chc.challenge.is_custom and chc.custom_description.present?
+                = raw markdown.render(chc.custom_description)
+              - else
+                = raw markdown.render(chc.challenge.description)
 
   .additional-info-wrapper
     - if character.additional_info.present?

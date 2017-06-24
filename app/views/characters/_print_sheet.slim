@@ -125,13 +125,19 @@ h2 #{character.name}
     .challenges
       h3 Challenges
 
-      ul#advantages
+      ul#challenges
         - character.character_has_challenges.each do |chc|
           li
             p.name
-              = chc.challenge.name
+              - if chc.challenge.is_custom and chc.custom_name.present?
+                = chc.custom_name
+              - else
+                = chc.challenge.name
             p.desc
-              = raw markdown.render(chc.challenge.description)
+              - if chc.challenge.is_custom and chc.custom_description.present?
+                = raw markdown.render(chc.custom_description)
+              - else
+                = raw markdown.render(chc.challenge.description)
 
 - if character.additional_info.present?
   .additional-info
