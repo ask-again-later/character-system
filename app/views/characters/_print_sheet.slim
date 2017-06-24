@@ -71,7 +71,7 @@ h2 #{character.name}
 
   h3.attributes Attributes
 
-  .flex-container
+  .flex-container#attributes
     - attributes.each do |cat, vals|
       .column
         strong
@@ -89,7 +89,7 @@ h2 #{character.name}
 
   h3.skills-training Skills and Special Training
 
-  .flex-container
+  .flex-container#skills
     - skills_training.each do |cat, vals|
       .column
         strong
@@ -105,24 +105,24 @@ h2 #{character.name}
               - (5-eval("character.#{val.parameterize("_")}")).times do
                 = icon 'circle-o'
 
-  .flex-container
-    .column
-      h3 Advantages
+  .advantages
+    h3 Advantages
 
-      ul#advantages
-        - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
-          - group.each_with_index do |cha, i|
-            li
-              p.name
-                = cha.advantage.name
-                - if cha.advantage.requires_specification?
-                  = " (#{cha.specification})"
-                - if cha.advantage.allowed_ratings.length > 1
-                  = " #{cha.rating}"
-              - if i == group.length-1
-                p.desc
-                  = raw markdown.render(cha.advantage.description)
-    .column
+    ul#advantages
+      - character.character_has_advantages.group_by{|adv| adv.advantage_id}.each do |k, group|
+        - group.each_with_index do |cha, i|
+          li
+            p.name
+              = cha.advantage.name
+              - if cha.advantage.requires_specification?
+                = " (#{cha.specification})"
+              - if cha.advantage.allowed_ratings.length > 1
+                = " #{cha.rating}"
+            - if i == group.length-1
+              p.desc
+                = raw markdown.render(cha.advantage.description)
+  - if character.challenges.length > 0
+    .challenges
       h3 Challenges
 
       ul#advantages
@@ -133,5 +133,6 @@ h2 #{character.name}
             p.desc
               = raw markdown.render(chc.challenge.description)
 
-.additional-info
-  = raw markdown.render(character.additional_info)
+- if character.additional_info.present?
+  .additional-info
+    = raw markdown.render(character.additional_info)
