@@ -103,6 +103,14 @@ h3 {
 
   .challenges {
     page-break-inside: avoid;
+
+    ul {
+      li {
+        .name {
+          font-weight: bold;
+        }
+      }
+    }
   }
 
   .additional-info-wrapper {
@@ -127,6 +135,10 @@ h3 {
       min-width: 300px;
     }
   }
+}
+
+ul#advantages {
+  max-width: none;
 }
 
 .card {
