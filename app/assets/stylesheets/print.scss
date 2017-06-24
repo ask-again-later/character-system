@@ -103,6 +103,14 @@ h3 {
 
   .challenges {
     page-break-inside: avoid;
+
+    ul {
+      li {
+        .name {
+          font-weight: bold;
+        }
+      }
+    }
   }
 
   .additional-info-wrapper {
