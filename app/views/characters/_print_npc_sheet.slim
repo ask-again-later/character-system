@@ -113,8 +113,9 @@ h3 Motivation
             p.desc
               = raw markdown.render(chc.challenge.description)
 
-  - if character.additional_info.present?
-    h3 Additional Information
+  .additional-info-wrapper
+    - if character.additional_info.present?
+      h3 Additional Information
 
-    .additional-info
-      = raw markdown.render(character.additional_info)
+      .additional-info
+        = raw markdown.render(character.additional_info)
