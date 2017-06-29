@@ -1,4 +1,6 @@
 class DowntimeActionsController < ApplicationController
+  before_action :authenticate_user!
+
   ACTION_TYPE_ENUM = [["Preserve", 1], ["Change", 2], ["Gather Knowledge", 3], ["Personal Errand", 4]]
 
   def index
