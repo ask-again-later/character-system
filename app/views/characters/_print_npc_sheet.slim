@@ -3,6 +3,9 @@ h2 #{character.name}
 h3 Motivation
 
 .motivation
+  = raw markdown.render(character.motivation)
+
+.public_blurb
   = raw markdown.render(character.public_blurb)
 
 .stats
