@@ -1,9 +1,13 @@
 h2
   = "Character: #{character.name}"
 
-- if @character.current_xp > 0 && @character.status > 0 && !current_user.is_storyteller
+- if @character.status == 0 && !current_user.is_storyteller
   .button-row.right
     = link_to "Edit in Wizard", character_wizard_page_path(@character, 1), class: 'button'
+    = link_to "Edit Full Sheet", edit_character_path(@character), class: 'button'
+- elsif @character.current_xp > 0 && !current_user.is_storyteller
+  .button-row.right
+    = link_to "Spend Experience", edit_character_path(@character), class: 'button'
 - if current_user.is_storyteller
   .button-row.right
     = link_to "Edit Character", edit_character_path(@character), class: 'button'
