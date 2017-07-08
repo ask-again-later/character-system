@@ -1,8 +1,12 @@
 h2
   = "Character: #{character.name}"
 
-.button-row.right
-  = link_to "Edit in Wizard", character_wizard_page_path(@character, 1), class: 'button'
+- if @character.current_xp > 0 && @character.status > 0 && !current_user.is_storyteller
+  .button-row.right
+    = link_to "Edit in Wizard", character_wizard_page_path(@character, 1), class: 'button'
+- if current_user.is_storyteller
+  .button-row.right
+    = link_to "Edit Character", edit_character_path(@character), class: 'button'
 
 
 ul.tabs
@@ -111,7 +115,7 @@ section#mechanics.show
     .stat.stability
       strong Stability:
       = character.stability
-      
+
     .stat.willpower
       strong Willpower:
       = character.willpower
