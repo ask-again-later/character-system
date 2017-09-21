@@ -13,7 +13,7 @@ module Storytellers
       if params[:status].present?
         status = params[:status].to_i
       else
-        status = 1
+        status = 2
       end
       @status_name = STATUS_ENUM[status][0]
       @statuses = STATUS_ENUM

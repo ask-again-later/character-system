@@ -7,10 +7,18 @@ class CharactersController < ApplicationController
 
 	def index
 		if current_user.is_storyteller
-			@characters = Character.all
+			@characters = Character.where({is_npc: false})
 		else
 			@characters = Character.where({user: current_user.id})
 		end
+	end
+
+	def npcs
+		unless current_user.is_storyteller
+			redirect_to root_path and return
+		end
+
+		@characters = Character.where({is_npc: true})
 	end
 
 	def show
