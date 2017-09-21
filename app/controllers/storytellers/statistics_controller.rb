@@ -33,11 +33,11 @@ module Storytellers
     private
 
     def get_characters_total(status)
-      Character.where(status: status).length
+      Character.where({status: status, is_npc: false}).length
     end
 
     def get_creatures(status)
-      characters = Character.where(status: status).joins(:challenges)
+      characters = Character.where({status: status, is_npc: false}).joins(:challenges)
       creature_challenges = Challenge.where(is_custom: false)
       data = {}
       creature_challenges.each do |cc|
@@ -48,15 +48,15 @@ module Storytellers
     end
 
     def get_unnatural_count(status)
-      Character.where(status: status).joins(:advantages).where("advantages.is_unnatural = true").uniq.length
+      Character.where({status: status, is_npc: false}).joins(:advantages).where("advantages.is_unnatural = true").uniq.length
     end
 
     def true_self_counts(status)
-      Character.where(status: status).group_by {|c| c.true_self}.map{|ts, cs| [ts.name, cs.length]}
+      Character.where({status: status, is_npc: false}).group_by {|c| c.true_self}.map{|ts, cs| [ts.name, cs.length]}
     end
 
     def get_stat_spread(status, stat)
-      characters = Character.where(status: status)
+      characters = Character.where({status: status, is_npc: false})
       characters.group_by{|c| c.send(stat) }.map{|x, y| [x, y.length]}.sort{|a,b| a[0] <=> b[0]}
     end
   end
