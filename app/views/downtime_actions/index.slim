@@ -16,10 +16,17 @@ h2 #{@character.name}: Downtime Actions
             = form_tag(character_submit_downtime_actions_path(@character, downtime_period))
               = button_tag "Submit Downtime Actions", type: 'submit', class: 'button'
 
+      p
+        = "Downtime period is <em>#{downtime_period.downtimes_open ? 'open' : 'closed'}</em>"
+
+      - if @character.downtime_actions.where(downtime_period_id: downtime_period.id)
         p
           strong
-            = "Status: "
-          - if @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).present?
+            = "Action Status: "
+          - if @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).where.not(response: nil).present?
+            span.responded Responded
+
+          - elsif @character.downtime_actions.where(downtime_period_id: downtime_period.id, status: 1).present?
             span.submitted Submitted
 
           - else
