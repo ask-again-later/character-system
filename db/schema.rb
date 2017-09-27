@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201712020320226) do
+ActiveRecord::Schema.define(version: 201712020320227) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,35 +121,34 @@ ActiveRecord::Schema.define(version: 201712020320226) do
   end
 
   create_table "characters_rituals", force: :cascade do |t|
-    t.integer  "character_id"
-    t.integer  "ritual_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer "character_id"
+    t.integer "ritual_id"
   end
 
   create_table "downtime_actions", force: :cascade do |t|
     t.string   "title",                              null: false
     t.string   "assets"
-    t.integer  "action_type",        default: 1,     null: false
-    t.integer  "size",               default: 0
     t.boolean  "burn",               default: false
     t.text     "description",                        null: false
     t.boolean  "is_submitted",       default: false
     t.text     "response"
     t.integer  "downtime_period_id",                 null: false
     t.integer  "character_id",                       null: false
-    t.integer  "status",             default: 0
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
+    t.integer  "size",               default: 0
+    t.integer  "status",             default: 0
+    t.integer  "action_type",        default: 0,     null: false
+    t.string   "goal"
   end
 
   create_table "downtime_periods", force: :cascade do |t|
     t.string   "title"
-    t.boolean  "is_active",         default: false
-    t.boolean  "downtimes_open",    default: false
-    t.boolean  "downtimes_visible", default: false
+    t.boolean  "downtimes_visible"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
+    t.boolean  "downtimes_open",    default: false
+    t.boolean  "is_active",         default: false
   end
 
   create_table "equipment", force: :cascade do |t|
@@ -207,12 +206,12 @@ ActiveRecord::Schema.define(version: 201712020320226) do
   end
 
   create_table "rituals", force: :cascade do |t|
-    t.string "name"
     t.string "principle"
     t.string "trappings"
     t.string "focus"
     t.text   "effect"
     t.string "duration"
+    t.string "name"
   end
 
   create_table "settings", force: :cascade do |t|
