@@ -95,6 +95,6 @@ class DowntimeActionsController < ApplicationController
   private
 
   def downtime_action_params
-    params.require(:downtime_action).permit(:title, :assets, :size, :description, :burn, :response, :downtime_period_id, :character_id, :action_type)
+    params.require(:downtime_action).permit(:title, :assets, :size, :description, :burn, :response, :downtime_period_id, :character_id, :action_type, :notes, :goal)
   end
 end

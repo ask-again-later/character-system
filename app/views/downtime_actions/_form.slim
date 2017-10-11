@@ -16,8 +16,16 @@
     = f.select :size, options_for_select([["Regular", 0], ["Large", 1]])
 
   .form-row
+    = f.label :goal
+    = f.text_field :goal
+
+  .form-row
     = f.label :description
     = f.text_area :description
+
+  .form-row
+    = f.label :notes, "Notes for Storytellers"
+    = f.text_field :notes
 
   .form-row
     = f.label :burn, "Burn down your life for this action?"

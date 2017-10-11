@@ -3,17 +3,29 @@
   p
     strong #{"Action Type: "}
     = @action_types[@downtime_action.action_type-1][0]
+
   p
     strong #{"Size: "}
     = @downtime_action.size == 1 ? 'Large' : 'Regular'
+
   p
     strong #{"Assets: "}
     = @downtime_action.assets
+
+  p
+    strong #{"Goal: "}
+    = @downtime_action.goal
+
   p
     strong #{"Burning down life? "}
     = @downtime_action.burn ? 'Yes' : 'No'
+
   .action-description
     = @downtime_action.description
+
+  p
+    strong #{"Notes for Storytellers: "}
+    = @downtime_action.notes
 
   .form-row
     = f.label :response
