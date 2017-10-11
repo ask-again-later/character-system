@@ -8,18 +8,14 @@ class DowntimeActionsController < ApplicationController
     unless @character.user == current_user or current_user.is_storyteller
       redirect_to root_path and return
     end
-    if @character.user == current_user
-      @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
-    else
-      # don't show unfinished actions to storytellers
-      @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
-    end
+    @downtime_periods = DowntimePeriod.where(is_active: true).order(id: :desc)
+
     @action_types = ACTION_TYPE_ENUM
   end
 
   def show
     @downtime_action = DowntimeAction.find(params[:id])
-    unless @downtime_action.character.user == current_user or (current_user.is_storyteller and @downtime_action.status == 1)
+    unless @downtime_action.character.user == current_user or current_user.is_storyteller
       redirect_to root_path and return
     end
   end

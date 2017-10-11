@@ -17,7 +17,7 @@ module Storytellers
 
     def downtime_period
       @downtime_period = DowntimePeriod.find(params[:downtime_period_id])
-      @downtime_actions = DowntimeAction.where(downtime_period_id: params[:downtime_period_id], status: 1)
+      @downtime_actions = DowntimeAction.where(downtime_period_id: params[:downtime_period_id])
       @action_types = ACTION_TYPE_ENUM
   		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
   		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
@@ -26,7 +26,7 @@ module Storytellers
 
     def downtime_period_print
       @downtime_period = DowntimePeriod.find(params[:downtime_period_id])
-      @downtime_actions = DowntimeAction.where(downtime_period_id: params[:downtime_period_id], status: 1)
+      @downtime_actions = DowntimeAction.where(downtime_period_id: params[:downtime_period_id])
       renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
       @markdown = Redcarpet::Markdown.new(renderer, extensions = {})
   		render layout: 'print'
