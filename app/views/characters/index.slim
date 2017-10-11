@@ -27,7 +27,7 @@
       - @characters.each do |character|
         tr
           td
-            = link_to character.name.present? ? character.name : "Unnamed Character", character_path(character)
+            = link_to character.name.present? ? character.name : "Unnamed Character", character_path(character), target: '_blank'
           - if current_user.is_storyteller?
             td
               = character.user.name
