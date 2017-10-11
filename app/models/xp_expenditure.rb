@@ -17,14 +17,14 @@ class XpExpenditure < ApplicationRecord
 		attributes.each do |at|
 			unless diff[at].nil?
 				minus = diff[at][1] - diff[at][0]
-				count += minus*4
+				count += minus*3
 			end
 		end
 
 		skills.each do |sk|
 			unless diff[sk].nil?
 				minus = diff[sk][1] - diff[sk][0]
-				count += minus*1
+				count += minus*2
 			end
 		end
 
