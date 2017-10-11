@@ -10,6 +10,9 @@
     = form_tag(send_approvals_path, method: 'POST') do
       = button_tag "Send Approvals", type: 'submit', onClick: 'return confirm("Are you sure you want to batch send approvals to newly-active characters?");', class: 'button'
 
+- if current_user.is_storyteller
+  = link_to "View NPCs", npcs_path
+
 - if @characters.length > 0
   table.table
     thead
@@ -18,7 +21,6 @@
         - if current_user.is_storyteller?
           th data-priority="1" Player Name
           th data-priority="98" Proposal Type
-          th data-priority="98" NPC?
         th data-priority="1" Status
         th data-priority="99"
         th data-priority="99"
@@ -33,8 +35,6 @@
               = character.user.name
             td
               = character.use_extended ? "Extended" : "Mechanical"
-            td
-              = character.is_npc ? 'NPC' : ''
           td
             - if character.status == 0 or current_user.is_storyteller
               = character.get_status

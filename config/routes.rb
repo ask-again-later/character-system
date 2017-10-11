@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations" }
 
   root to: 'characters#index'
-
+  get 'characters/npcs', to: 'characters#npcs', as: 'npcs'
   get 'characters/wizard', to: 'characters#wizard', as: 'new_character_wizard'
   get 'characters/print_all_mechanics', to: 'characters#print_all_mechanics', as: 'characters_print_mechanics'
   get 'characters/print_all', to: 'characters#print_all', as: 'characters_print'
@@ -28,7 +28,7 @@ Rails.application.routes.draw do
   post 'characters/:id/downtimes', to: 'characters#save_downtimes'
   post 'characters/send_approvals', to: 'characters#send_approvals', as: 'send_approvals'
   get 'dramatis', to: 'characters#dramatis', as: 'dramatis'
-  
+
   namespace :api do
     get 'characters', to: 'characters#index'
     get 'characters/:id', to: 'characters#show'
