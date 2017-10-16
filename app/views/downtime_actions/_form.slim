@@ -17,7 +17,7 @@
 
   .form-row
     = f.label :goal
-    = f.text_field :goal
+    = f.text_field :goal, class: 'text-long'
 
   .form-row
     = f.label :description
@@ -25,7 +25,7 @@
 
   .form-row
     = f.label :notes, "Notes for Storytellers"
-    = f.text_field :notes
+    = f.text_field :notes, class: 'text-long'
 
   .form-row
     = f.label :burn, "Burn down your life for this action?"
