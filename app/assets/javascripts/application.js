@@ -18,5 +18,5 @@
 //= require dataTables.conditionalPaging
 //= require showdown
 //= require nestedSortable
-//= require Chart
+//= require Chart.min
 //= require common
