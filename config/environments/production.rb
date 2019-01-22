@@ -15,7 +15,7 @@ Rails.application.configure do
   config.cache_classes = false
   config.action_controller.perform_caching = false
 
-  config.action_mailer.default_url_options = { :host => 'characters.askagainlater.com' }
+  config.action_mailer.default_url_options = { :host => 'askagainevenlater.herokuapp.com' }
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :postmark
   config.action_mailer.postmark_settings = { :api_token => Rails.application.secrets.postmark_api_token }
