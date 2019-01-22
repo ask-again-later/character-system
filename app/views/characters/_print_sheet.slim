@@ -82,10 +82,10 @@ h2 #{character.name}
               = val
             .dots
               - eval("character.#{val.parameterize("_")}").times do
-                = icon 'circle'
+                = fa_icon 'circle'
 
               - (5-eval("character.#{val.parameterize("_")}")).times do
-                = icon 'circle-o'
+                = fa_icon 'circle-o'
 
   h3.skills-training Skills and Special Training
 
@@ -100,10 +100,10 @@ h2 #{character.name}
               = val
             .dots
               - eval("character.#{val.parameterize("_")}").times do
-                = icon 'circle'
+                = fa_icon 'circle'
 
               - (5-eval("character.#{val.parameterize("_")}")).times do
-                = icon 'circle-o'
+                = fa_icon 'circle-o'
 
   .advantages
     h3 Advantages
