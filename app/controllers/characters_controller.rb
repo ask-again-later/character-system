@@ -225,7 +225,6 @@ class CharactersController < ApplicationController
 
 	def wizard_questionnaire
 		@questionnaire = QuestionnaireSection.all.order(:order)
-		puts @questionnaire
 		@character = Character.find(params[:id])
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
