@@ -232,7 +232,7 @@ class CharactersController < ApplicationController
 		
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
-		@page = @questionnaire[params[:page]-1]
+		@page = @questionnaire[params[:page].to_i-1]
 		@questionnaire_answers = @character.questionnaire_answers
 	end
 
