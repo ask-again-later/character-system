@@ -244,9 +244,6 @@ class CharactersController < ApplicationController
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
-		unless @character.use_extended
-			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
-		end
 	end
 
 	def wizard_skills_trainings
@@ -256,9 +253,6 @@ class CharactersController < ApplicationController
 		@is_skills = true
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
-		end
-		unless @character.use_extended
-			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
 
@@ -274,9 +268,6 @@ class CharactersController < ApplicationController
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
-		end
-		unless @character.use_extended
-			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
 		end
 	end
 
