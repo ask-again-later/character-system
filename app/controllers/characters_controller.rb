@@ -229,12 +229,10 @@ class CharactersController < ApplicationController
 		unless @character.present?
 			redirect_to new_character_wizard_path and return
 		end
-		unless @character.use_extended
-			@questionnaire = @questionnaire.to_a.reject!{|q| q.questionnaire_items.where(extended: false).empty?}
-		end
+		
 		renderer = Redcarpet::Render::HTML.new(no_links: true, hard_wrap: true, filter_html: true)
 		@markdown = Redcarpet::Markdown.new(renderer, extensions = {})
-		@page = @questionnaire[params[:page].to_i-1]
+		@page = @questionnaire[params[:page]-1]
 		@questionnaire_answers = @character.questionnaire_answers
 	end
 
